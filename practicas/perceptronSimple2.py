@@ -1,26 +1,23 @@
 from numpy import *
 
 def perceptronSimple(trainSet):
-	w = [[random.uniform(0.1,0.01) for _ in range(25)] for _ in range(5)]
-	
+	w = random.uniform(0.01, 0.1, (5,25))
 	e = 1
 	E = 0.1
-	t = 0
-	T = 1000
-	H = 0.1  #coeficiente de aprendizaje
+	i = 0
+	I = 1000
+	eta = 0.1  #coeficiente de aprendizaje
 
-	while e > E and t < T:
+	while e > E and i < I:
 		e = 0
 		for x,z in trainSet:
-			xs = array(x)[newaxis].T
-			y = activationFunction(dot(w,xs))
-			z = array(z)[newaxis].T
-			error = z - y
-			dw = H*dot(error,matrix(x))
-			print dw
+			h = dot(w,x)
+			O = activationFunction(h)
+			delta = z - O
+			dw = eta*dot(delta,transpose(x))
 			w += dw
-			e += linalg.norm(error)
-		t += 1
+			e += linalg.norm(delta)
+		i += 1
 	return w
 
 def activationFunction(num):
@@ -29,13 +26,12 @@ def activationFunction(num):
 def sigmoid(x):
 	return 1 / (1 + math.exp(-x))
 
-
 def main():
-	trainOut = [random.uniform(0.1,0.01) for _ in range(25)]
-	w = perceptronSimple([([random.uniform(0.1,0.01) for _ in range(25)],[random.uniform(0.1,0.01) for _ in range(5)])])  #[(input,target)]
+	w = perceptronSimple([(random.uniform(0.1,0.01,(25,1)),random.uniform(0.1,0.01, (5,1)))])  #[(input,target)]
 	
-	resultado = dot(w,trainOut)
-	print activationFunction(resultado)
+	y = random.uniform(0.1,0.01,(25, 1))
+	prediccion = dot(w,y)
+	print activationFunction(prediccion)
 
 if __name__ == "__main__":
     main()
