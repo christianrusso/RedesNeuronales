@@ -1,98 +1,136 @@
 from numpy import *
 
+if __name__ == "__main__":
+    main()
+
+def main():
+	global X, Z, L, W, dW, eta, P, Y, S
+	epsilon = 0.1
+	tau = 1000
+	eta = 0.01
+	p = 1
+
+	# XOR DE DOS VARIABLES 
+	X = array([[-1,-1], [0,1], [1,0], [1,1], [0, 0]])
+	Z = [[-1], [1], [1], [1], [0]]
+	
+	# CANT PATRONES
+	P = len(X)-1
+	# CANT CAPAS
+	L = 8
+	# UNIDADES POR CAPA
+	S = [0, shape(X)[1]]
+	S.extend([L for x in range(2, L)])
+	S.append(shape(Z)[1])
+	
+	# TAMAÑOS W, dW, Y
+	W = [random.uniform(-1/sqrt(2),1/sqrt(2), (S[j-1], S[j])) for j in range(0, L+1)]
+	dW = copy(W)
+	Y = [random.uniform(-1/sqrt(2),1/sqrt(2), (1, S[j]+1))[newaxis] for j in range(0, L)]
+	Y.append([random.uniform(-1/sqrt(2),1/sqrt(2),(1,shape(Z)[1]))[newaxis]])
+	
+	# print L, S
+	# print P  
+	# print shape(X), shape(Z)
+	# print shape(W), shape(Y) 
+	
+	e_t, e_v, t = holdout(epsilon, tau, p)
+	print e_t, e_v, t 
+
+def holdout(epsilon, tau, p):
+	e_t = 1
+	e_v = 1
+	t = 0
+	v = int(p*P)
+	while(e_t>epsilon and t<tau):
+		# print X[:v+1]
+		# print X[v+1:]
+		e_t = incremental(X[:v+1],Z[:v+1])
+		e_v = testing(X[v+1:],Z[v+1:])
+		t += 1
+	return e_t, e_v, t 
+
+
+def incremental(X, Z):
+	global W
+	e = 0
+	for h in range(1, len(X)):
+		# print h
+		#print shape(X)
+		activation(X[h])
+		e += correction(Z[h])
+		adaptation()
+	return e 	
+
 def activation(X_h):
 	global Y
-	Y[1] = X_h
+	Y[1] = X_h[newaxis]
 	for j in range(2, L+1):
+		#print "W[j]: ", W[j]
 		Y[j] = activationFunction(dot(Y[j-1], W[j]))
+		#print "j: ", j
+		#print " Y[j]: ", Y[j]
 	return Y[L]
+
+def correction(Z_h):
+	global dW
+	E = Z_h - Y[L]
+	e = square(linalg.norm(E))
+	for j in range(L, 1, -1):
+		# print "j: ", j
+		# print "S[j]: ", S[j]
+		# print "S[j-1]", S[j-1]
+		D = E*activationFunction(dot(Y[j-1], W[j]), True)
+		# print "W_j: ", W[j]
+		# print "Y_j-1: ", Y[j-1]
+		# print "dW[j]: ", dW[j]
+		# print "D: ", D
+		
+		######### CHECKEAR LO DE ABAJO ###########
+		######### EN CLASE ERA D * Y[j-1] ####
+		############# PERO NO ANDABA ##########
+		######### ASI QUE INVERTI #############
+		dW[j] += eta*dot(transpose(Y[j-1]), D)
+		# print dW[j]
+		E = dot(D, transpose(W[j]))
+	return e 
 
 def adaptation():
 	global W
 	global dW
 	for j in range(2, L+1):
 		W[j] += dW[j]
+		#print "j: ", j
+		#print "W[j]: ", W[j]
 		dW[j] = 0 
-
-def correction(Z_h):
-	global dW 
-	E = Z_h - Y[L]
-	e = square(linalg.norm(E))
-	for j in range(L, 1, -1):
-		D = E*activationFunction(dot(Y[j-1], W[j]), True)
-		dW[j] += eta*dot(D, Y[j-1])
-		E = dot(D, transpose(W[j]))
-	return e 
-
-def sigmoid(num, derivative=False):
-	B = 1
-	if derivative:
-		return B * sigmoid(num) * (1 - sigmoid(num))
-	else:
-		return 1 / (1 + math.exp(-B*num))
-
-def activationFunction(num, derivative=False, f=sigmoid):
-	return f(num, derivative)
-
-def incremental(X, Z):
-	e = 0
-	for h in range(1, P+1):
-		activation(X[h])
-		e += correction(Z[h])
-		adaptation()
-	return e 
-
-def holdout(epsilon, tau, p):
-	e_t = 1
-	e_v = 1
-	t = 0
-	v = int(P-p)
-	while(e_t>epsilon and t<tau):
-		e_t = incremental(X[:v],Z[:v])
-		e_v = testing(X[v:],Z[v:])
-		t += 1
-	return e_t, e_v, t 	
+		#print "W[j]: ", W[j]
 
 def testing(X, Z):
 	e = 0
 	for (X_h, Z_h) in zip(X, Z):
 		E = activation(X_h)-Z_h
-		e += linalg.norm(E)^2
+		e += square(linalg.norm(E))
 	return e 
 
-def main():
-	global X, Z, L, W, dW, eta, P, Y
-	P = 4
-	X = [[0,0], [0,1], [1,0], [1,1]]
-	Z = [0, 1, 1, 1]
-	L = 2
-	W = [random.uniform(-1/sqrt(2),1/sqrt(2), (2, 1)) for x in range(L+1)]
-	dW = W
-	Y = [random.uniform(-1/sqrt(2),1/sqrt(2), (1, 2)) for x in range(L+1)]
-	eta = 0.01
-	e_t, e_v, t = holdout(0.1, 1000, 0.75)
-	print e_t, e_v, t 
+def activationFunction(vector, derivative=False, f=logistica):
+	return f(vector, derivative)
+
+def logistica(vector, derivative=False):
+	B = 1
+	if derivative:
+		return B * (1 - square(logistica(vector)))
+	else:
+		return tanh(B*vector)
+
+# No anda pq no se puede aplicar math.exp a un vector
+# def sigmoid(vector, derivative=False):
+# 	B = 1
+# 	if derivative:
+# 		return B * sigmoid(vector) * (1 - sigmoid(vector))
+# 	else:
+# 		print -B*vector
+# 		return 1 / (1 + math.exp(-B*vector))
+
+
+
 	
-
-if __name__ == "__main__":
-    main()
-
-def perceptronSimple(trainSet):
-	w = random.uniform(0.01, 0.1, (5,25))
-	e = 1
-	E = 0.1
-	i = 0
-	I = 1000
-	eta = 0.1  #coeficiente de aprendizaje
-
-	while e > E and i < I:
-		e = 0
-		for x,z in trainSet:
-			h = dot(w,x)
-			O = activationFunction(h, derivative=True)
-			delta = z - O
-			dw = eta*dot(delta,transpose(x))
-			w += dw
-			e += linalg.norm(delta)
-		i += 1
-	return w
