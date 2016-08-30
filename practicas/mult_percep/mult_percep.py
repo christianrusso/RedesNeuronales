@@ -18,7 +18,8 @@ def main():
 	P = len(X)-1
 	# CANT CAPAS
 	L = 8
-	# UNIDADES POR CAPA
+	# UNIDADES POR CAPA 
+	#PREG: NO ENTIENDO ESTO, que son unidades por capa?
 	S = [0, shape(X)[1]]
 	S.extend([L for x in range(2, L)])
 	S.append(shape(Z)[1])
@@ -52,9 +53,9 @@ def holdout(epsilon, tau, p):
 
 
 def incremental(X, Z):
-	global W
+	global W  # PREG: Porque pones global w? si ya la definiste global en main
 	e = 0
-	for h in range(1, len(X)):
+	for h in range(1, len(X)): #PREG: porque usas range? si en la clase puso "permutaciones"?
 		# print h
 		#print shape(X)
 		activation(X[h])
@@ -76,7 +77,7 @@ def correction(Z_h):
 	global dW
 	E = Z_h - Y[L]
 	e = square(linalg.norm(E))
-	for j in range(L, 1, -1):
+	for j in range(L, 1, -1):   #PREG: Porque rang de L a 1, yo tengo anotado <L..2>
 		# print "j: ", j
 		# print "S[j]: ", S[j]
 		# print "S[j-1]", S[j-1]
@@ -85,11 +86,7 @@ def correction(Z_h):
 		# print "Y_j-1: ", Y[j-1]
 		# print "dW[j]: ", dW[j]
 		# print "D: ", D
-		
-		######### CHECKEAR LO DE ABAJO ###########
-		######### EN CLASE ERA D * Y[j-1] ####
-		############# PERO NO ANDABA ##########
-		######### ASI QUE INVERTI #############
+
 		dW[j] += eta*dot(transpose(Y[j-1]), D)
 		# print dW[j]
 		E = dot(D, transpose(W[j]))
