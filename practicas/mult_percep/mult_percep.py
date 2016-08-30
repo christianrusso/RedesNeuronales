@@ -20,6 +20,7 @@ def main():
 	L = 8
 	# UNIDADES POR CAPA 
 	#PREG: NO ENTIENDO ESTO, que son unidades por capa?
+	# Unidades = Neuronas
 	S = [0, shape(X)[1]]
 	S.extend([L for x in range(2, L)])
 	S.append(shape(Z)[1])
@@ -53,9 +54,13 @@ def holdout(epsilon, tau, p):
 
 
 def incremental(X, Z):
-	global W  # PREG: Porque pones global w? si ya la definiste global en main
+	global W 
 	e = 0
-	for h in range(1, len(X)): #PREG: porque usas range? si en la clase puso "permutaciones"?
+	for h in range(1, len(X)): 
+		#PREG: porque usas range? si en la clase puso "permutaciones"?
+		# Pq no estaba seguro si era una sola permutación o qué
+		# si es una sola, es lo mismo q hacer shuffle 
+		# si no, no tengo idea
 		# print h
 		#print shape(X)
 		activation(X[h])
@@ -77,7 +82,9 @@ def correction(Z_h):
 	global dW
 	E = Z_h - Y[L]
 	e = square(linalg.norm(E))
-	for j in range(L, 1, -1):   #PREG: Porque rang de L a 1, yo tengo anotado <L..2>
+	for j in range(L, 1, -1):   
+		#PREG: Porque rang de L a 1, yo tengo anotado <L..2>
+		# -1 = 1 step negativo = ir para atras 
 		# print "j: ", j
 		# print "S[j]: ", S[j]
 		# print "S[j-1]", S[j-1]
