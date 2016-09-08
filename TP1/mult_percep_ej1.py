@@ -12,7 +12,7 @@ def main():
 	global X, Z, L, W, dW, eta, P, Y, S
 	epsilon = 0.1
 	tau = 1000
-	eta = 0.01
+	eta = 0.1
 	p = 1
 	
 	# XOR DE DOS VARIABLES 
@@ -29,14 +29,23 @@ def main():
 			# print r #debug
 			x_i = map(float, r[1:])
 			z_i = map(cod, r[0])
+			# print x_i
 			X.append(x_i)
 			Z.append(z_i)
+	X = [x_i]+X
+	Z = [z_i]+Z
+	# print X
 	media = mean(X, axis= 0) 
 	varianza = std(X, axis=0)
+	media_z = mean(Z, axis=0)
+	varianza_z = std(Z, axis=0)
+	# print X
+	# print media_z, varianza_z
 	for i in xrange(len(X)):
 		X[i] = (X[i] - media )/varianza
 
 	X = array(X)
+	# print X
 	# print X[0] #debug
 	# print Z[0] #debug
 	
@@ -45,17 +54,18 @@ def main():
 	# CANT CAPAS
 	L = 3
 	# UNIDADES POR CAPA 
-	S = [0, shape(X)[1]]
+	S = [1, shape(X)[1]]
 	S.extend([L*2 for x in range(2, L)])
 	S.append(shape(Z)[1])
 	# TAMANOS W, dW, Y
-	W = [random.uniform(-1/sqrt(2),1/sqrt(2), (S[j-1], S[j])) for j in range(0, L+1)]
-	dW = copy(W)
-	Y = [random.uniform(-1/sqrt(2),1/sqrt(2), (1, S[j]+1)) for j in range(0, L)]
+	W = [random.uniform(-1/sqrt(S[j]),1/sqrt(S[j]), (S[j-1], S[j])) for j in range(0, L+1)]
+	dW = [zeros((S[j-1], S[j])) for j in range(0, L+1)]
+	print dW
+	Y = [zeros((1, S[j]+1)) for j in range(0, L)]
 	for x in xrange(len(Y)):
 		Y[x][0][-1] = -1
 	Y.append([random.uniform(-1/sqrt(2),1/sqrt(2),(1,shape(Z)[1]))[newaxis]])
-	print Y
+	# print Y
 	# print L, S #debug
 	# print P  #debug
 	# print shape(X), shape(Z) #debug
@@ -74,15 +84,15 @@ def holdout(epsilon, tau, p):
 		# print X[:v+1] 
 		# print X[v+1:]
 		e_t = incremental(X[:v+1],Z[:v+1])
-		e_v = testing(X[v+1:],Z[v+1:])
+		# e_v = testing(X[v:],Z[v:])
 		t += 1
 	return e_t, e_v, t 
 
 
 def incremental(X, Z):
-	global W 
+	# global W 
 	e = 0
-	for h in range(1, len(X)): 
+	for h in range(1, P+1): 
 		activation(X[h])
 		e += correction(Z[h])
 		adaptation()
@@ -103,6 +113,7 @@ def correction(Z_h):
 	E = Z_h - Y[L]
 	e = square(linalg.norm(E))
 	for j in range(L, 1, -1):   
+		# print "L:", L, "j:", j
 		# print "j: ", j #debug 
 		# print "S[j]: ", S[j] #debug 
 		# print "S[j-1]", S[j-1] #debug 
@@ -112,7 +123,7 @@ def correction(Z_h):
 		# print "dW[j]: ", dW[j] #debug 
 		# print "D: ", D #debug 
 
-		dW[j] += eta*dot(transpose(Y[j-1]), D)
+		dW[j] += (eta*dot(transpose(Y[j-1]), D))
 		# print dW[j] #debug 
 		E = dot(D, transpose(W[j]))
 	return e 
@@ -137,7 +148,7 @@ def testing(X, Z):
 def bipolar(vector, derivative=False):
 	B = 1
 	if derivative:
-		return B * (1 - square(bipolar(vector)))
+		return B * (1 -bipolar(vector)*bipolar(vector))
 	else:
 		return tanh(B*vector)
 
