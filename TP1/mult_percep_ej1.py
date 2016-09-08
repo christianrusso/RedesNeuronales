@@ -6,7 +6,7 @@ def cod(c):
 	if c == "M":
 		return 1
 	else:
-		return 0
+		return -1
 
 def main():
 	global X, Z, L, W, dW, eta, P, Y, S
@@ -15,6 +15,10 @@ def main():
 	eta = 0.01
 	p = 1
 	
+	# XOR DE DOS VARIABLES 
+	#X = array([[-1,-1], [0,1], [1,0], [1,1], [0, 0]])
+	#Z = [[-1], [1], [1], [1], [0]]
+
 	f = open('./datasets/tp1_ej1_training.csv')
 	X = []
 	Z = []
@@ -27,31 +31,31 @@ def main():
 			z_i = map(cod, r[0])
 			X.append(x_i)
 			Z.append(z_i)
+	media = mean(X, axis= 0) 
+	varianza = std(X, axis=0)
+	for i in xrange(len(X)):
+		X[i] = (X[i] - media )/varianza
+
 	X = array(X)
 	# print X[0] #debug
 	# print Z[0] #debug
-
-	# XOR DE DOS VARIABLES 
-	# X = array([[-1,-1], [0,1], [1,0], [1,1], [0, 0]])
-	# Z = [[-1], [1], [1], [1], [0]]
 	
 	# CANT PATRONES
 	P = len(X)-1
 	# CANT CAPAS
-	L = 5
+	L = 3
 	# UNIDADES POR CAPA 
-	#PREG: NO ENTIENDO ESTO, que son unidades por capa?
-	# Unidades = Neuronas
 	S = [0, shape(X)[1]]
 	S.extend([L*2 for x in range(2, L)])
 	S.append(shape(Z)[1])
-	
 	# TAMANOS W, dW, Y
 	W = [random.uniform(-1/sqrt(2),1/sqrt(2), (S[j-1], S[j])) for j in range(0, L+1)]
 	dW = copy(W)
-	Y = [random.uniform(-1/sqrt(2),1/sqrt(2), (1, S[j]+1))[newaxis] for j in range(0, L)]
+	Y = [random.uniform(-1/sqrt(2),1/sqrt(2), (1, S[j]+1)) for j in range(0, L)]
+	for x in xrange(len(Y)):
+		Y[x][0][-1] = -1
 	Y.append([random.uniform(-1/sqrt(2),1/sqrt(2),(1,shape(Z)[1]))[newaxis]])
-	
+	print Y
 	# print L, S #debug
 	# print P  #debug
 	# print shape(X), shape(Z) #debug
@@ -66,8 +70,7 @@ def holdout(epsilon, tau, p):
 	t = 0
 	v = int(p*P)
 	while(e_t>epsilon and t<tau):
-		print "epoch", t #debug 
-		print "error", e_t  #debug
+		print "epoch", t, "   error", e_t  #debug
 		# print X[:v+1] 
 		# print X[v+1:]
 		e_t = incremental(X[:v+1],Z[:v+1])
@@ -80,12 +83,6 @@ def incremental(X, Z):
 	global W 
 	e = 0
 	for h in range(1, len(X)): 
-		#PREG: porque usas range? si en la clase puso "permutaciones"?
-		# Pq no estaba seguro si era una sola permutacion o que
-		# si es una sola, es lo mismo q hacer shuffle 
-		# si no, no tengo idea
-		# print h
-		#print shape(X) #debug 
 		activation(X[h])
 		e += correction(Z[h])
 		adaptation()
@@ -106,8 +103,6 @@ def correction(Z_h):
 	E = Z_h - Y[L]
 	e = square(linalg.norm(E))
 	for j in range(L, 1, -1):   
-		#PREG: Porque rang de L a 1, yo tengo anotado <L..2>
-		# -1 = 1 step negativo = ir para atras 
 		# print "j: ", j #debug 
 		# print "S[j]: ", S[j] #debug 
 		# print "S[j-1]", S[j-1] #debug 
@@ -139,28 +134,23 @@ def testing(X, Z):
 		e += square(linalg.norm(E))
 	return e 
 
-def logistica(vector, derivative=False):
+def bipolar(vector, derivative=False):
 	B = 1
 	if derivative:
-		return B * (1 - square(logistica(vector)))
+		return B * (1 - square(bipolar(vector)))
 	else:
 		return tanh(B*vector)
 
-def activationFunction(vector, derivative=False, f=logistica):
-	return f(vector, derivative)
-
-
-# No anda pq no se puede aplicar math.exp a un vector
-# def sigmoid(vector, derivative=False):
+# def bipolarSigmoid(vector, derivative=False):
+# 	 #f(x) = -1 + 2 / (1 + e^-x)
 # 	B = 1
 # 	if derivative:
-# 		return B * sigmoid(vector) * (1 - sigmoid(vector))
+# 		return 0.5 * (1 + bipolarSigmoid(vector)) * (1 - bipolarSigmoid(vector) )
 # 	else:
-# 		print -B*vector
-# 		return 1 / (1 + math.exp(-B*vector))
+# 		return -1 + 2 / (1 + exp(-vector))
 
-
-
+def activationFunction(vector, derivative=False, f=bipolar):
+	return f(vector, derivative)
 	
 if __name__ == "__main__":
 	main()
