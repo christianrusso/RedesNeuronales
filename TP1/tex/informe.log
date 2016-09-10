@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2015.2.14)  8 SEP 2016 19:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2015.2.14)  10 SEP 2016 11:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -828,13 +828,13 @@ LaTeX Info: Redefining \nameref on input line 103.
 \@outlinefile=\write4
 \openout4 = `informe.out'.
 
- <DC.png, id=64, 802.9197pt x 287.6346pt>
+ <DC.png, id=72, 802.9197pt x 287.6346pt>
 File: DC.png Graphic file (type png)
 
 <use DC.png>
 Package pdftex.def Info: DC.png used on input line 115.
 (pdftex.def)             Requested size: 158.84137pt x 56.9055pt.
- <UBA.jpg, id=66, 233.4321pt x 233.9139pt>
+ <UBA.jpg, id=74, 233.4321pt x 233.9139pt>
 File: UBA.jpg Graphic file (type jpg)
  <use UBA.jpg>
 Package pdftex.def Info: UBA.jpg used on input line 117.
@@ -868,25 +868,38 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
  [2]
 \openout2 = `introduccion.aux'.
 
- (./introduccion.tex) [3
+ (./introduccion.tex
+<img/pmulticapa.png, id=112, 178.86826pt x 99.7326pt>
+File: img/pmulticapa.png Graphic file (type png)
+ <use img/pmulticapa.png>
+Package pdftex.def Info: img/pmulticapa.png used on input line 20.
+(pdftex.def)             Requested size: 178.86781pt x 99.73235pt.
 
-]
+<img/neurona.png, id=113, 379.4175pt x 373.395pt>
+File: img/neurona.png Graphic file (type png)
+ <use img/neurona.png>
+Package pdftex.def Info: img/neurona.png used on input line 35.
+(pdftex.def)             Requested size: 226.48395pt x 222.89352pt.
+
+[3
+
+ <./img/pmulticapa.png>]) [4 <./img/neurona.png>]
 \openout2 = `problema.aux'.
 
- (./problema.tex) [4
+ (./problema.tex) [5
 
 
 ]
 \openout2 = `ejercicio1.aux'.
 
- (./ejercicio1.tex) [5
+
+(./ejercicio1.tex) [6
 
 
 ]
 \openout2 = `ejercicio2.aux'.
 
-
-(./ejercicio2.tex) [6
+ (./ejercicio2.tex) [7
 
 
 ] 
@@ -901,27 +914,30 @@ LaTeX Info: Redefining \% on input line 21.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 177.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 177.
 Package rerunfilecheck Info: File `informe.out' has not changed.
-(rerunfilecheck)             Checksum: 42D57E44A4A0553D58BE92F1ACCC22A2;946.
+(rerunfilecheck)             Checksum: 1109A72D029435376F042F519115A30F;1078.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 177.
  ) 
 Here is how much of TeX's memory you used:
- 8730 strings out of 493117
- 125478 string characters out of 6135433
+ 8760 strings out of 493117
+ 125910 string characters out of 6135433
  240176 words of memory out of 5000000
- 11993 multiletter control sequences out of 15000+600000
+ 12014 multiletter control sequences out of 15000+600000
  7156 words of font info for 28 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,11n,43p,237b,384s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,11n,43p,474b,413s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
-usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></us
-r/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/
-local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on informe.pdf (6 pages, 852369 bytes).
+</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></u
+sr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
+/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/l
+ocal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/loc
+al/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/
+texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on informe.pdf (7 pages, 1065519 bytes).
 PDF statistics:
- 149 PDF objects out of 1000 (max. 8388607)
- 130 compressed objects within 2 object streams
- 23 named destinations out of 1000 (max. 500000)
- 131 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 186 PDF objects out of 1000 (max. 8388607)
+ 159 compressed objects within 2 object streams
+ 29 named destinations out of 1000 (max. 500000)
+ 157 words of extra memory for PDF output out of 10000 (max. 10000000)
 

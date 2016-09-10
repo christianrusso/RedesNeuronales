@@ -1,16 +1,18 @@
 \select@language {spanish}
 \contentsline {section}{\numberline {1}Introduccion y Teoria}{3}{section.1}
-\contentsline {section}{\numberline {2}El problema}{4}{section.2}
-\contentsline {subsection}{\numberline {2.1}Los datos del problema}{4}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Implementacion}{4}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}Opciones del programa y modo de uso}{4}{subsection.2.3}
-\contentsline {section}{\numberline {3}Ejercicio: Cancer de mamas}{5}{section.3}
-\contentsline {subsection}{\numberline {3.1}Explicacion}{5}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Resultados y analisis}{5}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}Conclusiones}{5}{subsection.3.3}
-\contentsline {subsection}{\numberline {3.4}Codigo}{5}{subsection.3.4}
-\contentsline {section}{\numberline {4}Ejercicio: Eficiencia energetica}{6}{section.4}
-\contentsline {subsection}{\numberline {4.1}Explicacion}{6}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Resultados y analisis}{6}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Conclusiones}{6}{subsection.4.3}
-\contentsline {subsection}{\numberline {4.4}Codigo}{6}{subsection.4.4}
+\contentsline {subsection}{\numberline {1.1}Introduccion}{3}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Introduccion Teorica}{3}{subsection.1.2}
+\contentsline {section}{\numberline {2}El problema}{5}{section.2}
+\contentsline {subsection}{\numberline {2.1}Los datos del problema}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Implementacion}{5}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Opciones del programa y modo de uso}{5}{subsection.2.3}
+\contentsline {section}{\numberline {3}Ejercicio: Cancer de mamas}{6}{section.3}
+\contentsline {subsection}{\numberline {3.1}Explicacion}{6}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Resultados y analisis}{6}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Conclusiones}{6}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Codigo}{6}{subsection.3.4}
+\contentsline {section}{\numberline {4}Ejercicio: Eficiencia energetica}{7}{section.4}
+\contentsline {subsection}{\numberline {4.1}Explicacion}{7}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Resultados y analisis}{7}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Conclusiones}{7}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Codigo}{7}{subsection.4.4}
