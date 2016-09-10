@@ -1,8 +1,8 @@
 from new_perceptron import perceptron_Multiple,sigmoidea_bipolar,sigmoidea_logistica
 from numpy import *
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from pylab import Line2D, plot, axis, show, pcolor, colorbar, bone, savefig
-#import pylab as plt
+import pylab as plt
 import sys
 
 def test_1(Dataset=None, unitsPorCapa=[15], epsilon=0.1, tau=1000, etha=0.01):
@@ -42,7 +42,7 @@ def test_2(Dataset=None, unitsPorCapa=[15], epsilon=0.1, tau=1000, etha=0.01):
 def pruebas():
 	print "Perceptron Multiple Mark XLV"
 	#test_1('./datasets/tp1_ej1_training.csv')						 #anda mas o menos estable, pero las epocas de aprendizaje varian mucho de 35 a 300 epocas tipicamente
-	test_1('./datasets/tp1_ej1_training.csv',[5], 0.1,1000, 0.05)	  #anda muy mal nunca termina de aprender
+	#test_1('./datasets/tp1_ej1_training.csv',[5], 0.1,1000, 0.05)	  #anda muy mal nunca termina de aprender
 	#test_1('./datasets/tp1_ej1_training.csv',[15,10], 0.1,1000, 0.01)#no mejora la de 15, estabiliza alrededor de 300 epocas, aprende en rango de 300 a 1000
 	#test_1('./datasets/tp1_ej1_training.csv',[10,5], 0.1,1000, 0.01) #parece razonable, oscila mas pero llega mas rapido. En alrededor de 100 epocas siempre termina
 	#test_1('./datasets/tp1_ej1_training.csv',[5,5,5], 0.1,1000, 0.01)#oscila horriblemente y es mas lenta que la anterior
@@ -50,6 +50,8 @@ def pruebas():
 	#test_1('./datasets/tp1_ej1_training.csv',[8,4,3], 0.1,1000, 0.05) #nunca termina de aprender, se estanca el error y baja muy lento
 	#test_1('./datasets/tp1_ej1_training.csv',[10,5], 0.1,1000, 0.05) # no mejora con rate aumentado
 	#test_1('./datasets/tp1_ej1_training.csv',[10,5], 0.1,1000, 0.01)
+	test_1('./datasets/tp1_ej1_training.csv',[10,5], 0.1,100, 0.01)
+
 	#test_2('./datasets/tp1_ej2_training.csv')						 
 	#test_2('./datasets/tp1_ej2_training.csv',[5], 0.1,1000, 0.05)	  
 	#test_2('./datasets/tp1_ej2_training.csv',[15,10], 0.1,1000, 0.01)
