@@ -40,11 +40,11 @@ class perceptron_Multiple:
 		self.Z = []
 		for line in f:
 			if line.rstrip():
-				r = line.rstrip().split(", ")
+				r = line.rstrip().split(",	")
 				x_i = map(float, r[:-2])
 				z_i = map(float, r[-2:])
-				X.append(x_i)
-				Z.append(z_i)
+				self.X.append(x_i)
+				self.Z.append(z_i)
 		# basura en la primera pos pq esta indizado dsese 1
 		insert(self.X, 0, [0])
 		insert(self.Z, 0, [0])
