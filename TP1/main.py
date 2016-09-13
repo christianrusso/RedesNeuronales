@@ -5,7 +5,8 @@ from pylab import Line2D, plot, axis, show, pcolor, colorbar, bone, savefig
 import pylab as plt
 import sys
 
-def train(ejercicio,Dataset=None, save_file=None,unitsPorCapa=[15], epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.85):
+def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.85, modo=0):
+	unitsPorCapa=[15]
 	print "Ejercicio ",ejercicio	
 	print "File "+str(Dataset)
 	print "Unidades por capa " + str(unitsPorCapa)
@@ -17,7 +18,7 @@ def train(ejercicio,Dataset=None, save_file=None,unitsPorCapa=[15], epsilon=0.1,
 		Red.load_dataset_1(Dataset)
 	else:
 		Red.load_dataset_2(Dataset)
-	erroresTraining, erroresTesting, epoch = Red.train()
+	erroresTraining, erroresTesting, epoch = Red.train(modo)
 	print '>> epochAlcanzada: ' + str(epoch)
 	print '>> errorTraining: ' + str(erroresTraining[-1])
 	print '>> errorTesting: ' + str(erroresTesting[-1])	
@@ -54,7 +55,7 @@ def pruebas():
 	#train(1,'./datasets/tp1_ej1_training.csv',None,[8,4,3], 0.1,1000, 0.05,1) #nunca termina de aprender, se estanca el error y baja muy lento
 	#train(1,'./datasets/tp1_ej1_training.csv',None,[10,5], 0.1,1000, 0.05,1) # no mejora con rate aumentado
 	#train(1,'./datasets/tp1_ej1_training.csv',None,[10,5], 0.1,1000, 0.01,1)
-	train(1,'./datasets/tp1_ej1_training.csv','red.net', [10,5], 0.1, 10, 0.01, 1)
+	train(1,'./datasets/tp1_ej1_training.csv','red.net', [10,5], 0.1, 1000, 0.01, 1)
 	load(1,'red.net','./datasets/tp1_ej1_training.csv')
 	#train(2,'./datasets/tp1_ej2_training.csv',None)						 
 	#train(2,'./datasets/tp1_ej2_training.csv',None,[5], 0.1,1000, 0.05,1)	  
@@ -104,13 +105,13 @@ if cmdTrain:
 		
 	archivoDataset = args[3]
 	archivoRed=args[4]
-	unidadesCapaOculta = int(args[5])
-	errorAceptable = float(args[6])
-	maxEpoch = int(args[7])
-	holdoutRate = float(args[8])
-	learningRate = float(args[9])
-	momentum = float(args[10])
-	train(ejercicio,archivoDataset,unidadesCapaOculta,errorAceptable,maxEpoch,learningRate,momentum,holdoutRate)
+	errorAceptable = float(args[5])
+	maxEpoch = int(args[6])
+	holdoutRate = float(args[7])
+	learningRate = float(args[8])
+	momentum = float(args[9])
+	modo=int(args[10])
+	train(ejercicio,archivoDataset,archivoRed,errorAceptable,maxEpoch,learningRate,momentum,holdoutRate,modo)
 
 elif cmdLoad:
 	

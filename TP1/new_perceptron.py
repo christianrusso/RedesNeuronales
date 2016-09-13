@@ -46,6 +46,9 @@ class perceptron_Multiple:
 		self.normalizar_output()
 		
 	def __init__(self,UnitsXCapa=[],e=0,t=0,nl=0,m=0.6,holdout=1,funcionActivacion=sigmoidea_bipolar):
+		s=str(UnitsXCapa)+str(e)+str(t)+str(nl)+str(m)+str(holdout)
+		
+		print s
 		self.funcActivacion = funcionActivacion	
 		self.epsilon = e
 		self.tau = t
@@ -55,6 +58,7 @@ class perceptron_Multiple:
 	 	# CANT CAPAS
 	 	self.L=len(UnitsXCapa)+2
 	 	self.UnitsXCapa=UnitsXCapa
+	 	self.UnitsXCapa.append(5)
 	 	self.Beta=1
 
 	def cod(self,c):
@@ -75,7 +79,8 @@ class perceptron_Multiple:
 		for i in xrange(len(self.Z)):
 			self.Z[i] = (self.Z[i] - media_z)/varianza_z
 
-	def train(self):
+	def train(self,modo=0):
+		#print self.
 		self.P = len(self.X)
 		self.S = [shape(self.X)[1]]
 		#S.extend([15 for x in range(2, L)])
@@ -86,7 +91,12 @@ class perceptron_Multiple:
 		self.dW = [zeros((self.S[j-1]+1, self.S[j])) for j in range(self.L)]
 		self.Y = [zeros((1, self.S[j]+1)) for j in range(self.L-1)]
 		self.Y.append([zeros((1,shape(self.Z)[1]))])
-		t,error_v_hist,error_t_hist = self.holdout(self.epsilon, self.tau, self.p)
+		if modo==1:
+			print "corriendo en modo incremental"
+			t,error_v_hist,error_t_hist = self.holdout(self.epsilon, self.tau, self.p)
+		else:
+			print "corriendo en modo batch"
+			t,error_v_hist,error_t_hist = self.holdout_batch(self.epsilon, self.tau, self.p)
 		print error_t_hist[-1],error_v_hist[-1] ,t 
 		return error_t_hist,error_v_hist,t
 
@@ -108,12 +118,39 @@ class perceptron_Multiple:
 				print "epoch", t, "   e_training", e_t, "	e_validation", e_v
 		return t,error_v_hist,error_t_hist
 
+	def holdout_batch(self,epsilon, tau, p):
+		e_t = 1
+		e_v = 1
+		t = 0
+		v = int(p*self.P)
+		error_v_hist=[]
+		error_t_hist=[]
+		while(t<self.tau and e_t > self.epsilon):
+			
+			e_t = self.batch(self.X[:v],self.Z[:v])
+			e_v = self.testing(self.X[v:],self.Z[v:])
+			error_v_hist.append(e_v)
+			error_t_hist.append(e_t)
+			t += 1
+			if(t % 10==1):
+				print "epoch", t, "   e_training", e_t, "	e_validation", e_v
+		return t,error_v_hist,error_t_hist
+
+
 	def incremental(self,X, Z):
 		e = 0
 		for h in range(self.P): 
 			self.activation(X[h])
 			e += self.correction(Z[h])
 			self.adaptation()
+		return e/(len(X) if len(X) != 0 else 1) 	
+
+	def batch(self,X, Z):
+		e = 0
+		for h in range(self.P): 
+			self.activation(X[h])
+			e += self.correction(Z[h])
+		self.adaptation()
 		return e/(len(X) if len(X) != 0 else 1) 	
 
 	def activation(self,X_h):
