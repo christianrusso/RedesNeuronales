@@ -54,7 +54,8 @@ def pruebas():
 	#train(1,'./datasets/tp1_ej1_training.csv',None,[8,4,3], 0.1,1000, 0.05,1) #nunca termina de aprender, se estanca el error y baja muy lento
 	#train(1,'./datasets/tp1_ej1_training.csv',None,[10,5], 0.1,1000, 0.05,1) # no mejora con rate aumentado
 	#train(1,'./datasets/tp1_ej1_training.csv',None,[10,5], 0.1,1000, 0.01,1)
-	train(1,'./datasets/tp1_ej1_training.csv','red.net', [10,5], 0.1, 10, 0.01, 1)
+	#train(1,'./datasets/tp1_ej1_training.csv','red.net', [15], 0.1, 1000, 0.01, 1)
+	train(1,'./datasets/tp1_ej1_training.csv','red.net') #, [15], 0.1, 1000, 0.01, 1)
 	load(1,'red.net','./datasets/tp1_ej1_training.csv')
 	#train(2,'./datasets/tp1_ej2_training.csv',None)						 
 	#train(2,'./datasets/tp1_ej2_training.csv',None,[5], 0.1,1000, 0.05,1)	  
