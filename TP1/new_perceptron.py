@@ -29,7 +29,9 @@ class perceptron_Multiple:
 				self.X.append(x_i)
 				self.Z.append(z_i)
 		self.normalizar_input()
-
+		self.X = array(self.X) # Para pretty print
+		self.Z = array(self.Z)
+		
 	def load_dataset_2(self,dataset):
 		print "> Cargando dataset..."	
 		f = open(dataset)
@@ -44,7 +46,9 @@ class perceptron_Multiple:
 				self.Z.append(z_i)
 		self.normalizar_input()
 		self.normalizar_output()
-		
+		self.X = array(self.X) # Para pretty print
+		self.Z = array(self.Z)
+
 	def __init__(self,UnitsXCapa=[],e=0,t=0,nl=0,m=0.6,holdout=1,funcionActivacion=sigmoidea_bipolar):
 		s=str(UnitsXCapa)+str(e)+str(t)+str(nl)+str(m)+str(holdout)
 		
@@ -53,7 +57,7 @@ class perceptron_Multiple:
 		self.epsilon = e
 		self.tau = t
 		self.eta = nl
-		self.p = 1
+		self.p = 1#holdout
 		self.momentum = m
 	 	# CANT CAPAS
 	 	self.L=len(UnitsXCapa)+2
@@ -86,9 +90,12 @@ class perceptron_Multiple:
 		#S.extend([15 for x in range(2, L)])
 		self.S.extend(self.UnitsXCapa)
 		self.S.append(shape(self.Z)[1])
+		self.S = array(self.S)
 		# TAMANOS W, dW, Y
-		self.W = [random.uniform(-sqrt(self.S[j]),sqrt(self.S[j]), (self.S[j-1]+1, self.S[j])) for j in range(self.L)]
-		self.dW = [zeros((self.S[j-1]+1, self.S[j])) for j in range(self.L)]
+		# Basura en la pos 0, indizado desde 1
+		self.W = array([random.uniform(-sqrt(self.S[j]),sqrt(self.S[j]), (self.S[j-1]+1, self.S[j])) for j in range(self.L)])
+		# Basura en la pos 0, indizado desde 1
+		self.dW = array([zeros((self.S[j-1]+1, self.S[j])) for j in range(self.L)])
 		self.Y = [zeros((1, self.S[j]+1)) for j in range(self.L-1)]
 		self.Y.append([zeros((1,shape(self.Z)[1]))])
 		if modo==1:
@@ -139,7 +146,7 @@ class perceptron_Multiple:
 
 	def incremental(self,X, Z):
 		e = 0
-		for h in range(self.P): 
+		for h in range(len(X)): 
 			self.activation(X[h])
 			e += self.correction(Z[h])
 			self.adaptation()
@@ -202,7 +209,7 @@ class perceptron_Multiple:
 		f.write(str(self.L)+"\n")
 		f.write(str(self.UnitsXCapa)+"\n")
 		f.write(str(self.Beta)+"\n")
-		f.write(str(self.W))
+		f.write(str(self.W)+"\n")
 		f.write(str(self.dW))
 		f.close()
 
