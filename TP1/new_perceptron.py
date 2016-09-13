@@ -50,14 +50,11 @@ class perceptron_Multiple:
 		self.Z = array(self.Z)
 
 	def __init__(self,UnitsXCapa=[],e=0,t=0,nl=0,m=0.6,holdout=1,funcionActivacion=sigmoidea_bipolar):
-		s=str(UnitsXCapa)+str(e)+str(t)+str(nl)+str(m)+str(holdout)
-		
-		print s
 		self.funcActivacion = funcionActivacion	
 		self.epsilon = e
 		self.tau = t
 		self.eta = nl
-		self.p = 1#holdout
+		self.p = holdout
 		self.momentum = m
 	 	# CANT CAPAS
 	 	self.L=len(UnitsXCapa)+2
@@ -153,8 +150,8 @@ class perceptron_Multiple:
 		return e/(len(X) if len(X) != 0 else 1) 	
 
 	def batch(self,X, Z):
-		e = 0
-		for h in range(self.P): 
+		e=0
+		for h in range(len(X)): 
 			self.activation(X[h])
 			e += self.correction(Z[h])
 		self.adaptation()
@@ -190,9 +187,14 @@ class perceptron_Multiple:
 			e += (E**2).sum()
 		return e/(len(X) if len(X) != 0 else 1) 
 
-	def evaluate(self,input):	
+	def evaluate(self,input,ejercicio):	
 		e=[10]
 		res=[]
+		# error_v_hist=[]
+		# for i range()
+		# 	e_v = self.testing(self.X[v:],self.Z[v:])
+		# 	error_v_hist.append(e_v)
+			
 		#for Y_h in input:
 		#	res.append(self.activation(Y_h))
 		return e,e,res	

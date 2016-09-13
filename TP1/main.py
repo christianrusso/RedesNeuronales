@@ -37,7 +37,7 @@ def load(ej,Net=None,Dataset=None):
 	print "Cargando Red tipo Ejercicio ",ej
 	Red=perceptron_Multiple()
 	Red.load(Net)
-	erroresTraining, erroresTesting, res = Red.evaluate(Dataset)
+	erroresTraining, erroresTesting, res = Red.evaluate(Dataset,ej)
 	print '>> errorTesting: ' + str(erroresTesting[-1])	
 	plt.plot(erroresTraining)
 	plt.ylabel('error Training Vs epocas')
@@ -47,33 +47,33 @@ def load(ej,Net=None,Dataset=None):
 def pruebas():
 	print "Perceptron Multiple Mark XLV"
 	#train(1,'./datasets/tp1_ej1_training.csv',None)						 #anda mas o menos estable, pero las epocas de aprendizaje varian mucho de 35 a 300 epocas tipicamente
-	#train(1,'./datasets/tp1_ej1_training.csv',None,[5], 0.1,1000, 0.05,1)	  #anda muy mal nunca termina de aprender
-	#train(1,'./datasets/tp1_ej1_training.csv',None,[15,10], 0.1,1000, 0.01,1)#no mejora la de 15, estabiliza alrededor de 300 epocas, aprende en rango de 300 a 1000
-	#train(1,'./datasets/tp1_ej1_training.csv',None,[10,5], 0.1,1000, 0.01,1) #parece razonable, oscila mas pero llega mas rapido. En alrededor de 100 epocas siempre termina
-	#train(1,'./datasets/tp1_ej1_training.csv',None,[5,5,5], 0.1,1000, 0.01,1)#oscila horriblemente y es mas lenta que la anterior
-	#train(1,'./datasets/tp1_ej1_training.csv',None,[8,4,3], 0.1,1000, 0.01,1) #oscila con picos, aprende alrededor de las 300 epocas
-	#train(1,'./datasets/tp1_ej1_training.csv',None,[8,4,3], 0.1,1000, 0.05,1) #nunca termina de aprender, se estanca el error y baja muy lento
-	#train(1,'./datasets/tp1_ej1_training.csv',None,[10,5], 0.1,1000, 0.05,1) # no mejora con rate aumentado
-	#train(1,'./datasets/tp1_ej1_training.csv',None,[10,5], 0.1,1000, 0.01,1)
-	#train(1,'./datasets/tp1_ej1_training.csv','red.net', [15], 0.1, 1000, 0.01, 1)
-	train(1,'./datasets/tp1_ej1_training.csv','red.net') #, [15], 0.1, 1000, 0.01, 1)
+	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.05,1)	  #anda muy mal nunca termina de aprender
+	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.01,1)#no mejora la de 15, estabiliza alrededor de 300 epocas, aprende en rango de 300 a 1000
+	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.01,1) #parece razonable, oscila mas pero llega mas rapido. En alrededor de 100 epocas siempre termina
+	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.01,1)#oscila horriblemente y es mas lenta que la anterior
+	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.01,1) #oscila con picos, aprende alrededor de las 300 epocas
+	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.05,1) #nunca termina de aprender, se estanca el error y baja muy lento
+	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.05,1) # no mejora con rate aumentado
+	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.01,1)
+	#train(1,'./datasets/tp1_ej1_training.csv','red.net', 0.1, 1000, 0.01, 1)
+	train(1,'./datasets/tp1_ej1_training.csv','red.net') #, 0.1, 1000, 0.01, 1)
 	#load(1,'red.net','./datasets/tp1_ej1_training.csv')
 	#train(2,'./datasets/tp1_ej2_training.csv',None)						 
-	#train(2,'./datasets/tp1_ej2_training.csv',None,[5], 0.1,1000, 0.05,1)	  
-	#train(2,'./datasets/tp1_ej2_training.csv',None,[15,10], 0.1,1000, 0.01,1)
-	#train(2,'./datasets/tp1_ej2_training.csv',None,[10,5], 0.1,1000, 0.01,1) 
-	#train(2,'./datasets/tp1_ej2_training.csv',None,[5,5,5], 0.1,1000, 0.01,1)
-	#train(2,'./datasets/tp1_ej2_training.csv',None,[8,4,3], 0.1,1000, 0.01,1)
-	#train(2,'./datasets/tp1_ej2_training.csv',None,[8,4,3], 0.1,1000, 0.05,1)
-	#train(2,'./datasets/tp1_ej2_training.csv',None,[10,5], 0.1,1000, 0.05,1)
-	#train(2,'./datasets/tp1_ej2_training.csv',None,[10,5], 0.1,1000, 0.01,1)
+	#train(2,'./datasets/tp1_ej2_training.csv',None, 0.1,1000, 0.05,1)	  
+	#train(2,'./datasets/tp1_ej2_training.csv',None,0.1,1000, 0.01,1)
+	#train(2,'./datasets/tp1_ej2_training.csv',None, 0.1,1000, 0.01,1) 
+	#train(2,'./datasets/tp1_ej2_training.csv',None, 0.1,1000, 0.01,1)
+	#train(2,'./datasets/tp1_ej2_training.csv',None,0.1,1000, 0.01,1)
+	#train(2,'./datasets/tp1_ej2_training.csv',None, 0.1,1000, 0.05,1)
+	#train(2,'./datasets/tp1_ej2_training.csv',None,0.1,1000, 0.05,1)
+	#train(2,'./datasets/tp1_ej2_training.csv',None,0.1,1000, 0.01,1)
 
 
 args = sys.argv
 message = "\nModo de uso:\n\
 python main.py (ej1|ej2) -t nomDataSet nomFfileout parametros\n\
 Con los siguientes parametros en orden:\n\
-unidadesXcapa epsilon tau etha\n\n\
+epsilon tau etha momentum holdoutRate modo\n\n\
 -t es para entrenar\
 -l es para testear\
 "
