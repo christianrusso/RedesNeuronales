@@ -73,9 +73,10 @@ args = sys.argv
 message = "\nModo de uso:\n\
 python main.py (ej1|ej2) -t nomDataSet nomFfileout parametros\n\
 Con los siguientes parametros en orden:\n\
-epsilon tau etha momentum holdoutRate modo\n\n\
+epsilon tau holdoutRate etha momentum modo_aprendizaje\n\n\
 -t es para entrenar\
 -l es para testear\
+modo_aprendizaje = 0 para batch 1 para incremental\
 "
 
 print len(args)
