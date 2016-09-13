@@ -46,6 +46,8 @@ class perceptron_Multiple:
 				self.Z.append(z_i)
 		self.normalizar_input()
 		self.normalizar_output()
+		self.X = array(self.X) # Para pretty print
+		self.Z = array(self.Z)
 
 	def __init__(self,UnitsXCapa=[],e=0,t=0,nl=0,m=0.6,holdout=1,funcionActivacion=sigmoidea_bipolar):
 		self.funcActivacion = funcionActivacion	
@@ -116,7 +118,7 @@ class perceptron_Multiple:
 
 	def incremental(self,X, Z):
 		e = 0
-		for h in range(self.P): 
+		for h in range(len(X)): 
 			self.activation(X[h])
 			e += self.correction(Z[h])
 			self.adaptation()

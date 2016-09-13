@@ -23,10 +23,10 @@ def train(ejercicio,Dataset=None, save_file=None,unitsPorCapa=[15], epsilon=0.1,
 	print '>> errorTesting: ' + str(erroresTesting[-1])	
 	plt.plot(erroresTraining)
 	plt.ylabel('error Training Vs epocas')
-	plt.show()
-	plt.plot(erroresTesting)
-	plt.ylabel('error Testing Vs epocas')
 	#plt.show()
+	plt.plot(erroresTesting)
+	#plt.ylabel('error Testing Vs epocas')
+	plt.show()
 	if(save_file!=None):
 		print "Guardando Red"
 		Red.save(save_file)
