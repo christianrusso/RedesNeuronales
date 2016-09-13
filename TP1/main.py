@@ -5,14 +5,18 @@ from pylab import Line2D, plot, axis, show, pcolor, colorbar, bone, savefig
 import pylab as plt
 import sys
 
-def test_1(Dataset=None, unitsPorCapa=[15], epsilon=0.1, tau=1000, etha=0.01):
-	print "Ejercicio 1"	
+def train(ejercicio,Dataset=None, save_file=None,unitsPorCapa=[15], epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.85):
+	print "Ejercicio ",ejercicio	
+	print "File "+str(Dataset)
 	print "Unidades por capa " + str(unitsPorCapa)
 	print "Error aceptable " + str(epsilon)
 	print "Max Epocas " +str(tau)
 	print "Learning Rate " + str(etha)
-	Red=perceptron_Multiple(unitsPorCapa,epsilon,tau,etha)
-	Red.load_dataset_1(Dataset)
+	Red=perceptron_Multiple(unitsPorCapa,epsilon,tau,etha,m,holdoutRate)
+	if(ejercicio==1):
+		Red.load_dataset_1(Dataset)
+	else:
+		Red.load_dataset_2(Dataset)
 	erroresTraining, erroresTesting, epoch = Red.train()
 	print '>> epochAlcanzada: ' + str(epoch)
 	print '>> errorTraining: ' + str(erroresTraining[-1])
@@ -20,19 +24,19 @@ def test_1(Dataset=None, unitsPorCapa=[15], epsilon=0.1, tau=1000, etha=0.01):
 	plt.plot(erroresTraining)
 	plt.ylabel('error Training Vs epocas')
 	plt.show()
+	plt.plot(erroresTesting)
+	plt.ylabel('error Testing Vs epocas')
+	#plt.show()
+	if(save_file!=None):
+		print "Guardando Red"
+		Red.save(save_file)
 	return mean(erroresTraining), mean(erroresTesting)
 
-def test_2(Dataset=None, unitsPorCapa=[15], epsilon=0.1, tau=1000, etha=0.01):
-	print "Ejercicio 2"
-	print "Unidades por capa " + str(unitsPorCapa)
-	print "Error aceptable " + str(epsilon)
-	print "Max Epocas " +str(tau)
-	print "Learning Rate " + str(etha)
-	Red=perceptron_Multiple(unitsPorCapa,epsilon,tau,etha)
-	Red.load_dataset_2(Dataset)
-	erroresTraining, erroresTesting, epoch = Red.train()
-	print '>> epochAlcanzada: ' + str(epoch)
-	print '>> errorTraining: ' + str(erroresTraining[-1])
+def load(ej,Net=None,Dataset=None):
+	print "Cargando Red tipo Ejercicio ",ej
+	Red=perceptron_Multiple()
+	Red.load(Net)
+	erroresTraining, erroresTesting, res = Red.evaluate(Dataset)
 	print '>> errorTesting: ' + str(erroresTesting[-1])	
 	plt.plot(erroresTraining)
 	plt.ylabel('error Training Vs epocas')
@@ -41,46 +45,57 @@ def test_2(Dataset=None, unitsPorCapa=[15], epsilon=0.1, tau=1000, etha=0.01):
 
 def pruebas():
 	print "Perceptron Multiple Mark XLV"
-	#test_1('./datasets/tp1_ej1_training.csv')						 #anda mas o menos estable, pero las epocas de aprendizaje varian mucho de 35 a 300 epocas tipicamente
-	#test_1('./datasets/tp1_ej1_training.csv',[5], 0.1,1000, 0.05)	  #anda muy mal nunca termina de aprender
-	#test_1('./datasets/tp1_ej1_training.csv',[15,10], 0.1,1000, 0.01)#no mejora la de 15, estabiliza alrededor de 300 epocas, aprende en rango de 300 a 1000
-	#test_1('./datasets/tp1_ej1_training.csv',[10,5], 0.1,1000, 0.01) #parece razonable, oscila mas pero llega mas rapido. En alrededor de 100 epocas siempre termina
-	#test_1('./datasets/tp1_ej1_training.csv',[5,5,5], 0.1,1000, 0.01)#oscila horriblemente y es mas lenta que la anterior
-	#test_1('./datasets/tp1_ej1_training.csv',[8,4,3], 0.1,1000, 0.01) #oscila con picos, aprende alrededor de las 300 epocas
-	#test_1('./datasets/tp1_ej1_training.csv',[8,4,3], 0.1,1000, 0.05) #nunca termina de aprender, se estanca el error y baja muy lento
-	#test_1('./datasets/tp1_ej1_training.csv',[10,5], 0.1,1000, 0.05) # no mejora con rate aumentado
-	#test_1('./datasets/tp1_ej1_training.csv',[10,5], 0.1,1000, 0.01)
-	test_1('./datasets/tp1_ej1_training.csv',[10,5], 0.1,100, 0.01)
+	#train(1,'./datasets/tp1_ej1_training.csv',None)						 #anda mas o menos estable, pero las epocas de aprendizaje varian mucho de 35 a 300 epocas tipicamente
+	#train(1,'./datasets/tp1_ej1_training.csv',None,[5], 0.1,1000, 0.05,1)	  #anda muy mal nunca termina de aprender
+	#train(1,'./datasets/tp1_ej1_training.csv',None,[15,10], 0.1,1000, 0.01,1)#no mejora la de 15, estabiliza alrededor de 300 epocas, aprende en rango de 300 a 1000
+	#train(1,'./datasets/tp1_ej1_training.csv',None,[10,5], 0.1,1000, 0.01,1) #parece razonable, oscila mas pero llega mas rapido. En alrededor de 100 epocas siempre termina
+	#train(1,'./datasets/tp1_ej1_training.csv',None,[5,5,5], 0.1,1000, 0.01,1)#oscila horriblemente y es mas lenta que la anterior
+	#train(1,'./datasets/tp1_ej1_training.csv',None,[8,4,3], 0.1,1000, 0.01,1) #oscila con picos, aprende alrededor de las 300 epocas
+	#train(1,'./datasets/tp1_ej1_training.csv',None,[8,4,3], 0.1,1000, 0.05,1) #nunca termina de aprender, se estanca el error y baja muy lento
+	#train(1,'./datasets/tp1_ej1_training.csv',None,[10,5], 0.1,1000, 0.05,1) # no mejora con rate aumentado
+	#train(1,'./datasets/tp1_ej1_training.csv',None,[10,5], 0.1,1000, 0.01,1)
+	train(1,'./datasets/tp1_ej1_training.csv','red.net', [10,5], 0.1, 10, 0.01, 1)
+	load(1,'red.net','./datasets/tp1_ej1_training.csv')
+	#train(2,'./datasets/tp1_ej2_training.csv',None)						 
+	#train(2,'./datasets/tp1_ej2_training.csv',None,[5], 0.1,1000, 0.05,1)	  
+	#train(2,'./datasets/tp1_ej2_training.csv',None,[15,10], 0.1,1000, 0.01,1)
+	#train(2,'./datasets/tp1_ej2_training.csv',None,[10,5], 0.1,1000, 0.01,1) 
+	#train(2,'./datasets/tp1_ej2_training.csv',None,[5,5,5], 0.1,1000, 0.01,1)
+	#train(2,'./datasets/tp1_ej2_training.csv',None,[8,4,3], 0.1,1000, 0.01,1)
+	#train(2,'./datasets/tp1_ej2_training.csv',None,[8,4,3], 0.1,1000, 0.05,1)
+	#train(2,'./datasets/tp1_ej2_training.csv',None,[10,5], 0.1,1000, 0.05,1)
+	#train(2,'./datasets/tp1_ej2_training.csv',None,[10,5], 0.1,1000, 0.01,1)
 
-	#test_2('./datasets/tp1_ej2_training.csv')						 
-	#test_2('./datasets/tp1_ej2_training.csv',[5], 0.1,1000, 0.05)	  
-	#test_2('./datasets/tp1_ej2_training.csv',[15,10], 0.1,1000, 0.01)
-	#test_2('./datasets/tp1_ej2_training.csv',[10,5], 0.1,1000, 0.01) 
-	#test_2('./datasets/tp1_ej2_training.csv',[5,5,5], 0.1,1000, 0.01)
-	#test_2('./datasets/tp1_ej2_training.csv',[8,4,3], 0.1,1000, 0.01)
-	#test_2('./datasets/tp1_ej2_training.csv',[8,4,3], 0.1,1000, 0.05)
-	#test_2('./datasets/tp1_ej2_training.csv',[10,5], 0.1,1000, 0.05)
-	#test_2('./datasets/tp1_ej2_training.csv',[10,5], 0.1,1000, 0.01)
 
 args = sys.argv
 message = "\nModo de uso:\n\
-python main.py (ej1|ej2) -t nomArchivoData parametros\n\
+python main.py (ej1|ej2) -t nomDataSet nomFfileout parametros\n\
 Con los siguientes parametros en orden:\n\
-unidadesXcapa epsilon tau etha\n\n"
+unidadesXcapa epsilon tau etha\n\n\
+-t es para entrenar\
+-l es para testear\
+"
 
 print len(args)
 if len(args)==1:
 	pruebas()
+	sys.exit()
 elif len(args) < 5:
 	print message
 	sys.exit()
+
+cmdTrain = args[2] == "-t"
+cmdLoad = args[2] == "-l"
+
+if(args[1] == "ej1"):
+	ejercicio=1
+elif(args[1] == "ej2"):
+	ejercicio=2
 else:
-	cmdEj1 = args[1] == "ej1"
-	cmdEj2 = args[1] == "ej2"
-	cmdTrain = args[2] == "-t"
-	cmdLoad = args[2] == "-l"
+	print message
+	sys.exit()
 
-if cmdEj1 and cmdTrain:
+if cmdTrain:
 	
 	if len(args) != 11:
 		print "\nIncorrecta cantidad de argumentos para entrenar."
@@ -88,16 +103,16 @@ if cmdEj1 and cmdTrain:
 		sys.exit()
 		
 	archivoDataset = args[3]
+	archivoRed=args[4]
 	unidadesCapaOculta = int(args[5])
 	errorAceptable = float(args[6])
 	maxEpoch = int(args[7])
 	holdoutRate = float(args[8])
 	learningRate = float(args[9])
 	momentum = float(args[10])
-	
-	ej1(archivoDataset, archivoRed, None, None, [30, unidadesCapaOculta, 1], errorAceptable, maxEpoch, holdoutRate, learningRate, momentum)
-	
-elif cmdEj1 and cmdLoad:
+	train(ejercicio,archivoDataset,unidadesCapaOculta,errorAceptable,maxEpoch,learningRate,momentum,holdoutRate)
+
+elif cmdLoad:
 	
 	if len(args) != 5:
 		print "\nIncorrecta cantidad de argumentos para entrenar."
@@ -107,37 +122,6 @@ elif cmdEj1 and cmdLoad:
 	archivoRed = args[3]
 	archivoDataset = args[4]
 	
-	ej1(None, None, archivoRed, archivoDataset)
-	
-elif cmdEj2 and cmdTrain:
-	
-	if len(args) != 11:
-		print "\nIncorrecta cantidad de argumentos para entrenar."
-		print message
-		sys.exit()
-		
-	archivoDataset = args[3]
-	archivoRed = args[4]
-	unidadesCapaOculta = int(args[5])
-	errorAceptable = float(args[6])
-	maxEpoch = int(args[7])
-	holdoutRate = float(args[8])
-	learningRate = float(args[9])
-	momentum = float(args[10])
-	
-	ej2(archivoDataset, archivoRed, None, None, [8, unidadesCapaOculta, 2], errorAceptable, maxEpoch, holdoutRate, learningRate, momentum)
-	
-elif cmdEj2 and cmdLoad:
-	
-	if len(args) != 5:
-		print "\nIncorrecta cantidad de argumentos para entrenar."
-		print message
-		sys.exit()
-		
-	archivoRed = args[3]
-	archivoDataset = args[4]
-
-	ej2(None, None, archivoRed, archivoDataset)
-	
+	load(ejercicio,archivoRed, archivoDataset)
 else:
 	print message

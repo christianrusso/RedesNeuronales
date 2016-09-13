@@ -44,14 +44,14 @@ class perceptron_Multiple:
 				self.Z.append(z_i)
 		self.normalizar_input()
 		self.normalizar_output()
-	
-	def __init__(self,UnitsXCapa,e,t,nl,funcionActivacion=sigmoidea_bipolar):
+		
+	def __init__(self,UnitsXCapa=[],e=0,t=0,nl=0,m=0.6,holdout=1,funcionActivacion=sigmoidea_bipolar):
 		self.funcActivacion = funcionActivacion	
 		self.epsilon = e
 		self.tau = t
 		self.eta = nl
-		self.p = 1	
-		self.momentum = 0.6
+		self.p = 1
+		self.momentum = m
 	 	# CANT CAPAS
 	 	self.L=len(UnitsXCapa)+2
 	 	self.UnitsXCapa=UnitsXCapa
@@ -145,3 +145,43 @@ class perceptron_Multiple:
 			E = self.activation(X_h)-Z_h
 			e += (E**2).sum()
 		return e/(len(X) if len(X) != 0 else 1) 
+
+	def evaluate(self,input):	
+		e=[10]
+		res=[]
+		#for Y_h in input:
+		#	res.append(self.activation(Y_h))
+		return e,e,res	
+
+	def save(self,file):
+		f = open(file, 'w')
+		f.write('Net Save ...\n')
+		f.write(str(self.funcActivacion)+"\n")
+		f.write(str(self.epsilon)+"\n")
+		f.write(str(self.tau)+"\n")
+		f.write(str(self.eta)+"\n")
+		f.write(str(self.p)+"\n")
+		f.write(str(self.momentum)+"\n")
+		f.write(str(self.L)+"\n")
+		f.write(str(self.UnitsXCapa)+"\n")
+		f.write(str(self.Beta)+"\n")
+		f.write(str(self.W))
+		f.write(str(self.dW))
+		f.close()
+
+	def load(self,file):
+		f=open(file)
+		self.funcActivacion = f.read()	
+		self.epsilon = f.read()
+		self.tau = f.read()
+		self.eta = f.read()
+		self.p = f.read()
+		self.momentum = f.read()
+	 	self.L=f.read()
+	 	self.UnitsXCapa=f.read()
+	 	self.Beta=f.read()
+	 	self.W=f.read()
+	 	self.dw=f.read()
+		f.close()
+
+
