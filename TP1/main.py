@@ -4,6 +4,7 @@ from numpy import *
 from pylab import Line2D, plot, axis, show, pcolor, colorbar, bone, savefig
 import pylab as plt
 import sys
+import cPickle
 
 def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.85, modo=0):
 	unitsPorCapa=[15]
@@ -30,17 +31,22 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 	plt.show()
 	if(save_file!=None):
 		print "Guardando Red"
-		Red.save(save_file)
+		with open(save_file, "wb") as output:
+			cPickle.dump(Red, output, cPickle.HIGHEST_PROTOCOL)
 	return mean(erroresTraining), mean(erroresTesting)
 
 def load(ej,Net=None,Dataset=None):
 	print "Cargando Red tipo Ejercicio ",ej
-	Red=perceptron_Multiple()
-	Red.load(Net)
-	erroresTraining, erroresTesting, res = Red.evaluate(Dataset,ej)
-	print '>> errorTesting: ' + str(erroresTesting[-1])	
-	plt.plot(erroresTraining)
-	plt.ylabel('error Training Vs epocas')
+	with open(Net, "rb") as input:
+		Red = cPickle.load(input) # protocol version is auto detected
+	if(ej==1):
+		Red.load_dataset_1(Dataset)
+	else:
+		Red.load_dataset_2(Dataset)
+	lista_error,errorTotal,cantidad_errores = Red.evaluate()
+	print '>> error total acumulado: ' + str(errorTotal)+' Numero de equivocaciones: '+str(cantidad_errores)	
+	plt.plot(lista_error)
+	plt.ylabel('Valor del error')
 	plt.show()
 	return mean(erroresTraining), mean(erroresTesting)
 

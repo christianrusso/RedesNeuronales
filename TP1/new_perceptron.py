@@ -187,17 +187,17 @@ class perceptron_Multiple:
 			e += (E**2).sum()
 		return e/(len(X) if len(X) != 0 else 1) 
 
-	def evaluate(self,input,ejercicio):	
-		e=[10]
-		res=[]
-		# error_v_hist=[]
-		# for i range()
-		# 	e_v = self.testing(self.X[v:],self.Z[v:])
-		# 	error_v_hist.append(e_v)
-			
-		#for Y_h in input:
-		#	res.append(self.activation(Y_h))
-		return e,e,res	
+	def evaluate(self):	
+		e = 0
+		list_error=[]
+		numero_error=0
+		for (X_h, Z_h) in zip(self.X, self.Z):
+			E=self.activation(X_h)-Z_h
+			if(linalg.norm(E)>=0.001):
+				numero_error+=1
+			e+=abs(E)
+			list_error.append(linalg.norm(E))
+		return list_error,e,numero_error	
 
 	def save(self,file):
 		f = open(file, 'w')
@@ -213,21 +213,8 @@ class perceptron_Multiple:
 		f.write(str(self.Beta)+"\n")
 		f.write(str(self.W)+"\n")
 		f.write(str(self.dW))
+		f.write(str(self.Y))
 		f.close()
 
-	def load(self,file):
-		f=open(file)
-		self.funcActivacion = f.read()	
-		self.epsilon = f.read()
-		self.tau = f.read()
-		self.eta = f.read()
-		self.p = f.read()
-		self.momentum = f.read()
-	 	self.L=f.read()
-	 	self.UnitsXCapa=f.read()
-	 	self.Beta=f.read()
-	 	self.W=f.read()
-	 	self.dw=f.read()
-		f.close()
 
 
