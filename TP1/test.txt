@@ -1,0 +1,9 @@
+#Obtener una red y guardarla
+python main.py ej1 -t './datasets/tp1_ej1_training.csv' 'red' 0.1 10 0.75  0.01 0.6 0
+python main.py ej1 -t './datasets/tp1_ej1_training.csv' 'red' 0.1 10 0.75  0.01 0.6 1
+python main.py ej1 -t './datasets/tp1_ej1_training.csv' 'red' 0.1 100 0.85  0.01 0.6 0
+
+#comentarios con # al principio
+
+#Recuperar info de una red
+#python main.py ej1 -l 'red' './datasets/tp1_ej1_training.csv'

@@ -5,6 +5,7 @@ from pylab import Line2D, plot, axis, show, pcolor, colorbar, bone, savefig
 import pylab as plt
 import sys
 import cPickle
+import datetime
 
 def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.85, modo=0):
 	unitsPorCapa=[15]
@@ -23,12 +24,19 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 	print '>> epochAlcanzada: ' + str(epoch)
 	print '>> errorTraining: ' + str(erroresTraining[-1])
 	print '>> errorTesting: ' + str(erroresTesting[-1])	
+	plt.xlabel('Epoca')
 	plt.plot(erroresTraining)
-	plt.ylabel('error Training Vs epocas')
+	plt.ylabel('Error Training')
 	#plt.show()
 	plt.plot(erroresTesting)
 	#plt.ylabel('error Testing Vs epocas')
-	plt.show()
+	#plt.show()
+	plt.grid()
+	r=Dataset.rfind('.')
+	current_time = datetime.datetime.now()
+	img_name= Dataset[0:r]+ " " +str(current_time)+".png"
+	savefig(img_name)
+	plt.close()
 	if(save_file!=None):
 		print "Guardando Red"
 		with open(save_file, "wb") as output:
