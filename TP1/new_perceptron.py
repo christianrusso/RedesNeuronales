@@ -199,22 +199,6 @@ class perceptron_Multiple:
 			list_error.append(linalg.norm(E))
 		return list_error,e,numero_error	
 
-	def save(self,file):
-		f = open(file, 'w')
-		f.write('Net Save ...\n')
-		f.write(str(self.funcActivacion)+"\n")
-		f.write(str(self.epsilon)+"\n")
-		f.write(str(self.tau)+"\n")
-		f.write(str(self.eta)+"\n")
-		f.write(str(self.p)+"\n")
-		f.write(str(self.momentum)+"\n")
-		f.write(str(self.L)+"\n")
-		f.write(str(self.UnitsXCapa)+"\n")
-		f.write(str(self.Beta)+"\n")
-		f.write(str(self.W)+"\n")
-		f.write(str(self.dW))
-		f.write(str(self.Y))
-		f.close()
 
 
 

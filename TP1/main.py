@@ -48,7 +48,7 @@ def load(ej,Net=None,Dataset=None):
 	plt.plot(lista_error)
 	plt.ylabel('Valor del error')
 	plt.show()
-	return mean(erroresTraining), mean(erroresTesting)
+	return mean(lista_error)
 
 def pruebas():
 	print "Perceptron Multiple Mark XLV"
