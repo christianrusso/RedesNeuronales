@@ -9,6 +9,8 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amsthm}
+\usepackage{algpseudocode}
+\usepackage[]{algorithm2e}
 \usepackage{verbatim}
 \usepackage{fancyvrb}
 \usepackage{graphicx}
@@ -167,7 +169,148 @@ Russo, Christian              & 679/10 & christian.russo8@gmail.com\\
 \include{ejercicio1}
 \include{ejercicio2}
 
-\newpage
+
+%Pseudocodigo de Activation
+\begin{center}
+\noindent\fbox{
+\begin{minipage}{0.5\textwidth}
+\begin{algorithm}[H]
+ activation($X_h$)\;
+ $Y_1$ = $X_h$\;
+ \For{j de 2 a L}{
+    $Y_j = f_j(Y_{j-1} * w_j)$\;
+  }
+  return $Y_l$\;
+ \caption{Activation}
+\end{algorithm}
+\end{minipage}
+}
+\end{center}
+
+%Pseudocodigo de Correction
+\begin{center}
+\noindent\fbox{
+\begin{minipage}{0.5\textwidth}
+\begin{algorithm}[H]
+ correction($Z_k$)\;
+  E = (Z-$Y_l$)\;
+  e = $||E||^2$\;
+  \For{j de L a 2}{
+    $D = E * F_j^{'} (Y_{j-1}*W_j)$\;
+    $dw_j = dw_j + simbolo(Y_{j-1}^{T}*D)$\;
+    $E = D*w_j$\;
+  }
+  return e\;
+ \caption{Correction}
+\end{algorithm}
+\end{minipage}
+}
+\end{center}
+
+%Pseudocodigo de Adaptation
+\begin{center}
+\noindent\fbox{
+\begin{minipage}{0.5\textwidth}
+\begin{algorithm}[H]
+ adaptation()\;
+  \For{j de 2 a L}{
+    $W_j = W_j + dw_j$\;
+    $dw_j = w_j + dw_j$\;
+  }
+ \caption{Adaptation}
+\end{algorithm}
+\end{minipage}
+}
+\end{center}
+
+%Pseudocodigo de Trainning Batch
+\begin{center}
+\noindent\fbox{
+\begin{minipage}{0.5\textwidth}
+\begin{algorithm}[H]
+ batch(X,Z)\;
+  $e = 0$\;
+  \For{h de 1 a P}{
+    activation($X_h$)\;
+    e = e + correction($Z_h$)\;
+  }
+  adaptation()\;
+  return e\;
+ \caption{Batch}
+\end{algorithm}
+\end{minipage}
+}
+\end{center}
+
+%Pseudocodigo de Trainning Incremental
+\begin{center}
+\noindent\fbox{
+\begin{minipage}{0.5\textwidth}
+\begin{algorithm}[H]
+ incremental(X,Z)\;
+  $e = 0$\;
+  \For{h de 1 a P}{
+    activation($X_h$)\;
+    e = e + correction($Z_h$)\;
+    adaptation()\;
+  }
+  
+  return e\;
+ \caption{Incremental}
+\end{algorithm}
+\end{minipage}
+}
+\end{center}
+
+%Pseudocodigo de Validacion
+\begin{center}
+\noindent\fbox{
+\begin{minipage}{0.5\textwidth}
+\begin{algorithm}[H]
+ validacion?(e?,T)\;
+  $e = 1$\;
+  $t = 0$\;
+  \While{$0 > e$ y t $<$ T}{
+    e = trainning(X,Z)\;
+    t = t + 1\;
+  }
+  return e,t\;
+ \caption{validacion?}
+\end{algorithm}
+\end{minipage}
+}
+\end{center}
+
+
+
+
+
+
+%Pseudocodigo de Holdout
+\begin{center}
+\noindent\fbox{
+\begin{minipage}{0.5\textwidth}
+\begin{algorithm}[H]
+ holdout(e,T)\;
+  $e = 1$\;
+  $t = 0$\;
+  v = ??\;
+  \While{$e_t > \epsilon $ y t $<$ T}{
+    $e_t$ = trainning($Y_{[:v]}, Z_{[:v]}$)\;
+    $e_v$ = testing($X_{[:v]}, Z_{[:v]}$)\;
+    t = t+1
+  }
+  return ??\;
+ \caption{Holdout}
+\end{algorithm}
+\end{minipage}
+}
+\end{center}
+
+
+
+
+
 
 
 \end{document}
