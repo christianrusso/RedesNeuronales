@@ -59,7 +59,6 @@ class perceptron_Multiple:
 	 	# CANT CAPAS
 	 	self.L=len(UnitsXCapa)+2
 	 	self.UnitsXCapa=UnitsXCapa
-	 	self.UnitsXCapa.append(5)
 	 	self.Beta=1
 
 	def cod(self,c):
@@ -80,11 +79,9 @@ class perceptron_Multiple:
 		for i in xrange(len(self.Z)):
 			self.Z[i] = (self.Z[i] - media_z)/varianza_z
 
-	def train(self,modo=0):
-		#print self.
+	def train(self,modo=0, early=0):
 		self.P = len(self.X)
 		self.S = [shape(self.X)[1]]
-		#S.extend([15 for x in range(2, L)])
 		self.S.extend(self.UnitsXCapa)
 		self.S.append(shape(self.Z)[1])
 		self.S = array(self.S)
@@ -95,51 +92,38 @@ class perceptron_Multiple:
 		self.dW = array([zeros((self.S[j-1]+1, self.S[j])) for j in range(self.L)])
 		self.Y = [zeros((1, self.S[j]+1)) for j in range(self.L-1)]
 		self.Y.append([zeros((1,shape(self.Z)[1]))])
-		if modo==1:
-			print "corriendo en modo incremental"
-			t,error_v_hist,error_t_hist = self.holdout(self.epsilon, self.tau, self.p)
-		else:
-			print "corriendo en modo batch"
-			t,error_v_hist,error_t_hist = self.holdout_batch(self.epsilon, self.tau, self.p)
+		t,error_v_hist,error_t_hist = self.holdout(self.epsilon, self.tau, self.p, modo, early)
 		print error_t_hist[-1],error_v_hist[-1] ,t 
 		return error_t_hist,error_v_hist,t
 
-	def holdout(self,epsilon, tau, p):
+	def holdout(self,epsilon, tau, p, modo, early):
 		e_t = 1
 		e_v = 1
 		t = 0
 		v = int(p*self.P)
 		error_v_hist=[]
 		error_t_hist=[]
+		early_count = 0
 		while(t<self.tau and e_t > self.epsilon):
-			
-			e_t = self.incremental(self.X[:v],self.Z[:v])
+			if modo:
+				if t == 0:
+					print "corriendo en modo incremental"
+				e_t = self.incremental(self.X[:v],self.Z[:v])
+			else:
+				if t == 0:
+					print "corriendo en modo batch"
+				e_t = self.batch(self.X[:v],self.Z[:v])
 			e_v = self.testing(self.X[v:],self.Z[v:])
 			error_v_hist.append(e_v)
 			error_t_hist.append(e_t)
 			t += 1
+			early_count = (early_count+1) if t > 2 and error_v_hist[-1]>error_v_hist[-2] else 0
 			if(t % 10==1):
 				print "epoch", t, "   e_training", e_t, "	e_validation", e_v
+			if early and early_count>=30:
+				print "Early Stopping - 30 epochs de crecimiento de error de validacion"
+				break
 		return t,error_v_hist,error_t_hist
-
-	def holdout_batch(self,epsilon, tau, p):
-		e_t = 1
-		e_v = 1
-		t = 0
-		v = int(p*self.P)
-		error_v_hist=[]
-		error_t_hist=[]
-		while(t<self.tau and e_t > self.epsilon):
-			
-			e_t = self.batch(self.X[:v],self.Z[:v])
-			e_v = self.testing(self.X[v:],self.Z[v:])
-			error_v_hist.append(e_v)
-			error_t_hist.append(e_t)
-			t += 1
-			if(t % 10==1):
-				print "epoch", t, "   e_training", e_t, "	e_validation", e_v
-		return t,error_v_hist,error_t_hist
-
 
 	def incremental(self,X, Z):
 		e = 0

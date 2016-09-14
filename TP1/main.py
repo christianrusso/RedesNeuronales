@@ -7,7 +7,7 @@ import sys
 import cPickle
 import datetime
 
-def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.85, modo=0):
+def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.85, modo=1, early=0):
 	unitsPorCapa=[15]
 	print "Ejercicio ",ejercicio	
 	print "File "+str(Dataset)
@@ -20,7 +20,7 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 		Red.load_dataset_1(Dataset)
 	else:
 		Red.load_dataset_2(Dataset)
-	erroresTraining, erroresTesting, epoch = Red.train(modo)
+	erroresTraining, erroresTesting, epoch = Red.train(modo, early)
 	print '>> epochAlcanzada: ' + str(epoch)
 	print '>> errorTraining: ' + str(erroresTraining[-1])
 	print '>> errorTesting: ' + str(erroresTesting[-1])	
@@ -30,8 +30,8 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 	#plt.show()
 	plt.plot(erroresTesting)
 	#plt.ylabel('error Testing Vs epocas')
-	#plt.show()
 	plt.grid()
+	plt.show()
 	r=Dataset.rfind('.')
 	current_time = datetime.datetime.now()
 	img_name= Dataset[0:r]+ " " +str(current_time)+".png"
@@ -114,7 +114,7 @@ else:
 
 if cmdTrain:
 	
-	if len(args) != 11:
+	if len(args) != 12:
 		print "\nIncorrecta cantidad de argumentos para entrenar."
 		print message
 		sys.exit()
@@ -127,7 +127,8 @@ if cmdTrain:
 	learningRate = float(args[8])
 	momentum = float(args[9])
 	modo=int(args[10])
-	train(ejercicio,archivoDataset,archivoRed,errorAceptable,maxEpoch,learningRate,momentum,holdoutRate,modo)
+	early=int(args[11])
+	train(ejercicio,archivoDataset,archivoRed,errorAceptable,maxEpoch,learningRate,momentum,holdoutRate,modo, early)
 
 elif cmdLoad:
 	
