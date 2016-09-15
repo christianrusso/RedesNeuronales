@@ -93,7 +93,7 @@ class perceptron_Multiple:
 		self.Y = [zeros((1, self.S[j]+1)) for j in range(self.L-1)]
 		self.Y.append([zeros((1,shape(self.Z)[1]))])
 		t,error_v_hist,error_t_hist, error_t_hist_sum, error_v_hist_sum = self.holdout(self.epsilon, self.tau, self.p, modo, early)
-		print error_t_hist[-1],error_v_hist[-1] ,t 
+		# print error_t_hist[-1],error_v_hist[-1] ,t 
 		return error_t_hist,error_v_hist, error_v_hist_sum, error_t_hist_sum, t
 
 	def holdout(self,epsilon, tau, p, modo, early):
@@ -122,8 +122,8 @@ class perceptron_Multiple:
 			error_t_hist_sum.append(e_t_sum)
 			t += 1
 			#early_count = (early_count+1) if t > 2 and error_v_hist[-1]>error_v_hist[-2] else 0
-			if(t % 10==1):
-				print "epoch", t, "   e_training", e_t, "	e_validation", e_v
+			# if(t % 10==1):
+			# 	print "epoch", t, "   e_training", e_t, "	e_validation", e_v
 			# if early and early_count>=30:
 			# 	print "Early Stopping - 30 epochs de crecimiento de error de validacion"
 			# 	break
@@ -189,16 +189,16 @@ class perceptron_Multiple:
 		return e_sum/(len(X) if len(X) != 0 else 1), e_count
 
 	def evaluate(self):	
-		e = 0
+		e_sum = 0
 		list_error=[]
 		numero_error=0
 		for (X_h, Z_h) in zip(self.X, self.Z):
 			E=self.activation(X_h)-Z_h
-			if(linalg.norm(E)>=0.001):
+			if((E**2).sum()>=1):
 				numero_error+=1
-			e+=abs(E)
-			list_error.append(linalg.norm(E))
-		return list_error,e,numero_error	
+			e_sum+=(E**2).sum()
+			list_error.append((E**2).sum())
+		return list_error,e_sum/(len(self.X) if len(self.X) != 0 else 1),numero_error	
 
 
 
