@@ -1,2 +1,52 @@
 \section{Modo de Ejecucion}
-Aca explicamos como correr el codigo.
+
+La manera de ejecutar el programa dado es la siguiente:
+
+
+%python main.py ej1 -t './datasets/tp1_ej1_training.csv' 'red' 0.1 10 0.75  0.01 0.6 1 0 
+\begin{verbatim}
+$ python main.py < ejercicio > < opcion > < archivo_entrada > < archivo_red_salida >  < epsilon > 
+                       < tau > < holdout_rate > < learning_rate > < momentum > < modo > < early >
+\end{verbatim}
+
+Donde:
+
+\begin{enumerate}
+\item ejercicio: \textbf{ej1} o \textbf{ej2} dependiendo el ejercicio que se quiera ejecutar.
+\item opcion: 
+\begin{enumerate}
+\item -t: Entrena y guarda la red.
+\item -l: Carga la red ya entrenada y prueba el nuevo dataset.
+\end{enumerate}
+\item archivo\_entrada: archivo de dataset.
+\item archivo\_red\_salida: archivo donde se guardara la red.
+\item epsilon: Error maximo permitido.
+\item tau: Numero maximo de epocas para ejecutar.
+\item holdout\_rate: Porcentaje del dataset con el que se va a entrenar.
+\item learning\_rate: Coeficiente de aprendizaje.
+\item momentum: Momentum
+\item modo: 
+\begin{enumerate}
+\item 1: Incremental
+\item 0: Batch
+\end{enumerate}
+\item early: 0 (false) o 1 (True)
+\end{enumerate}
+
+
+Por ejemplo: 
+
+Si queremos ejecutar el ejercicio 1 entrenandolo con el dataset \textbf{tp1\_ej1\_training.csv}, guardando la red en el archivo 
+\textbf{red} con un epsilon de \textbf{0.1}, tau de \textbf{1000}, holdout\_rate de \textbf{0.75} learning\_rate de \textbf{0.01}, momentum de \textbf{0.6} con el modo \textbf{Incremental} y \textbf{sin earlystopping} seria:
+
+\begin{verbatim}
+$ python main.py ej1 -t 'tp1_ej1_training.csv' 'red' 0.1 1000 0.75  0.01 0.6 1 0 
+\end{verbatim}
+
+En caso de querer cargar una red ya guardada seria, por ejemplo:
+
+\begin{verbatim}
+$ python main.py ej1 -l 'red' 'tp1_ej1_training.csv'
+\end{verbatim}
+
+Siendo \textbf{red} la red guardada y \textbf{tp1\_ej1\_training.csv} con el que va a probar.

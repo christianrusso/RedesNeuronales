@@ -8,7 +8,7 @@ import cPickle
 import datetime
 
 def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.85, modo=1, early=0):
-	unitsPorCapa=[15]
+	unitsPorCapa=[30]
 	print "Ejercicio ",ejercicio	
 	print "File "+str(Dataset)
 	print "Unidades por capa " + str(unitsPorCapa)
@@ -50,7 +50,9 @@ def load(ej,Net=None,Dataset=None):
 	if(ej==1):
 		Red.load_dataset_1(Dataset)
 	else:
+		print "aca estoy"
 		Red.load_dataset_2(Dataset)
+
 	lista_error,errorTotal,cantidad_errores = Red.evaluate()
 	print '>> error total acumulado: ' + str(errorTotal)+' Numero de equivocaciones: '+str(cantidad_errores)	
 	plt.plot(lista_error)
@@ -59,7 +61,6 @@ def load(ej,Net=None,Dataset=None):
 	return mean(lista_error)
 
 def pruebas():
-	print "Perceptron Multiple Mark XLV"
 	#train(1,'./datasets/tp1_ej1_training.csv',None)						 #anda mas o menos estable, pero las epocas de aprendizaje varian mucho de 35 a 300 epocas tipicamente
 	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.05,1)	  #anda muy mal nunca termina de aprender
 	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.01,1)#no mejora la de 15, estabiliza alrededor de 300 epocas, aprende en rango de 300 a 1000
@@ -93,7 +94,6 @@ epsilon tau holdoutRate etha momentum modo_aprendizaje\n\n\
 modo_aprendizaje = 0 para batch 1 para incremental\
 "
 
-print len(args)
 if len(args)==1:
 	pruebas()
 	sys.exit()
