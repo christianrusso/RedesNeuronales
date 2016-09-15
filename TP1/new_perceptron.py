@@ -49,7 +49,7 @@ class perceptron_Multiple:
 		self.X = array(self.X) # Para pretty print
 		self.Z = array(self.Z)
 
-	def __init__(self,UnitsXCapa=[],e=0,t=0,nl=0,m=0.6,holdout=1,funcionActivacion=sigmoidea_bipolar):
+	def __init__(self,UnitsXCapa=[15],e=0,t=0,nl=0,m=0.6,holdout=1,funcionActivacion=sigmoidea_bipolar):
 		self.funcActivacion = funcionActivacion	
 		self.epsilon = e
 		self.tau = t

@@ -1,14 +1,23 @@
 from new_perceptron import perceptron_Multiple,sigmoidea_bipolar,sigmoidea_logistica
 from numpy import *
 #import matplotlib.pyplot as plt
+from sklearn.grid_search import ParameterGrid
 from pylab import Line2D, plot, axis, show, pcolor, colorbar, bone, savefig
 import pylab as plt
 import sys
 import cPickle
 import datetime
 
-def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.85, modo=1, early=0):
-	unitsPorCapa=[15]
+def wrapper(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.5, modo=1, early=0, unitsPorCapa=[15]):
+	Red=perceptron_Multiple(unitsPorCapa,epsilon,tau,etha,m,holdoutRate)
+	if(ejercicio==1):
+		Red.load_dataset_1(Dataset)
+	else:
+		Red.load_dataset_2(Dataset)
+	error_t_hist,error_v_hist, error_v_hist_sum, error_t_hist_sum, epoch = Red.train(modo, early)
+	return error_v_hist_sum[-1]
+
+def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.5, modo=0, early=0,unitsPorCapa=[15]):
 	print "Ejercicio ",ejercicio	
 	print "File "+str(Dataset)
 	print "Unidades por capa " + str(unitsPorCapa)
@@ -37,7 +46,7 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 	current_time = datetime.datetime.now()
 	img_name= Dataset[0:r]+ "_" +str(current_time)+"_mean.png"
 	plt.savefig(img_name)
-	plt.show()
+	# plt.show()
 	plt.close()
 	plt.title("Ejercicio "+str(ejercicio))
 	plt.xlabel('epoch')
@@ -50,7 +59,7 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 	plt.legend()
 	img_name= Dataset[0:r]+ " " +str(current_time)+"_sum.png"
 	plt.savefig(img_name)
-	plt.show()
+	# plt.show()
 	plt.close()
 
 	if(save_file!=None):
@@ -74,6 +83,7 @@ def load(ej,Net=None,Dataset=None):
 	plt.show()
 	return mean(lista_error)
 
+
 def pruebas():
 	print "Perceptron Multiple Mark XLV"
 	#train(1,'./datasets/tp1_ej1_training.csv',None)						 #anda mas o menos estable, pero las epocas de aprendizaje varian mucho de 35 a 300 epocas tipicamente
@@ -86,7 +96,21 @@ def pruebas():
 	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.05,1) # no mejora con rate aumentado
 	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.01,1)
 	#train(1,'./datasets/tp1_ej1_training.csv','red.net', 0.1, 1000, 0.01, 1)
-	train(1,'./datasets/tp1_ej1_training.csv','red.net') #, 0.1, 1000, 0.01, 1)
+	
+	
+	param_grid = {'1': [1],"2":['./datasets/tp1_ej1_training.csv'],"3": [None], "4":[0.1], "5": [1000], "6":[0.001,0.01,0.1,0.5], "7":[0.1,0.3,0.5, 0.7], "8": [0.60], "9": [0,1], "10":[0], "11":[[15],[8,8]]}
+
+	grid = ParameterGrid(param_grid)
+
+	best_error = None
+	best_params = None
+	for params in grid:
+	    e = wrapper(params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],params['9'],params['10'],params['11'] )
+	    if e < best_error:
+	    	best_error = e
+	    	best_params = [params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],params['9'],params['10'],params['11']]
+
+	print best_params
 	#load(1,'red.net','./datasets/tp1_ej1_training.csv')
 	#train(2,'./datasets/tp1_ej2_training.csv',None)						 
 	#train(2,'./datasets/tp1_ej2_training.csv',None, 0.1,1000, 0.05,1)	  
