@@ -20,28 +20,44 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 		Red.load_dataset_1(Dataset)
 	else:
 		Red.load_dataset_2(Dataset)
-	erroresTraining, erroresTesting, epoch = Red.train(modo, early)
+	error_t_hist,error_v_hist, error_v_hist_sum, error_t_hist_sum, epoch = Red.train(modo, early)
 	print '>> epochAlcanzada: ' + str(epoch)
-	print '>> errorTraining: ' + str(erroresTraining[-1])
-	print '>> errorTesting: ' + str(erroresTesting[-1])	
-	plt.xlabel('Epoca')
-	plt.plot(erroresTraining)
-	plt.ylabel('Error Training')
+	print '>> errorTraining: ' + str(error_t_hist[-1])
+	print '>> errorTesting: ' + str(error_v_hist[-1])	
+	plt.xlabel('Epoch')
+	plt.title("Ejercicio "+str(ejercicio))
+	plt.plot(error_t_hist, label="Training")
+	plt.ylabel('Promedio de errores')
 	#plt.show()
-	plt.plot(erroresTesting)
+	plt.plot(error_v_hist, label="Validacion")
 	#plt.ylabel('error Testing Vs epocas')
 	plt.grid()
-	plt.show()
+	plt.legend()
 	r=Dataset.rfind('.')
 	current_time = datetime.datetime.now()
-	img_name= Dataset[0:r]+ " " +str(current_time)+".png"
-	savefig(img_name)
+	img_name= Dataset[0:r]+ "_" +str(current_time)+"_mean.png"
+	plt.savefig(img_name)
+	plt.show()
 	plt.close()
+	plt.title("Ejercicio "+str(ejercicio))
+	plt.xlabel('epoch')
+	plt.plot(error_t_hist_sum, label="Training")
+	plt.ylabel('Suma de errores')
+	#plt.show()
+	plt.plot(error_v_hist_sum, label="Validacion")
+	#plt.ylabel('error Testing Vs epocas')
+	plt.grid()
+	plt.legend()
+	img_name= Dataset[0:r]+ " " +str(current_time)+"_sum.png"
+	plt.savefig(img_name)
+	plt.show()
+	plt.close()
+
 	if(save_file!=None):
 		print "Guardando Red"
 		with open(save_file, "wb") as output:
 			cPickle.dump(Red, output, cPickle.HIGHEST_PROTOCOL)
-	return mean(erroresTraining), mean(erroresTesting)
+	return mean(error_t_hist), mean(error_v_hist)
 
 def load(ej,Net=None,Dataset=None):
 	print "Cargando Red tipo Ejercicio ",ej
