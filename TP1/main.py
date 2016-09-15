@@ -14,8 +14,14 @@ def wrapper(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=
 		Red.load_dataset_1(Dataset)
 	else:
 		Red.load_dataset_2(Dataset)
-	error_t_hist,error_v_hist, error_v_hist_sum, error_t_hist_sum, epoch = Red.train(modo, early)
-	return error_v_hist_sum[-1]
+	best_error = -1
+	for _ in xrange(5):
+		error_t_hist,error_v_hist, error_v_hist_sum, error_t_hist_sum, epoch = Red.train(modo, early)
+		# print error_v_hist_sum[-1]
+
+		if best_error == -1 or error_v_hist_sum[-1] < best_error:
+			best_error = error_v_hist_sum[-1]
+	return best_error
 
 def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.5, modo=0, early=0,unitsPorCapa=[15]):
 	print "Ejercicio ",ejercicio	
@@ -98,7 +104,7 @@ def pruebas():
 	#train(1,'./datasets/tp1_ej1_training.csv','red.net', 0.1, 1000, 0.01, 1)
 	
 	
-	param_grid = {'1': [1],"2":['./datasets/tp1_ej1_training.csv'],"3": [None], "4":[0.1], "5": [1000], "6":[0.001,0.01,0.1,0.5], "7":[0.1,0.3,0.5, 0.7], "8": [0.60], "9": [0,1], "10":[0], "11":[[15],[8,8]]}
+	param_grid = {'1': [1],"2":['./datasets/tp1_ej1_training.csv'],"3": [None], "4":[0.1], "5": [100], "6":[0.001,0.01,0.1,0.5], "7":[0.1,0.3,0.5, 0.7], "8": [0.60], "9": [0,1], "10":[0], "11":[[15],[8,8]]}
 
 	grid = ParameterGrid(param_grid)
 
@@ -106,6 +112,7 @@ def pruebas():
 	best_params = None
 	for params in grid:
 	    e = wrapper(params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],params['9'],params['10'],params['11'] )
+	    print e
 	    if e < best_error:
 	    	best_error = e
 	    	best_params = [params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],params['9'],params['10'],params['11']]
