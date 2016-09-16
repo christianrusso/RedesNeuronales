@@ -5,3 +5,4 @@
 *.pdf
 *.pyc
 *synctex.gz
+*grid_search/

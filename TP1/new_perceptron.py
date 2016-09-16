@@ -16,36 +16,26 @@ def sigmoidea_logistica(vector, derivative=False):
 
 class perceptron_Multiple:
 
-	def load_dataset_1(self,dataset):
+	def load_dataset(self,dataset, ejercicio):
 		# print "> Cargando dataset..."	
 		f = open(dataset)
 		self.X = []
 		self.Z = []
 		for line in f:
 			if line.rstrip():
-				r = line.rstrip().split(", ")
-				x_i = map(float, r[1:])
-				z_i = map(self.cod, r[0])
+				if ejercicio == 1:
+					r = line.rstrip().split(", ")
+					x_i = map(float, r[1:])
+					z_i = map(self.cod, r[0])
+				else:
+					r = line.rstrip().split(",	")
+					x_i = map(float, r[:-2])
+					z_i = map(float, r[-2:])
 				self.X.append(x_i)
 				self.Z.append(z_i)
-		self.normalizar_input()
-		self.X = array(self.X) # Para pretty print
-		self.Z = array(self.Z)
-		
-	def load_dataset_2(self,dataset):
-		# print "> Cargando dataset..."	
-		f = open(dataset)
-		self.X = []
-		self.Z = []
-		for line in f:
-			if line.rstrip():
-				r = line.rstrip().split(",	")
-				x_i = map(float, r[:-2])
-				z_i = map(float, r[-2:])
-				self.X.append(x_i)
-				self.Z.append(z_i)
-		self.normalizar_input()
-		self.normalizar_output()
+		self.normalizar(self.X)
+		if ejercicio != 1:
+			self.normalizar(self.Z)
 		self.X = array(self.X) # Para pretty print
 		self.Z = array(self.Z)
 
@@ -67,17 +57,11 @@ class perceptron_Multiple:
 		else:
 			return -1 
 
-	def normalizar_input(self):
-		media = mean(self.X, axis= 0) 
-		varianza = std(self.X, axis=0)
-		for i in xrange(len(self.X)):
-			self.X[i] = (self.X[i] - media )/varianza	
-
-	def normalizar_output(self):
-		media_z = mean(self.Z, axis= 0) 
-		varianza_z = std(self.Z, axis=0)
-		for i in xrange(len(self.Z)):
-			self.Z[i] = (self.Z[i] - media_z)/varianza_z
+	def normalizar(self, array):
+		media = mean(array, axis= 0) 
+		varianza = std(array, axis=0)
+		for i in xrange(len(array)):
+			array[i] = (array[i] - media )/varianza	
 
 	def train(self,modo=0, early=0):
 		self.P = len(self.X)
@@ -107,14 +91,11 @@ class perceptron_Multiple:
 		error_t_hist_sum=[]
 		early_count = 0
 		while(t<self.tau and e_t > self.epsilon):
-			if modo:
-				# if t == 0:
-					# print "corriendo en modo incremental"
-				e_t, e_t_sum = self.incremental(self.X[:v],self.Z[:v])
-			else:
-				# if t == 0:
-					# print "corriendo en modo batch"
-				e_t, e_t_sum = self.batch(self.X[:v],self.Z[:v])
+			# if t == 0 and modo:
+			# 	print "Modo incremental"
+			# elif t == 0 and not modo:
+			# 	print "Modo batch"			
+			e_t, e_t_sum = self.training(self.X[:v],self.Z[:v], modo)
 			e_v, e_v_sum = self.testing(self.X[v:],self.Z[v:])
 			error_v_hist.append(e_v)
 			error_t_hist.append(e_t)
@@ -129,7 +110,7 @@ class perceptron_Multiple:
 			# 	break
 		return t,error_v_hist,error_t_hist, error_t_hist_sum, error_v_hist_sum
 
-	def incremental(self,X, Z):
+	def training(self,X, Z, modo):
 		e_count = 0
 		e_sum = 0
 		for h in range(len(X)): 
@@ -138,19 +119,10 @@ class perceptron_Multiple:
 			if e > self.epsilon:
 				e_count += 1
 			e_sum += e
-			self.adaptation()
-		return e_sum/(len(X) if len(X) != 0 else 1), e_count
-
-	def batch(self,X, Z):
-		e_count = 0
-		e_sum = 0
-		for h in range(len(X)): 
-			self.activation(X[h])
-			e = self.correction(Z[h])
-			if e > self.epsilon:
-				e_count += 1
-			e_sum += e
-		self.adaptation()
+			if modo:
+				self.adaptation()
+		if not modo:
+			self.adaptation()	
 		return e_sum/(len(X) if len(X) != 0 else 1), e_count
 
 	def activation(self,X_h):
