@@ -15,12 +15,40 @@ def wrapper(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=
 	else:
 		Red.load_dataset_2(Dataset)
 	best_error = -1
-	for _ in xrange(5):
+	error_t_hist_best = None
+	error_v_hist_best = None
+	error_v_hist_sum_best = None
+	error_t_hist_sum_best = None
+	for _ in xrange(3):
 		error_t_hist,error_v_hist, error_v_hist_sum, error_t_hist_sum, epoch = Red.train(modo, early)
-		# print error_v_hist_sum[-1]
-
 		if best_error == -1 or error_v_hist_sum[-1] < best_error:
 			best_error = error_v_hist_sum[-1]
+			error_t_hist_best = error_t_hist
+			error_v_hist_best = error_v_hist
+			error_v_hist_sum_best = error_v_hist_sum
+			error_t_hist_sum_best = error_t_hist_sum
+	plt.xlabel('Epoch')
+	plt.title("Ejercicio "+str(ejercicio))
+	plt.plot(error_t_hist_best, label="Training")
+	plt.ylabel('Promedio de errores')
+	plt.plot(error_v_hist_best, label="Validacion")
+	plt.grid()
+	plt.legend()
+	img_name= "ej"+str(ejercicio)+"_"+str(etha)+"_"+str(m)+"_"+str(modo)+"_"+str(unitsPorCapa)+"_mean.png"
+	plt.savefig("./grid_search/"+img_name)
+	plt.close()
+	plt.title("Ejercicio "+str(ejercicio))
+	plt.xlabel('Epoch')
+	plt.plot(error_t_hist_sum_best, label="Training")
+	plt.ylabel('Suma de errores')
+	plt.plot(error_v_hist_sum_best, label="Validacion")
+	plt.grid()
+	plt.legend()
+	img_name= "ej"+str(ejercicio)+"_"+str(etha)+"_"+str(m)+"_"+str(modo)+"_"+str(unitsPorCapa)+"_sum.png"
+	plt.savefig("./grid_search/"+img_name)
+	plt.close()
+
+
 	return best_error
 
 def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.5, modo=0, early=0,unitsPorCapa=[15]):
@@ -91,44 +119,45 @@ def load(ej,Net=None,Dataset=None):
 
 
 def pruebas():
-	print "Perceptron Multiple Mark XLV"
-	#train(1,'./datasets/tp1_ej1_training.csv',None)						 #anda mas o menos estable, pero las epocas de aprendizaje varian mucho de 35 a 300 epocas tipicamente
-	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.05,1)	  #anda muy mal nunca termina de aprender
-	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.01,1)#no mejora la de 15, estabiliza alrededor de 300 epocas, aprende en rango de 300 a 1000
-	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.01,1) #parece razonable, oscila mas pero llega mas rapido. En alrededor de 100 epocas siempre termina
-	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.01,1)#oscila horriblemente y es mas lenta que la anterior
-	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.01,1) #oscila con picos, aprende alrededor de las 300 epocas
-	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.05,1) #nunca termina de aprender, se estanca el error y baja muy lento
-	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.05,1) # no mejora con rate aumentado
-	#train(1,'./datasets/tp1_ej1_training.csv',None, 0.1,1000, 0.01,1)
-	#train(1,'./datasets/tp1_ej1_training.csv','red.net', 0.1, 1000, 0.01, 1)
+	print "Grid search de parametros para mejor modelo"
 	
-	
-	param_grid = {'1': [1],"2":['./datasets/tp1_ej1_training.csv'],"3": [None], "4":[0.1], "5": [100], "6":[0.001,0.01,0.1,0.5], "7":[0.1,0.3,0.5, 0.7], "8": [0.60], "9": [0,1], "10":[0], "11":[[15],[8,8]]}
-
+	# EJERCICIO 1 
+	# param_grid = {'1': [1],"2":['./datasets/tp1_ej1_training.csv'],"3": [None], "4":[0.1], "5": [200], "6":[0.001], "7":[0.1], "8": [0.70], "9": [0], "10":[0], "11":[[5]]}
+	param_grid = {'1': [1],"2":['./datasets/tp1_ej1_training.csv'],"3": [None], "4":[0.1], "5": [200], "6":[0.001,0.01,0.1,0.5, 0.005, 0.2, 0.3, 0.4], "7":[0.1,0.3,0.5, 0.7, 0.9], "8": [0.70], "9": [0,1], "10":[0], "11":[[5],[10],[15],[20],[25],[15,15],[5,5],[10,10]]}
 	grid = ParameterGrid(param_grid)
-
 	best_error = None
 	best_params = None
+	print "Ejercicio 1"
+	print len(grid), "modelos distintos"
+	i = 0
+	print "i 	error"
 	for params in grid:
 	    e = wrapper(params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],params['9'],params['10'],params['11'] )
-	    print e
-	    if e < best_error:
+	    print i, e
+	    i += 1
+	    if best_error == None or e < best_error:
 	    	best_error = e
 	    	best_params = [params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],params['9'],params['10'],params['11']]
-
-	print best_params
-	#load(1,'red.net','./datasets/tp1_ej1_training.csv')
-	#train(2,'./datasets/tp1_ej2_training.csv',None)						 
-	#train(2,'./datasets/tp1_ej2_training.csv',None, 0.1,1000, 0.05,1)	  
-	#train(2,'./datasets/tp1_ej2_training.csv',None,0.1,1000, 0.01,1)
-	#train(2,'./datasets/tp1_ej2_training.csv',None, 0.1,1000, 0.01,1) 
-	#train(2,'./datasets/tp1_ej2_training.csv',None, 0.1,1000, 0.01,1)
-	#train(2,'./datasets/tp1_ej2_training.csv',None,0.1,1000, 0.01,1)
-	#train(2,'./datasets/tp1_ej2_training.csv',None, 0.1,1000, 0.05,1)
-	#train(2,'./datasets/tp1_ej2_training.csv',None,0.1,1000, 0.05,1)
-	#train(2,'./datasets/tp1_ej2_training.csv',None,0.1,1000, 0.01,1)
-
+	print "MEJOR ERROR Y MODELO EJERCICIO 1"
+	print best_error, best_params
+	# EJERCICIO 2
+	param_grid = {'1': [2],"2":['./datasets/tp1_ej2_training.csv'],"3": [None], "4":[0.1], "5": [200], "6":[0.001,0.01,0.1,0.5, 0.005, 0.2, 0.3, 0.4], "7":[0.1,0.3,0.5, 0.7, 0.9], "8": [0.70], "9": [0,1], "10":[0], "11":[[5],[10],[15],[20],[25],[15,15],[5,5],[10,10]]}
+	grid = ParameterGrid(param_grid)
+	best_error = None
+	best_params = None
+	print "Ejercicio 2"
+	print len(grid), "modelos distintos"
+	i = 0
+	print "i 	error"
+	for params in grid:
+	    e = wrapper(params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],params['9'],params['10'],params['11'] )
+	    print i, e
+	    i += 1
+	    if best_error == None or e < best_error:
+	    	best_error = e
+	    	best_params = [params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],params['9'],params['10'],params['11']]
+	print "MEJOR ERROR Y MODELO EJERCICIO 2"
+	print best_error, best_params
 
 args = sys.argv
 message = "\nModo de uso:\n\
@@ -140,7 +169,7 @@ epsilon tau holdoutRate etha momentum modo_aprendizaje\n\n\
 modo_aprendizaje = 0 para batch 1 para incremental\
 "
 
-print len(args)
+# print len(args)
 if len(args)==1:
 	pruebas()
 	sys.exit()

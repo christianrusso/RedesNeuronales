@@ -17,7 +17,7 @@ def sigmoidea_logistica(vector, derivative=False):
 class perceptron_Multiple:
 
 	def load_dataset_1(self,dataset):
-		print "> Cargando dataset..."	
+		# print "> Cargando dataset..."	
 		f = open(dataset)
 		self.X = []
 		self.Z = []
@@ -33,7 +33,7 @@ class perceptron_Multiple:
 		self.Z = array(self.Z)
 		
 	def load_dataset_2(self,dataset):
-		print "> Cargando dataset..."	
+		# print "> Cargando dataset..."	
 		f = open(dataset)
 		self.X = []
 		self.Z = []
@@ -108,12 +108,12 @@ class perceptron_Multiple:
 		early_count = 0
 		while(t<self.tau and e_t > self.epsilon):
 			if modo:
-				if t == 0:
-					print "corriendo en modo incremental"
+				# if t == 0:
+					# print "corriendo en modo incremental"
 				e_t, e_t_sum = self.incremental(self.X[:v],self.Z[:v])
 			else:
-				if t == 0:
-					print "corriendo en modo batch"
+				# if t == 0:
+					# print "corriendo en modo batch"
 				e_t, e_t_sum = self.batch(self.X[:v],self.Z[:v])
 			e_v, e_v_sum = self.testing(self.X[v:],self.Z[v:])
 			error_v_hist.append(e_v)
