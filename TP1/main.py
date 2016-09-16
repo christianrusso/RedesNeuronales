@@ -3,6 +3,8 @@ from numpy import *
 #import matplotlib.pyplot as plt
 from sklearn.grid_search import ParameterGrid
 from pylab import Line2D, plot, axis, show, pcolor, colorbar, bone, savefig
+from timeit import default_timer as timer 
+
 import pylab as plt
 import sys
 import cPickle
@@ -131,15 +133,21 @@ def pruebas():
 	print len(grid), "modelos distintos"
 	i = 0
 	print "i 	error"
+	start = timer()
 	for params in grid:
 	    e = wrapper(params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],params['9'],params['10'],params['11'] )
 	    print i, e
 	    i += 1
+	    if i%50 == 0:
+	    	end = timer()
+	    	print int((end-start)/60), " min"
 	    if best_error == None or e < best_error:
 	    	best_error = e
 	    	best_params = [params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],params['9'],params['10'],params['11']]
 	print "MEJOR ERROR Y MODELO EJERCICIO 1"
 	print best_error, best_params
+	end = timer()
+	print (end-start)/60, " min"
 	# EJERCICIO 2
 	param_grid = {'1': [2],"2":['./datasets/tp1_ej2_training.csv'],"3": [None], "4":[0.1], "5": [200], "6":[0.001,0.01,0.1,0.5, 0.005, 0.2, 0.3, 0.4], "7":[0.1,0.3,0.5, 0.7, 0.9], "8": [0.70], "9": [0,1], "10":[0], "11":[[5],[10],[15],[20],[25],[15,15],[5,5],[10,10]]}
 	grid = ParameterGrid(param_grid)
@@ -149,16 +157,22 @@ def pruebas():
 	print len(grid), "modelos distintos"
 	i = 0
 	print "i 	error"
+	start = timer()
 	for params in grid:
 	    e = wrapper(params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],params['9'],params['10'],params['11'] )
 	    print i, e
 	    i += 1
+	    if i%50 == 0:
+	    	end = timer()
+	    	print int((end-start)/60), " min"
 	    if best_error == None or e < best_error:
 	    	best_error = e
 	    	best_params = [params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],params['9'],params['10'],params['11']]
 	print "MEJOR ERROR Y MODELO EJERCICIO 2"
 	print best_error, best_params
-
+	end = timer()
+	print int((end-start)/60), " min"
+	
 args = sys.argv
 message = "\nModo de uso:\n\
 python main.py (ej1|ej2) -t nomDataSet nomFfileout parametros\n\
