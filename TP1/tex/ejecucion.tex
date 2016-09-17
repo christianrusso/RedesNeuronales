@@ -6,7 +6,7 @@ La manera de ejecutar el programa dado es la siguiente:
 %python main.py ej1 -t './datasets/tp1_ej1_training.csv' 'red' 0.1 10 0.75  0.01 0.6 1 0 
 \begin{verbatim}
 $ python main.py < ejercicio > < opcion > < archivo_entrada > < archivo_red_salida >  < epsilon > 
-                       < tau > < holdout_rate > < learning_rate > < momentum > < modo > < early >
+                       < tau > < learning_rate > < momentum > < holdout_rate > < modo > < early >
 \end{verbatim}
 
 Donde:
@@ -22,9 +22,9 @@ Donde:
 \item archivo\_red\_salida: archivo donde se guardara la red.
 \item epsilon: Error maximo permitido.
 \item tau: Numero maximo de epocas para ejecutar.
-\item holdout\_rate: Porcentaje del dataset con el que se va a entrenar.
 \item learning\_rate: Coeficiente de aprendizaje.
 \item momentum: Momentum
+\item holdout\_rate: Porcentaje del dataset con el que se va a entrenar.
 \item modo: 
 \begin{enumerate}
 \item 1: Incremental
