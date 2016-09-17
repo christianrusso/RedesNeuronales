@@ -181,7 +181,9 @@ if cmdTrain:
 	if len(args) > 11:
 		early=int(args[11])
 	if len(args) > 12:
-		unitsPorCapa=int(args[11])
+		#unitsPorCapa=int(args[11])
+		str1=str(args[12])
+		unitsPorCapa=map(int, str1[1:-1].split(','))
 	train(ejercicio,archivoDataset,archivoRed,errorAceptable,maxEpoch,learningRate,momentum,holdoutRate,modo, early, unitsPorCapa)
 
 elif cmdLoad:
