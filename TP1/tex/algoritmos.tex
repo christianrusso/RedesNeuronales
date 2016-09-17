@@ -29,8 +29,8 @@ En caso de que en algun ejercicios hallamos hecho algo en particular, sera aclar
   e = $||E||^2$\;
   \For{j de L a 2}{
     $D = E * F_j^{'} (Y_{j-1}*W_j)$\;
-    $dw_j = dw_j + simbolo(Y_{j-1}^{T}*D)$\;
-    $E = D*w_j$\;
+    $dw_j = dw_j + \eta (Y_{j-1}^{T}*D)$\;
+    $E = D*w_j^{t}$\;
   }
   return e\;
  \caption{Correction}
@@ -99,7 +99,7 @@ En caso de que en algun ejercicios hallamos hecho algo en particular, sera aclar
 \noindent\fbox{
 \begin{minipage}{0.5\textwidth}
 \begin{algorithm}[H]
- validacion?(e?,T)\;
+ validacion(e?,T)\;
   $e = 1$\;
   $t = 0$\;
   \While{$0 > e$ y t $<$ T}{
@@ -107,7 +107,7 @@ En caso de que en algun ejercicios hallamos hecho algo en particular, sera aclar
     t = t + 1\;
   }
   return e,t\;
- \caption{validacion?}
+ \caption{validacion}
 \end{algorithm}
 \end{minipage}
 }
@@ -123,16 +123,17 @@ En caso de que en algun ejercicios hallamos hecho algo en particular, sera aclar
 \noindent\fbox{
 \begin{minipage}{0.5\textwidth}
 \begin{algorithm}[H]
- holdout(e,T)\;
-  $e = 1$\;
+ holdout($\epsilon$,T)\;
+  $e_t = 1$\;
   $t = 0$\;
-  v = ??\;
+  $e_v = 1$\;
+  v = ?? \;
   \While{$e_t > \epsilon $ y t $<$ T}{
     $e_t$ = trainning($Y_{[:v]}, Z_{[:v]}$)\;
     $e_v$ = testing($X_{[:v]}, Z_{[:v]}$)\;
     t = t+1
   }
-  return ??\;
+  return $e_v,t$\;
  \caption{Holdout}
 \end{algorithm}
 \end{minipage}

@@ -25,6 +25,27 @@
 \usepackage[toc, page]{appendix}
 
 
+% Codigo fuente.
+\usepackage{listings}
+\lstset{
+  language=C++,
+  basicstyle=\small\sffamily,
+  numbers=left,
+  numberstyle=\tiny,
+  frame=tb,
+  columns=fullflexible,
+  showstringspaces=false
+}
+
+\newcommand\todo[1]{\Large\textbf{\textcolor{red}{#1}}\normalsize}
+
+
+\usepackage{chngcntr} % Numeracion granular de distintos entornos.
+\counterwithin{table}{section}
+\AtBeginDocument{\counterwithin{lstlisting}{section}}
+
+
+
 %%%%%%%%%% Constantes - Inicio %%%%%%%%%%
 \newcommand{\titulo}{Trabajo Práctico 1}
 \newcommand{\materia}{Redes Neuronales}
@@ -170,11 +191,6 @@ Russo, Christian              & 679/10 & christian.russo8@gmail.com\\
 \include{ejercicio1}
 \include{ejercicio2}
 \include{ejecucion}
-
-
-
-
-
 
 
 
