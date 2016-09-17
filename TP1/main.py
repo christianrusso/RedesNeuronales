@@ -71,7 +71,7 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 			cPickle.dump(Red, output, cPickle.HIGHEST_PROTOCOL)
 	return error_t_hist_sum[-1], error_v_hist_sum[-1]
 
-def load(ej,Dataset, Net, prnt=True):
+def load(ej,Net,Dataset, prnt=True):
 	print "Cargando Red tipo Ejercicio ",ej
 	with open(Net, "rb") as input:
 		Red = cPickle.load(input) # protocol version is auto detected
