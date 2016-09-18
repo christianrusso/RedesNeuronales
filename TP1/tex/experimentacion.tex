@@ -1,0 +1,49 @@
+\section{Experimentacion}
+\subsection{Busqueda exhautiva}
+Para la realizacion de los experimientos implementamos un algoritmo de busqueda exhautiva para buscar el mejor modelo en cada caso. 
+
+El algoritmo es el siguiente:
+
+\begin{lstlisting}[caption=grid\_search]
+def grid_search(param_grid):
+	grid = ParameterGrid(param_grid)
+	best_error = None
+	best_params = None
+	print "Ejercicio "+str(param_grid["1"])
+	print len(grid), "modelos distintos"
+	i = 0
+	print "i 	error(training, validacion)"
+	start = timer()
+	for params in grid:
+	    e = train(params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],
+	    	params['8'],params['9'],params['10'],params['11'], True )
+	    print i, "	", e
+	    i += 1
+	    if i%50 == 0:
+	    	end = timer()
+	    	print int((end-start)/60), " min"
+	    if best_error == None or e < best_error:
+	    	best_error = e
+	    	best_params = [params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],
+	    	params['9'],params['10'],params['11']]
+	print "MEJOR ERROR Y MODELO EJERCICIO "+str(param_grid["1"])
+	print "training, validacion:", best_error
+	print "parametros:", best_params
+	end = timer()
+	print int((end-start)/60), " min"
+\end{lstlisting}
+
+Y la forma de instanciarlo es la siguiente:
+
+\begin{lstlisting}[caption=Instanciacion]
+param_grid = {'1': [1],"2":['./datasets/tp1_ej1_training.csv'],"3": [None], "4":[0.1], "5": [200], 
+			"6":[0.001,0.01,0.1,0.5, 0.005, 0.2, 0.3, 0.4], "7":[0.1,0.3,0.5, 0.7, 0.9], "8": [0.70], 
+			"9": [0,1], "10":[0], "11":[[5],[10],[15],[20],[25],[15,15],[5,5],[10,10]]}
+\end{lstlisting}
+
+La idea es bastante simple, lo que hacemos es pasar por parametro una lista con todos los posibles para parametros y el algoritmo corre un ciclo, donde en cada ciclo prueba con un parametro distinto guardandoce el mejor modelo para finalmente imprimirlo por la consola.
+
+De esta forma logramos quedarnos con la mejor arquitectura en cada ejercicio. PERO DE TODAS FORMAS, HICIMOS PRUEBAS MANUALES PARA VALIDAD QUE ESTO ERA CIERTO Y PARA ESTO HICIMOS EL SIGUIENTE ANALISIS.
+\subsection{Ejercicio 1}
+\subsection{Ejercicio 2}
+\subsection{Conclusion}
