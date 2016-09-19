@@ -6,3 +6,9 @@ Cada una de estas entradas corrresponde a los datos de distintos pacientes, es i
 Sobre este primer dataset se buscara entrenar una red neuronal para poder predecir, dado un nuevo paciente con sus datos, si su estado sera el de tener cancer o no.
 
 Este tipo de problemas se denomina un \textbf{problema de clasificacion}
+
+Para resolver este problema decidimos utilizar un perceptron multicapa con una funcion de activacion sigmoidea bipolar. No utilizamos un perceptron simple debido a que este no siempre es capaz de generalizar y cualquier funcion que el simple sea capaz de aprender, el multicapa tambien lo hara.
+
+Como primer medida, para mantener la estabilidad numerica del calculo, decidimos normalizar la entrada. Esto se debe a que al implementarse sobre aritmetica finita, los errores numericos tienden a propagarse mucho mas rapido cuando se aplica operaciones sobre numeros grandes que en los pequenos.
+
+Por otro lado, al no conocer cual es el modelo optimo de redes neuronales para este problema, decidimos correr un algoritmo de busqueda para estimar cual es el numero apropiado de capas y neuronas. Tomando este resultado, intentamos mejorarlo analizando el comportamiento variando poco a poco las capas y analizando los graficos de error cometido y unidades equivocadas. Este proceso esta descripto con mas detalle en la \textbf{seccion de experimentacion} del ejercicio 1
