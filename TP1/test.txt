@@ -1,2 +1,2 @@
-python main.py ej1 -t './datasets/tp1_ej1_training.csv' redMejorEj1 0.1 200 0.01 0.9 0.7 1 0 [5,5]
+python main.py ej2 -t './datasets/tp1_ej2_training.csv' redMejorEj2 0.1 200 0.005 0.9 0.7 1 0 [5]
 
