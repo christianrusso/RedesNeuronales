@@ -10,7 +10,7 @@ import sys
 import cPickle
 import datetime
 
-def imprimirImagen(ejercicio, error_t_hist,error_v_hist, suma, img_name, prnt=False, save=True):
+def imprimirImagen(ejercicio, error_t_hist,error_v_hist, suma, img_name, prnt=True, save=True):
 	plt.xlabel('Epoch')
 	plt.title("Ejercicio "+str(ejercicio))
 	plt.plot(error_t_hist, label="Training")
@@ -23,10 +23,10 @@ def imprimirImagen(ejercicio, error_t_hist,error_v_hist, suma, img_name, prnt=Fa
 	plt.plot(error_v_hist, label="Validacion")
 	plt.grid()
 	plt.legend()
-	if prnt:
-		plt.show()
 	if save:
 		plt.savefig(img_name)
+	if prnt:
+		plt.show()
 	plt.close()
 
 def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.5, modo=0, early=0,unitsPorCapa=[15], wrapper=False):
@@ -75,8 +75,27 @@ def load(ej,Net,Dataset, prnt=True):
 	print "Cargando Red tipo Ejercicio ",ej
 	with open(Net, "rb") as input:
 		Red = cPickle.load(input) # protocol version is auto detected
-	Red.load_dataset(Dataset, ej)
+	X_denorm, Z_denorm, x_mean, x_sd, z_mean, z_sd = Red.load_dataset(Dataset, ej)
 	lista_error,errorTotal,cantidad_errores = Red.evaluate()
+	if len(Z_denorm[0]) == 2:
+		x = [i[0] for i in Z_denorm]
+		# print Z_denorm
+		# print Z_denorm[0]
+
+		# print lista_error
+		# print z_sd
+		# print z_mean
+		y = [((j[0][0]+1)/2)*z_sd+z_mean for j in lista_error]
+		# print lista_error[0]
+		# print lista_error[0][0][0]
+		# print y
+		# print zip(x,y)
+		
+		# print lista_error
+		# print ylabel
+		plt.plot(x, y, "ro")
+		# plt.plot(y, "bs")
+		plt.show()
 	print '>> error total acumulado: ' + str(errorTotal)+' Numero de equivocaciones: '+str(cantidad_errores)	
 	plt.plot(lista_error)
 	plt.ylabel('Valor del error')
