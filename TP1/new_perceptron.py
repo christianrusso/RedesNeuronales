@@ -37,12 +37,8 @@ class perceptron_Multiple:
 					z_i = map(float, r[-2:])
 				self.X.append(x_i)
 				self.Z.append(z_i)
-		#Xdenorm = deepcopy(self.X)
-		#Zdenorm = deepcopy(self.Z)
-		#x_mean, x_sd = self.normalizar(self.X)
 		self.X = self.normalizar(self.X) # Para pretty print
 		if ejercicio != 1:
-		# 	z_mean, z_sd = self.normalizar2(self.Z)
 			self.Z = self.normalizar2(self.Z)
 		self.X = array(self.X) # Para pretty print
 		self.Z = array(self.Z)
@@ -77,8 +73,6 @@ class perceptron_Multiple:
 		a = array(a)
 		x_min = a.min(axis= 0) 
 		x_max = a.max(axis=0)
-		# print x_min, x_max 
-		# -1 + 2.*(data - min(data))./(max(data) - min(data))
 		for i in xrange(len(a)):
 			a[i] = -1+2*(a[i] - x_min )/(x_max-x_min)	
 		return a
@@ -91,15 +85,13 @@ class perceptron_Multiple:
 		self.S = array(self.S)
 		# TAMANOS W, dW, Y
 		# Basura en la pos 0, indizado desde 1
-		# self.W = array([random.uniform(-sqrt(self.S[j]),sqrt(self.S[j]), (self.S[j-1]+1, self.S[j])) for j in range(self.L)])
-		self.W = array([random.uniform(-0.01, 0.01, (self.S[j-1]+1, self.S[j])) for j in range(self.L)])
+		self.W = array([random.uniform(-sqrt(self.S[j]),sqrt(self.S[j]), (self.S[j-1]+1, self.S[j])) for j in range(self.L)])
 		
 		# Basura en la pos 0, indizado desde 1
 		self.dW = array([zeros((self.S[j-1]+1, self.S[j])) for j in range(self.L)])
 		self.Y = [zeros((1, self.S[j]+1)) for j in range(self.L-1)]
 		self.Y.append([zeros((1,shape(self.Z)[1]))])
 		t,error_v_hist,error_t_hist, error_t_hist_sum, error_v_hist_sum = self.holdout(self.epsilon, self.tau, self.p, modo, early)
-		# print error_t_hist[-1],error_v_hist[-1] ,t 
 		return error_t_hist,error_v_hist, error_v_hist_sum, error_t_hist_sum, t
 
 	def holdout(self,epsilon, tau, p, modo, early):
@@ -151,12 +143,6 @@ class perceptron_Multiple:
 		self.Y[0] = append(X_h, [-1])[newaxis]
 		for j in range(1, self.L):
 			if j == self.L-1:
-				# if self.ej:
-				# 	# print self.Y[j]
-				# 	self.Y[j] = self.funcActivacion(dot(self.Y[j-1], self.W[j]))
-				# else:
-				# 	self.Y[j] = dot(self.Y[j-1], self.W[j])
-				# 	# print self.Y[j]
 				self.Y[j] = self.funcActivacion(dot(self.Y[j-1], self.W[j]))
 			else:
 				self.Y[j] = append(self.funcActivacion(dot(self.Y[j-1], self.W[j])), [-1])[newaxis]
@@ -164,7 +150,6 @@ class perceptron_Multiple:
 
 	def correction(self,Z_h):
 		E = Z_h - self.Y[-1]
-		# print Z_h, self.Y[-1]
 		e = (E**2).sum()
 		for j in range(self.L-1, 0, -1):   
 			D = E*self.funcActivacion(dot(self.Y[j-1], self.W[j]), True)
@@ -183,8 +168,6 @@ class perceptron_Multiple:
 		e_sum = 0
 		for (X_h, Z_h) in zip(X, Z):
 			Y = self.activation(X_h)
-			# print Z_h
-			# print Y
 			E = Y-Z_h
 			e = (E**2).sum()
 			if e > self.epsilon:
@@ -202,6 +185,7 @@ class perceptron_Multiple:
 		if ej==1:
 			for (X_h, Z_h) in zip(self.X, self.Z):
 				E=self.activation(X_h)-Z_h
+				print E
 				if((E**2).sum()>=1):
 					numero_error+=1
 					if(Z_h).sum()>=0:
@@ -212,14 +196,12 @@ class perceptron_Multiple:
 					if(Z_h).sum()>=0:
 						t_p+=1
 				e_sum+=(E**2).sum()
-				list_error.append(E)
-			# print self.Z
-			# print list_error
+				list_error.append((E**2).sum())
 			print "false positive "+str(f_p)
 			print "false negative "+str(f_n)
 			print "true positive "+str(t_p)
-			precision=(float(t_p)/float(t_p+f_p))
-			recall=(float(t_p)/float(t_p+f_n))
+			precision=(float(t_p)/float(t_p+f_p)) if t_p+f_p!=0 else 0 
+			recall=(float(t_p)/float(t_p+f_n)) if t_p+f_n!=0 else 0 
 			print "recall "+str(recall)
 			print "precision "+str(precision)
 			print "Mean armonic "+str((2*recall*precision)/(recall+precision))
@@ -234,11 +216,14 @@ class perceptron_Multiple:
 				x.append(Z_h[0])
 				y_1.append(E[0][1])
 				x_1.append(Z_h[1])
-			plt.plot(x,y, 'bo', label='Error primer parametro')
+			plt.title("Ejercicio 2\nPredicciones Carga de Calefaccion")
+			plt.xlabel("Target")
+			plt.ylabel("Predicted")
+			plt.plot(x,y, 'bo')
 			plt.show()
-			plt.plot(x_1,y_1, 'bo', label='Error segundo parametro')
+			plt.title("Ejercicio 2\nPredicciones Carga de Refrigeracion")
+			plt.plot(x_1,y_1, 'bo')
 			plt.show()
-			# plt.plot(y, "bs")
 		return list_error,e_sum/(len(self.X) if len(self.X) != 0 else 1),numero_error	
 
 

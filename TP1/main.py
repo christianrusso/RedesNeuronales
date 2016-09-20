@@ -74,13 +74,13 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 def load(ej,Net,Dataset, prnt=True):
 	print "Cargando Red tipo Ejercicio ",ej
 	with open(Net, "rb") as input:
-		Red = cPickle.load(input) # protocol version is auto detected
+		Red = cPickle.load(input)
 	Red.load_dataset(Dataset, ej)
 	lista_error,errorTotal,cantidad_errores = Red.evaluate(ej)
 	print '>> error total acumulado: ' + str(errorTotal)+' Numero de equivocaciones: '+str(cantidad_errores)	
 	plt.plot(lista_error)
 	plt.ylabel('Valor del error')
-	if prnt:
+	if prnt and ej==1:
 		plt.show()
 	return errorTotal, cantidad_errores	
 
@@ -111,12 +111,12 @@ def grid_search(param_grid):
 	
 def pruebas():
 	print "Grid search de parametros para mejor modelo"	
-	# # EJERCICIO 1 
-	# param_grid = {'1': [1],"2":['./datasets/tp1_ej1_training.csv'],"3": [None], "4":[0.1], "5": [200], "6":[0.001,0.01,0.1,0.5, 0.005, 0.2, 0.3, 0.4], "7":[0.1,0.3,0.5, 0.7, 0.9], "8": [0.70], "9": [0,1], "10":[0], "11":[[5],[10],[15],[20],[25],[15,15],[5,5],[10,10]]}
-	# grid_search(param_grid)
+	# EJERCICIO 1 
+	param_grid = {'1': [1],"2":['./datasets/tp1_ej1_training.csv'],"3": [None], "4":[0.1], "5": [200], "6":[0.001,0.01,0.1,0.5, 0.005, 0.2, 0.3, 0.4], "7":[0.1,0.3,0.5, 0.7, 0.9], "8": [0.70], "9": [0,1], "10":[0], "11":[[5],[10],[15],[20],[25],[15,15],[5,5],[10,10]]}
+	grid_search(param_grid)
 	# EJERCICIO 2
-	param_grid = {'1': [2],"2":['./datasets/tp1_ej2_training.csv'],"3": [None], "4":[0.1], "5": [200], "6":[0.005], "7":[0.9], "8": [0.70], "9": [1], "10":[0], "11":[[5]]}
-	# param_grid = {'1': [2],"2":['./datasets/tp1_ej2_training.csv'],"3": [None], "4":[0.1], "5": [200], "6":[0.001,0.01,0.1,0.5, 0.005, 0.2, 0.3, 0.4], "7":[0.1,0.3,0.5, 0.7, 0.9], "8": [0.70], "9": [0,1], "10":[0], "11":[[5],[10],[15],[20],[25],[15,15],[5,5],[10,10]]}
+	# param_grid = {'1': [2],"2":['./datasets/tp1_ej2_training.csv'],"3": [None], "4":[0.1], "5": [200], "6":[0.005], "7":[0.9], "8": [0.70], "9": [1], "10":[0], "11":[[5]]}
+	param_grid = {'1': [2],"2":['./datasets/tp1_ej2_training.csv'],"3": [None], "4":[0.1], "5": [200], "6":[0.001,0.01,0.1,0.5, 0.005, 0.2, 0.3, 0.4], "7":[0.1,0.3,0.5, 0.7, 0.9], "8": [0.70], "9": [0,1], "10":[0], "11":[[5],[10],[15],[20],[25],[15,15],[5,5],[10,10]]}
 	grid_search(param_grid)
 	
 args = sys.argv
@@ -181,7 +181,6 @@ if cmdTrain:
 	if len(args) > 11:
 		early=int(args[11])
 	if len(args) > 12:
-		#unitsPorCapa=int(args[11])
 		str1=str(args[12])
 		unitsPorCapa=map(int, str1[1:-1].split(','))
 	train(ejercicio,archivoDataset,archivoRed,errorAceptable,maxEpoch,learningRate,momentum,holdoutRate,modo, early, unitsPorCapa)
