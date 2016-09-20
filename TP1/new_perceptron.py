@@ -185,7 +185,6 @@ class perceptron_Multiple:
 		if ej==1:
 			for (X_h, Z_h) in zip(self.X, self.Z):
 				E=self.activation(X_h)-Z_h
-				print E
 				if((E**2).sum()>=1):
 					numero_error+=1
 					if(Z_h).sum()>=0:

@@ -62,8 +62,8 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 		print '>> suma de errores Training:	' + str(error_t_hist_sum_best[-1])
 		print '>> suma de errores Testing:	' + str(error_v_hist_sum_best[-1])	
 	img_name= "ej"+str(ejercicio)+"_"+str(etha)+"_"+str(m)+"_"+str(modo)+"_"+str(unitsPorCapa)	
-	imprimirImagen(ejercicio, error_t_hist_best,error_v_hist_best, suma=False,  prnt=False, img_name=img_name)
-	imprimirImagen(ejercicio, error_v_hist_sum_best, error_t_hist_sum_best, suma=True, prnt=False,img_name=img_name)
+	imprimirImagen(ejercicio, error_t_hist_best,error_v_hist_best, suma=False,  prnt=True, img_name=img_name)
+	imprimirImagen(ejercicio, error_v_hist_sum_best, error_t_hist_sum_best, suma=True, prnt=True,img_name=img_name)
 	
 	if(save_file!=None):
 		print "Guardando Red"
@@ -77,10 +77,12 @@ def load(ej,Net,Dataset, prnt=True):
 		Red = cPickle.load(input)
 	Red.load_dataset(Dataset, ej)
 	lista_error,errorTotal,cantidad_errores = Red.evaluate(ej)
-	print '>> error total acumulado: ' + str(errorTotal)+' Numero de equivocaciones: '+str(cantidad_errores)	
 	plt.plot(lista_error)
-	plt.ylabel('Valor del error')
+	plt.title("Ejercicio 1")
+	plt.ylabel('Error')
+	plt.xlabel('Numero de instancia')
 	if prnt and ej==1:
+		print '>> error total acumulado: ' + str(errorTotal)+' Numero de equivocaciones: '+str(cantidad_errores)	
 		plt.show()
 	return errorTotal, cantidad_errores	
 
