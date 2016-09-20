@@ -71,7 +71,9 @@ Y para esta obtuvimos los siguientes graficos.
 \includegraphics[scale=0.4]{img/ej100109155sum}
 \includegraphics[scale=0.4]{img/ej100109155mean}
 
-En estos graficos podemos ver \emph{\color{red} BLA BLA BLA}
+En estos graficos podemos ver que en el promedio, al promediar la cantidad de casos se puede ver que el trainning da mejor que validacion. Al mismo tiempo en la suma de errores la validacion da menor porque hay menos casos de entrada. 
+Por otro lado, vemos que si mantenemos la cantidad de epocas podemos caer en overfitting porque el error de trainning podria seguir disminuyendo pero el de validacion no.
+Un detalle importante es que esta arquitectura, cuando convergue, lo hace rapido. Como se pueder ver en este ejemplo de muestra que converge en un poco mas de 20 epocas.
 
 De todas formas analizando los graficos tras varias corridas vimos que no siempre convergia esta solucion.
 Como el campo de busqueda es pequeno, probamos multiples veces diferentes configuraciones de neuronas con numeros de 2 a 15 neuronas por capa para tener una evidencia estadistica de que sucede al variar este parametro. Con ello corroboramos que la solucion arrojada por el algoritmo de busqueda estaba cerca de un resultado optimo al ver las variaciones de diferentes medidas de error. 
@@ -88,7 +90,7 @@ $recall= true positive/(true positive+false negative)$
 
 
 Para determinar el valor de la primer capa, elegimos aquellas configuraciones que nunca terminen debido al limite de epocas. Luego, en base a la cantidad de unidades con error y el error total cometido, las clasificamos en este orden. 
-En particular, obtuvimos que las configuraciones de [8,7] y [9,5] arrojan buenos resultados.
+En particular, obtuvimos que las configuraciones de [8,7] y [9,5] arrojan buenos resultados (en base a la suma de errores y el promedio).
 
 Podemos ver a continuacion algunos graficos obtenimos variando los parametros con 8 y 7 capas.
 
@@ -128,7 +130,13 @@ En particular este grafico fue el mejor de los graficos que obtuvimos variando l
 
 Se puede ver a continuacion que \emph{\color{red} BLA BLA LBA}
 
-En conclusion, decidimos elegir como modelo el de 5 y 5 capas dado que es el que tiene menor cantidad de capas y por lo tanto menor procesamiento. \emph{\color{red} ALGO MAS?}
+
+Notamos que el numero de neuronas en la ultima capa permite que la salida se ajuste al resultado mientras que la primer capa realiza el grueso del esfuerzo de generalizacion. Al contrario de lo que esperabamos, incrementar el numero de unidades de la ultima capa no mejora el resultado, si no que lo empeora debido a que le lleva un mayor numero de epocas para converger (cuando lo hace). Pocas neuronas en la capa final mostraron experimentalmente que proveen una buena solucion.
+
+Por lo mencionado anteriormente, elegimos el modelo de [9,5] porque brinda una buena solucion en un tiempo razonable y tiene menos oscilaciones. En general el error tiende a ser 4\% o menos y el Mean Armonic da alrededor 0.9508 el cual es algo mejor a comparacion del 0.94527 (el obtenido por el de [8,7] capas) y el de 0.9 (el obtenido por el de [5,5] capas).
+
+
+En conclusion, decidimos elegir como modelo el de 9 y 5 capas dado 
 
 Por ultimo, graficamos un histograma para ver la cantidad de equivocaciones a la hora de predecir si un cancer es benigno o maligno.
 
@@ -145,7 +153,7 @@ Se puede ver en el grafico que la cantidad de equivocaciones es 8, siendo este u
 Al igual que en el ejercicio 1, en este ejercicio se corrio el algoritmo de grid\_search 10 veces y en total encontramos que una buena solucion es:
 
 \begin{enumerate}
-\item epsilon: 0.1
+\item epsilon: 0.01
 \item tau: 200
 \item etha: 0.005
 \item momentum: 0.9
@@ -180,6 +188,13 @@ estos graficos corresponden a los siguientes parametros:
 En estos graficos se puede ver una notable inestabilidad por parte de la red \emph{\color{red} BLA BLA LBA}
 
 Como se podra ver en los graficos elegimos el primer modelo porque \emph{\color{red} BLA BLA BLA}
+
+
+Para este modelo elegido, graficamos \emph{\color{red} BLA BLA BLA}
+
+\includegraphics[scale=0.4]{img/ej2-calef}
+\includegraphics[scale=0.4]{img/ej2-refrig}
+
 
 \emph{\color{red} FALTA AGREGAR MAS COSAS?}
 \subsection{Conclusion}
