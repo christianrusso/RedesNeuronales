@@ -1,0 +1,13 @@
+\section{Conclusiones}
+A la hora de hacer experimentos vimos que nuestros resultados son mejores en arquitecutras con pocas capas en lugar de con muchas.
+
+En los dos ejercicios la arquitectura elegida fue la resultado del grid\_search, con esto nos damos cuenta que la tecnica del grid\_search fue muy util.
+
+Por otro lado, podemso concluir que la aleatoriedad es un factor muy importante en las redes neuronales, dado que una misma arquitectura puede dar un resultado muy distinto en distitnas corridas, esto se debe a los pesos inciiales del W, por ejemplo en algunos casos si los parametros iniciales de W hacen que la derivada de la sigmoida de 0, el algoritmo no aprende y no se consiguen resultados utiles.
+
+En muchos casos veiamos que al agregar mas capas la suma de errores oscila mas y, ademas de incremantar el tiempo, si el momentum es muy bajo empeoraba. Esto ultimo se notaba que el momentum actua como un amortiguador, es decir, suaviza las oscilaciones.
+
+Tambien podemos concluir que es muy fácil no darse cuenta que se está overfitteando en un nivel superior al de parámetros, por ejemplo, overfittear sobre el conjunto de validación o el mismo modelo en sí.
+
+Es muy importante ver que la eleccion de una red (la cantidad de capas) influye mucho mas que los parametros de aprendizaje.
+
