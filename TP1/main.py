@@ -62,8 +62,8 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 		print '>> suma de errores Training:	' + str(error_t_hist_sum_best[-1])
 		print '>> suma de errores Testing:	' + str(error_v_hist_sum_best[-1])	
 	img_name= "ej"+str(ejercicio)+"_"+str(etha)+"_"+str(m)+"_"+str(modo)+"_"+str(unitsPorCapa)	
-	imprimirImagen(ejercicio, error_t_hist_best,error_v_hist_best, suma=False, img_name=img_name)
-	imprimirImagen(ejercicio, error_v_hist_sum_best, error_t_hist_sum_best, suma=True, img_name=img_name)
+	imprimirImagen(ejercicio, error_t_hist_best,error_v_hist_best, suma=False,  prnt=False, img_name=img_name)
+	imprimirImagen(ejercicio, error_v_hist_sum_best, error_t_hist_sum_best, suma=True, prnt=False,img_name=img_name)
 	
 	if(save_file!=None):
 		print "Guardando Red"
@@ -75,27 +75,8 @@ def load(ej,Net,Dataset, prnt=True):
 	print "Cargando Red tipo Ejercicio ",ej
 	with open(Net, "rb") as input:
 		Red = cPickle.load(input) # protocol version is auto detected
-	X_denorm, Z_denorm, x_mean, x_sd, z_mean, z_sd = Red.load_dataset(Dataset, ej)
-	lista_error,errorTotal,cantidad_errores = Red.evaluate()
-	if len(Z_denorm[0]) == 2:
-		x = [i[0] for i in Z_denorm]
-		# print Z_denorm
-		# print Z_denorm[0]
-
-		# print lista_error
-		# print z_sd
-		# print z_mean
-		y = [((j[0][0]+1)/2)*z_sd+z_mean for j in lista_error]
-		# print lista_error[0]
-		# print lista_error[0][0][0]
-		# print y
-		# print zip(x,y)
-		
-		# print lista_error
-		# print ylabel
-		plt.plot(x, y, "ro")
-		# plt.plot(y, "bs")
-		plt.show()
+	Red.load_dataset(Dataset, ej)
+	lista_error,errorTotal,cantidad_errores = Red.evaluate(ej)
 	print '>> error total acumulado: ' + str(errorTotal)+' Numero de equivocaciones: '+str(cantidad_errores)	
 	plt.plot(lista_error)
 	plt.ylabel('Valor del error')

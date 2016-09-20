@@ -1,6 +1,7 @@
 from numpy import *
 from copy import deepcopy
 import math
+import pylab as plt
 def sigmoidea_bipolar(vector, derivative=False):
 	B = 1
 	if derivative:
@@ -36,15 +37,16 @@ class perceptron_Multiple:
 					z_i = map(float, r[-2:])
 				self.X.append(x_i)
 				self.Z.append(z_i)
+		#Xdenorm = deepcopy(self.X)
+		#Zdenorm = deepcopy(self.Z)
+		#x_mean, x_sd = self.normalizar(self.X)
+		self.X = self.normalizar(self.X) # Para pretty print
+		if ejercicio != 1:
+		# 	z_mean, z_sd = self.normalizar2(self.Z)
+			self.Z = self.normalizar(self.Z)
 		self.X = array(self.X) # Para pretty print
 		self.Z = array(self.Z)
-		Xdenorm = deepcopy(self.X)
-		Zdenorm = deepcopy(self.Z)
-		x_mean, x_sd = self.normalizar(self.X)
-		# if ejercicio != 1:
-		# 	z_mean, z_sd = self.normalizar2(self.Z)
-
-		return Xdenorm, Zdenorm, x_mean, x_sd, z_mean, z_sd
+		#return Xx_mean, x_sd, z_mean, z_sd
 
 	def __init__(self,UnitsXCapa=[15],e=0,t=0,nl=0,m=0.6,holdout=1,funcionActivacion=sigmoidea_bipolar):
 		self.funcActivacion = funcionActivacion	
@@ -69,7 +71,7 @@ class perceptron_Multiple:
 		varianza = std(array, axis=0)
 		for i in xrange(len(array)):
 			array[i] = (array[i] - media )/varianza	
-		return media, varianza
+		return array
 
 	def normalizar2(self, array):
 		x_min = array.min(axis= 0) 
@@ -189,36 +191,53 @@ class perceptron_Multiple:
 			e_sum += e
 		return e_sum/(len(X) if len(X) != 0 else 1), e_count
 
-	def evaluate(self):	
+	def evaluate(self,ej,prnt=True):	
 		e_sum = 0
 		list_error=[]
 		numero_error=0
 		t_p=0
 		f_p=0
 		f_n=0
-		for (X_h, Z_h) in zip(self.X, self.Z):
-			E=self.activation(X_h)-Z_h
-			if((E**2).sum()>=1):
-				numero_error+=1
-				if(Z_h).sum()>=0:
-					f_n+=1
+		if ej==1:
+			for (X_h, Z_h) in zip(self.X, self.Z):
+				E=self.activation(X_h)-Z_h
+				if((E**2).sum()>=1):
+					numero_error+=1
+					if(Z_h).sum()>=0:
+						f_n+=1
+					else:
+						f_p+=1
 				else:
-					f_p+=1
-			else:
-				if(Z_h).sum()>=0:
-					t_p+=1
-			e_sum+=(E**2).sum()
-			list_error.append(E)
-		# print self.Z
-		# print list_error
-		print "false positive "+str(f_p)
-		print "false negative "+str(f_n)
-		print "true positive "+str(t_p)
-		precision=(float(t_p)/float(t_p+f_p))
-		recall=(float(t_p)/float(t_p+f_n))
-		print "recall "+str(recall)
-		print "precision "+str(precision)
-		print "Mean armonic "+str((2*recall*precision)/(recall+precision))
+					if(Z_h).sum()>=0:
+						t_p+=1
+				e_sum+=(E**2).sum()
+				list_error.append(E)
+			# print self.Z
+			# print list_error
+			print "false positive "+str(f_p)
+			print "false negative "+str(f_n)
+			print "true positive "+str(t_p)
+			precision=(float(t_p)/float(t_p+f_p))
+			recall=(float(t_p)/float(t_p+f_n))
+			print "recall "+str(recall)
+			print "precision "+str(precision)
+			print "Mean armonic "+str((2*recall*precision)/(recall+precision))
+		else:
+			x=[]
+			y=[]
+			y_1=[]
+			x_1=[]
+			for (X_h, Z_h) in zip(self.X, self.Z):
+				E=self.activation(X_h)
+				y.append(E[0])
+				x.append(Z_h[0])
+				y_1.append(E[0][1])
+				x_1.append(Z_h[1])
+			plt.plot(x,y, 'bo', label='Error primer parametro')
+			plt.show()
+			plt.plot(x_1,y_1, 'bo', label='Error segundo parametro')
+			plt.show()
+			# plt.plot(y, "bs")
 		return list_error,e_sum/(len(self.X) if len(self.X) != 0 else 1),numero_error	
 
 
