@@ -58,7 +58,6 @@ param_grid = {'1': [1],"2":['./datasets/tp1_ej1_training.csv'],"3": [None], "4":
 \end{lstlisting}
 
 
-\emph{\color{red} FALTA AGREGAR MAS COSAS?}
 \subsection{Ejercicio 1}
 
 Observamos que agregar capas no garantiza la convergencia y, cuando lo hace, provoca que las salidas oscilen abruptamente y tarde mas epocas, por lo que optamos por utilizar \textbf{dos capas ocultas} como compromiso entre tiempo y calidad de solucion. 
@@ -237,7 +236,9 @@ Con nuestra arquitectura obtuvimos los siguientes graficos:
 \includegraphics[scale=0.4]{img/ej2-refrig}
 
 
-En estos graficos notamos que son similares a lo ideal, los puntos obtenidos se acercan a la recta Y=X, lo que quiere decir que los valores aprendidos se acercan mucho al objetivo.
+En estos graficos notamos que son similares a lo ideal, sin caer en un overfitting, los puntos obtenidos se acercan a la recta Y=X, lo que quiere decir que los valores aprendidos se acercan mucho al objetivo.
+Como se explico en las secciones anteriores el output fue normalizado, por esto la escala del grafico va desde -1 a 1 que es el rango de la funcion sigmoide bipolar.
+
 \subsection{Conclusion}
 
 \emph{\color{red} FALTA }
