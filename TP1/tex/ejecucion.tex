@@ -10,7 +10,7 @@ La manera de ejecutar el programa dado es la siguiente:
 %python main.py ej1 -t './datasets/tp1_ej1_training.csv' 'red' 0.1 10 0.75  0.01 0.6 1 0 
 \begin{verbatim}
 $ python main.py < ejercicio > < opcion > < archivo_entrada > < archivo_red_salida >  < epsilon > 
-                       < tau > < learning_rate > < momentum > < holdout_rate > < modo > < early >
+                       < tau > < learning_rate > < momentum > < holdout_rate > < modo >
 \end{verbatim}
 
 Donde:
@@ -34,17 +34,16 @@ Donde:
 \item 1: Incremental
 \item 0: Batch
 \end{enumerate}
-\item early: 0 (false) o 1 (True)
 \end{enumerate}
 
 
 Por ejemplo: 
 
 Si queremos ejecutar el ejercicio 1 entrenandolo con el dataset \textbf{tp1\_ej1\_training.csv}, guardando la red en el archivo 
-\textbf{red} con un epsilon de \textbf{0.1}, tau de \textbf{1000}, holdout\_rate de \textbf{0.75} learning\_rate de \textbf{0.01}, momentum de \textbf{0.6} con el modo \textbf{Incremental} y \textbf{sin earlystopping} seria:
+\textbf{red} con un epsilon de \textbf{0.1}, tau de \textbf{1000}, holdout\_rate de \textbf{0.75} learning\_rate de \textbf{0.01}, momentum de \textbf{0.6} con el modo \textbf{Incremental} seria:
 
 \begin{verbatim}
-$ python main.py ej1 -t 'tp1_ej1_training.csv' 'red' 0.1 1000 0.75  0.01 0.6 1 0 
+$ python main.py ej1 -t 'tp1_ej1_training.csv' 'red' 0.1 1000 0.75  0.01 0.6 1 
 \end{verbatim}
 
 En caso de querer cargar una red ya guardada seria, por ejemplo:

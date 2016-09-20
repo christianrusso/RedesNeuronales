@@ -7,6 +7,8 @@ Por otro lado, podemso concluir que la aleatoriedad es un factor muy importante 
 
 En muchos casos veiamos que al agregar mas capas la suma de errores oscila mas y, ademas de incremantar el tiempo, si el momentum es muy bajo empeoraba. Esto ultimo se notaba que el momentum actua como un amortiguador, es decir, suaviza las oscilaciones.
 
+Otro factor importante es la eleccion del valor de epsilon. Ya que para algunas redes, sobre todo en el ejercicio 2, al tratar de ajustar mucho sobre el dataset, no solo se corre el riesgo de overfit sino que provoca que se desestabilice la convergencia a una solucion.
+
 Tambien podemos concluir que es muy fácil no darse cuenta que se está overfitteando en un nivel superior al de parámetros, por ejemplo, overfittear sobre el conjunto de validación o el mismo modelo en sí.
 
 Es muy importante ver que la eleccion de una red (la cantidad de capas) influye mucho mas que los parametros de aprendizaje.
