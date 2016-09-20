@@ -1,6 +1,6 @@
 \section{Experimentacion}
 \subsection{Busqueda exhautiva}
-Para la realizacion de los experimientos implementamos un algoritmo de busqueda exhautiva para buscar el mejor modelo en cada caso. 
+Para la realizacion de los experimientos implementamos un algoritmo de busqueda exhautiva (grid search) para buscar el mejor modelo en cada caso. 
 
 El algoritmo es el siguiente:
 
@@ -43,10 +43,15 @@ param_grid = {'1': [1],"2":['./datasets/tp1_ej1_training.csv'],"3": [None], "4":
 
 La idea es bastante simple, lo que hacemos es pasar por parametro una lista con todos los posibles para parametros y el algoritmo corre un ciclo, donde en cada ciclo prueba con un parametro distinto guardandoce el mejor modelo para finalmente imprimirlo por la consola.
 
-De esta forma logramos quedarnos con la mejor arquitectura en cada ejercicio. PERO DE TODAS FORMAS, HICIMOS PRUEBAS MANUALES PARA VALIDAD QUE ESTO ERA CIERTO Y PARA ESTO HICIMOS EL SIGUIENTE ANALISIS.
+De esta forma logramos quedarnos con la mejor arquitectura en cada ejercicio. 
+
+Si bien contamos con este algoritmo, para hacer las pruebas hicimos pruebas manuales analizando los graficos y los resultados se pueden ver a continuacion.
+
+\emph{\color{red} FALTA AGREGAR MAS COSAS?}
 \subsection{Ejercicio 1}
 
-Observamos que agregar capas no garantiza la convergencia y, cuando lo hace, provoca que las salidas oscilen abruptamente y tarde mas epocas, por lo que optamos por utilizar dos capas ocultas como compromiso entre tiempo y calidad de solucion. 
+Observamos que agregar capas no garantiza la convergencia y, cuando lo hace, provoca que las salidas oscilen abruptamente y tarde mas epocas, por lo que optamos por utilizar \textbf{dos capas ocultas} como compromiso entre tiempo y calidad de solucion. 
+
 
 En cuanto al numero de unidades por capa, ejecutamos el grid\_search 10 veces y en total encontramos que una buena solucion es:
 
@@ -66,21 +71,20 @@ Y para esta obtuvimos los siguientes graficos.
 \includegraphics[scale=0.4]{img/ej100109155sum}
 \includegraphics[scale=0.4]{img/ej100109155mean}
 
-En estos graficos podemos ver BLA BLA BLA BLA.
+En estos graficos podemos ver \emph{\color{red} BLA BLA BLA}
 
-
-Sin embargo, al mirar los graficos de error, nos dimos cuenta que la solucion de 5 neuronas no converge en general.
+De todas formas analizando los graficos tras varias corridas vimos que no siempre convergia esta solucion.
 Como el campo de busqueda es pequeno, probamos multiples veces diferentes configuraciones de neuronas con numeros de 2 a 15 neuronas por capa para tener una evidencia estadistica de que sucede al variar este parametro. Con ello corroboramos que la solucion arrojada por el algoritmo de busqueda estaba cerca de un resultado optimo al ver las variaciones de diferentes medidas de error. 
 
 Las medidas de error que tomamos fue el numero de unidades con error, el error total, el promedio de error, condicion de terminacion de aprendizaje, es decir, si termino por error menor a epsilon o por limite de epocas. En particular, por la naturaleza del problema, nos interesa ver la Precisión y el Recall, o dicho de otra manera, el indice de falso positivo y falso negativos. 
 
 Como medida utilizaremos la Media armónica donde 
 
-Media armonica=2*precision*recall/(precision+recall)
+$Media armonica=2*precision*recall/(precision+recall)$
 
-precision=true positive/(true positive+false positive)
+$precision=true positive/(true positive+false positive)$
 
-recall= true positive/(true positive+false negative)
+$recall= true positive/(true positive+false negative)$
 
 
 Para determinar el valor de la primer capa, elegimos aquellas configuraciones que nunca terminen debido al limite de epocas. Luego, en base a la cantidad de unidades con error y el error total cometido, las clasificamos en este orden. 
@@ -102,7 +106,7 @@ En particular este grafico fue el mejor de los graficos que obtuvimos variando l
 \item unidades por capa: 8 y 7
 \end{enumerate}
 
-Se puede ver en estos graficos que...
+Se puede ver en estos graficos que \emph{\color{red} BLA BLA BLA}
 
 Podemos ver a continuacion algunos graficos obtenimos variando los parametros con 9 y 5 capas.
 
@@ -122,17 +126,20 @@ En particular este grafico fue el mejor de los graficos que obtuvimos variando l
 \item unidades por capa: 9 y 5
 \end{enumerate}
 
-Se puede ver a continuacion que...
+Se puede ver a continuacion que \emph{\color{red} BLA BLA LBA}
 
-En conclusion, decidimos elegir como modelo el de 5 y 5 capas dado que es el que tiene menor cantidad de capas y por lo tanto menor procesamiento.
+En conclusion, decidimos elegir como modelo el de 5 y 5 capas dado que es el que tiene menor cantidad de capas y por lo tanto menor procesamiento. \emph{\color{red} ALGO MAS?}
 
 Por ultimo, graficamos un histograma para ver la cantidad de equivocaciones a la hora de predecir si un cancer es benigno o maligno.
 
-\includegraphics[scale=0.7]{img/histogramaej155}
+\begin{center}
+\includegraphics[scale=0.5]{img/histogramaej155}
+\end{center}
 
 Se puede ver en el grafico que la cantidad de equivocaciones es 8, siendo este un numero muy chico ya que la cantidad de muestras es de 500.
 
 
+\emph{\color{red} RELEER TODA LA EXPERIMENTACION DEL 1}
 \subsection{Ejercicio 2}
 
 Al igual que en el ejercicio 1, en este ejercicio se corrio el algoritmo de grid\_search 10 veces y en total encontramos que una buena solucion es:
@@ -152,9 +159,9 @@ Y para esta obtuvimos los siguientes graficos.
 \includegraphics[scale=0.4]{img/ej200050915sum}
 \includegraphics[scale=0.4]{img/ej200050915mean}
 
-Se puede ver en estos graficos que...
+Se puede ver en estos graficos que \emph{\color{red} BLA BLA BLA}
 
-Al igual que en el ejercicio anterior, probamos a mano cambiar los valores de los parametros pero de todas formas no encotnramos nada mejor. En general todos los resultados que obtuvimos fueron como este:
+Al igual que en el ejercicio anterior, probamos a mano cambiar los valores de los parametros pero de todas formas no encotnramos nada mejor. En general todos los resultados que obtuvimos fueron similar a este:
 
 \includegraphics[scale=0.4]{img/ej20050915sum}
 \includegraphics[scale=0.4]{img/ej20050915mean}
@@ -170,6 +177,11 @@ estos graficos corresponden a los siguientes parametros:
 \item modo: Incremental
 \item unidades por capa: 5
 \end{enumerate}
+En estos graficos se puede ver una notable inestabilidad por parte de la red \emph{\color{red} BLA BLA LBA}
 
-Como se podra ver en los graficos elegimos el primer modelo porque .....
+Como se podra ver en los graficos elegimos el primer modelo porque \emph{\color{red} BLA BLA BLA}
+
+\emph{\color{red} FALTA AGREGAR MAS COSAS?}
 \subsection{Conclusion}
+
+\emph{\color{red} FALTA }
