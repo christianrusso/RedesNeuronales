@@ -1,6 +1,22 @@
 \section{Experimentacion}
 \subsection{Busqueda exhautiva}
-Para la realizacion de los experimientos implementamos un algoritmo de busqueda exhautiva (grid search) para buscar el mejor modelo en cada caso. 
+Para comenzar la experimentación y tener una idea aproximada sobre los mejores valores de los parámetros del modelo utilizamos la técnica de \textit{grid search} o búsqueda exhaustiva. Siempre corrimos con un \textit{holdout set} de validación del 50\% del dataset completo, para poder simular la performance de nuestra implementación con datos nuevos que no se usaron en el entrenamiento. 
+
+En el ejercicio uno, la búsqueda trata de minimar la suma de errores totales del set de validación, mientras que en el ejercicio dos se hace lo mismo pero al ser un problema de regresión, se define como error cuando el output de la red y el target es mayor a un \textit{epsilon} definido. 
+
+La implementación es bastante simple, lo que hacemos es pasar por parametro una lista con todos los posibles para parametros y el algoritmo corre un ciclo, donde en cada ciclo prueba con un parametro distinto guardandoce el mejor modelo para finalmente imprimirlo por la consola. 
+
+Además tuvimos en cuenta el componente de inicialización aleatorio de la red neuronal. Para esto decidimos correr 3 veces cada set de parámetros y quedarse con el mejor. 
+
+Los parámetros que variamos fueron los siguientes:
+\begin{itemize}
+\item \textbf{Learning Rate}
+\item \textbf{Momentum}
+\item \textbf{Incremental o Batch}
+\item \textbf{Configuración/Cantidad de capas y neuronas}
+\end{itemize}
+
+Una vez obtenidos los mejores parámetros, continuamos los experimentos variandolos a mano y analizando los resultados. Esto se explicará en la sección siguiente.
 
 El algoritmo es el siguiente:
 
@@ -41,11 +57,6 @@ param_grid = {'1': [1],"2":['./datasets/tp1_ej1_training.csv'],"3": [None], "4":
 			"9": [0,1], "10":[0], "11":[[5],[10],[15],[20],[25],[15,15],[5,5],[10,10]]}
 \end{lstlisting}
 
-La idea es bastante simple, lo que hacemos es pasar por parametro una lista con todos los posibles para parametros y el algoritmo corre un ciclo, donde en cada ciclo prueba con un parametro distinto guardandoce el mejor modelo para finalmente imprimirlo por la consola.
-
-De esta forma logramos quedarnos con la mejor arquitectura en cada ejercicio. 
-
-Si bien contamos con este algoritmo, para hacer las pruebas hicimos pruebas manuales analizando los graficos y los resultados se pueden ver a continuacion.
 
 \emph{\color{red} FALTA AGREGAR MAS COSAS?}
 \subsection{Ejercicio 1}
