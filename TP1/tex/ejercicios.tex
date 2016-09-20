@@ -1,4 +1,5 @@
-\section{Ejercicio: Cancer de mamas}
+\section{Problemas}
+\subsection{Cancer de mamas}
 Los datos son resultado de un examen que se realizan para diagnosticar cancer de mamas. Para cada paciente contamos con 10 caracteristicas de las imagenes de las celulas, entre estas caracteristicas contamos con diagnostico, radio, perimetro, textura, area, suavidad, etc. 
 
 Cada una de estas entradas corrresponde a los datos de distintos pacientes, es importante remarcar que se cuenta con el atributo del diagnostico final quen indica si un tumor es benigno o maligno (0 y 1 respectivamente).
@@ -12,3 +13,20 @@ Para resolver este problema decidimos utilizar un perceptron multicapa con una f
 Como primer medida, para mantener la estabilidad numerica del calculo, decidimos normalizar la entrada. Esto se debe a que al implementarse sobre aritmetica finita, los errores numericos tienden a propagarse mucho mas rapido cuando se aplica operaciones sobre numeros grandes que en los pequenos.
 
 Por otro lado, al no conocer cual es el modelo optimo de redes neuronales para este problema, decidimos correr un algoritmo de busqueda para estimar cual es el numero apropiado de capas y neuronas. Tomando este resultado, intentamos mejorarlo analizando el comportamiento variando poco a poco las capas y analizando los graficos de error cometido y unidades equivocadas. Este proceso esta descripto con mas detalle en la \textbf{seccion de experimentacion} del ejercicio 1
+
+\subsection{Eficiencia energetica}
+
+En el siguiente problema contamos con los datos sobre la carga energetica para calefaccionar y refrigerar edificios en funcion de ciertas caractersisticas de los mismos.
+
+El analisis se realizo tomando en cuenta edificios de diversas caracteristifcas, que difieren con respecto a la superficie y distribucion de las areas de reflejo, la orientacioon, etc.
+
+Para cada edificio contamos con area de la superficie total, area de las paredes, area del techo, orientacion, area de reflejo total, etc.
+
+Es importante remarcar que tambien contamos, para cada edifico del dataset, la cantidad de energio necersaria para realizar una calefaccion y refrigeracion adecuada.
+
+Sobre este segundo dataset se buscara entrenar una red neuronal para poder aproximar la funcion que determina la cantidad de energia necesaria para
+la calefaccion y refrigeracion de un edificio en funcion de los parametros de entrada. Es decir, es un problema de regresion.
+
+Por esto mismo, tuvimos que normalizar el output target a valores en el rango [-1,1] para que podamos predecirlo con la función sigmoidea bipolar.
+
+\emph{\color{red} FALTA AGREGAR DETALLES DE NUESTRA IMPLEMENTACION}
