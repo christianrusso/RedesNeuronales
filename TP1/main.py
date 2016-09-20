@@ -141,11 +141,22 @@ elif len(args) < 5:
 
 cmdTrain = args[2] == "-t"
 cmdLoad = args[2] == "-l"
-
+errorAceptable=0.1
+maxEpoch=1000
+learningRate=0.01
+momentum=0.9
+holdoutRate=0.7
+modo=0
+early=0
+unitsPorCapa=[5]
 if(args[1] == "ej1"):
 	ejercicio=1
+	unitsPorCapa=[5,5]
 elif(args[1] == "ej2"):
 	ejercicio=2
+	errorAceptable=0.01
+	learningRate=0.05
+	unitsPorCapa=[5]
 else:
 	print message
 	sys.exit()
@@ -158,14 +169,7 @@ if cmdTrain:
 		sys.exit()
 	archivoDataset = args[3]
 	archivoRed=None
-	errorAceptable=0.1
-	maxEpoch=1000
-	learningRate=0.01
-	momentum=0.6
-	holdoutRate=0.5
-	modo=0
-	early=0
-	unitsPorCapa=[5]
+
 	if len(args) > 4:
 		archivoRed=args[4]
 	if len(args) > 5:
