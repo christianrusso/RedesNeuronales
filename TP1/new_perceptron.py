@@ -43,7 +43,7 @@ class perceptron_Multiple:
 		self.X = self.normalizar(self.X) # Para pretty print
 		if ejercicio != 1:
 		# 	z_mean, z_sd = self.normalizar2(self.Z)
-			self.Z = self.normalizar(self.Z)
+			self.Z = self.normalizar2(self.Z)
 		self.X = array(self.X) # Para pretty print
 		self.Z = array(self.Z)
 		#return Xx_mean, x_sd, z_mean, z_sd
@@ -73,14 +73,15 @@ class perceptron_Multiple:
 			array[i] = (array[i] - media )/varianza	
 		return array
 
-	def normalizar2(self, array):
-		x_min = array.min(axis= 0) 
-		x_max = array.max(axis=0)
+	def normalizar2(self, a):
+		a = array(a)
+		x_min = a.min(axis= 0) 
+		x_max = a.max(axis=0)
 		# print x_min, x_max 
 		# -1 + 2.*(data - min(data))./(max(data) - min(data))
-		for i in xrange(len(array)):
-			array[i] = -1+2*(array[i] - x_min )/(x_max-x_min)	
-		return x_min, (x_max-x_min)
+		for i in xrange(len(a)):
+			a[i] = -1+2*(a[i] - x_min )/(x_max-x_min)	
+		return a
 
 	def train(self,modo=0, early=0):
 		self.P = len(self.X)
@@ -150,13 +151,13 @@ class perceptron_Multiple:
 		self.Y[0] = append(X_h, [-1])[newaxis]
 		for j in range(1, self.L):
 			if j == self.L-1:
-				if self.ej:
-					# print self.Y[j]
-					self.Y[j] = self.funcActivacion(dot(self.Y[j-1], self.W[j]))
-				else:
-					self.Y[j] = dot(self.Y[j-1], self.W[j])
-					# print self.Y[j]
-				# self.Y[j] = self.funcActivacion(dot(self.Y[j-1], self.W[j]))
+				# if self.ej:
+				# 	# print self.Y[j]
+				# 	self.Y[j] = self.funcActivacion(dot(self.Y[j-1], self.W[j]))
+				# else:
+				# 	self.Y[j] = dot(self.Y[j-1], self.W[j])
+				# 	# print self.Y[j]
+				self.Y[j] = self.funcActivacion(dot(self.Y[j-1], self.W[j]))
 			else:
 				self.Y[j] = append(self.funcActivacion(dot(self.Y[j-1], self.W[j])), [-1])[newaxis]
 		return self.Y[-1]
