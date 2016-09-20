@@ -108,7 +108,7 @@ En particular este grafico fue el mejor de los graficos que obtuvimos variando l
 \item unidades por capa: 8 y 7
 \end{enumerate}
 
-Se puede ver en estos graficos que \emph{\color{red} BLA BLA BLA}
+Se puede ver en estos graficos que a simple vista, el promedio de errores tiene un mayor numero de oscilaciones. Tambien vemos que compardo a los graficos del [5,5], este converge en una cantidad de epocas mayor.
 
 Podemos ver a continuacion algunos graficos obtenimos variando los parametros con 9 y 5 capas.
 
@@ -128,29 +128,33 @@ En particular este grafico fue el mejor de los graficos que obtuvimos variando l
 \item unidades por capa: 9 y 5
 \end{enumerate}
 
-Se puede ver a continuacion que \emph{\color{red} BLA BLA LBA}
-
+Se puede ver en estos graficos que el promedio de errores es bastante variado y que al igual que con [8,7] la cantidad de epocas es mayor que [5,5].
 
 Notamos que el numero de neuronas en la ultima capa permite que la salida se ajuste al resultado mientras que la primer capa realiza el grueso del esfuerzo de generalizacion. Al contrario de lo que esperabamos, incrementar el numero de unidades de la ultima capa no mejora el resultado, si no que lo empeora debido a que le lleva un mayor numero de epocas para converger (cuando lo hace). Pocas neuronas en la capa final mostraron experimentalmente que proveen una buena solucion.
 
-Por lo mencionado anteriormente, elegimos el modelo de [9,5] porque brinda una buena solucion en un tiempo razonable y tiene menos oscilaciones. En general el error tiende a ser 4\% o menos y el Mean Armonic da alrededor 0.9508 el cual es algo mejor a comparacion del 0.94527 (el obtenido por el de [8,7] capas) y el de 0.9 (el obtenido por el de [5,5] capas).
+Por lo mencionado anteriormente, analizamos el valor del Mean Armonic para una muestra que reservamos del dataset original (que no se uso en el entrenamiento) y obtuvimos que el caso de [8,7] capas da un valor del 0.94527, el caso de [9,5] capas da un valor del 0.9508 y el caso de [5,5] capas da un valor de 0.97.
 
 
-En conclusion, decidimos elegir como modelo el de 9 y 5 capas dado 
-
-Por ultimo, graficamos un histograma para ver la cantidad de equivocaciones a la hora de predecir si un cancer es benigno o maligno.
+En conclusion, decidimos elegir como modelo el de 5 y 5 capas dado el Mean Armonic da mas cercano a 1, es un modelo con pocas capas entonces tiene una velocidad de procesamiento mayor.
+Ademas, analizamos los histogramas para ver la cantidad de equivocaciones a la hora de predecir si un cancer es benigno o maligno obteniendo para el caso de [5,5]:
 
 \begin{center}
 \includegraphics[scale=0.5]{img/histogramaej155}
 \end{center}
 
-Se puede ver en el grafico que la cantidad de equivocaciones es 8, siendo este un numero muy chico ya que la cantidad de muestras es de 500.
+y para el caso de [9,5] el siguiente grafico
 
+\begin{center}
+\includegraphics[scale=0.5]{img/ej195_histograma}
+\end{center}
 
-\emph{\color{red} RELEER TODA LA EXPERIMENTACION DEL 1}
+Concluyendo, podemos ver que en el grafico de [5,5] capas la cantidad de equivocaciones es 8, siendo este un numero menor que el de [9,5] capas. Tener en cuenta que la cantidad de muestras es de 400.
+
 \subsection{Ejercicio 2}
 
-Al igual que en el ejercicio 1, en este ejercicio se corrio el algoritmo de grid\_search 10 veces y en total encontramos que una buena solucion es:
+Al igual que en el ejercicio 1, en este ejercicio se corrio el algoritmo de grid\_search 10 veces y en total encontramos dos  soluciones buenas. 
+
+La primera:
 
 \begin{enumerate}
 \item epsilon: 0.01
@@ -167,36 +171,62 @@ Y para esta obtuvimos los siguientes graficos.
 \includegraphics[scale=0.4]{img/ej200050915sum}
 \includegraphics[scale=0.4]{img/ej200050915mean}
 
-Se puede ver en estos graficos que \emph{\color{red} BLA BLA BLA}
+Se puede ver en estos graficos que en el grafico de suma de errores las dos curvas se comportan igual, esto es porque es un problema de regresion y las funciones utilizadas son linealmente dependiente, es decir, la salida es proporcional a la entrada.
 
-Al igual que en el ejercicio anterior, probamos a mano cambiar los valores de los parametros pero de todas formas no encotnramos nada mejor. En general todos los resultados que obtuvimos fueron similar a este:
+Un detalle importante es que en este grafico vemos como la curva \textbf{no se plancha}, y este era un problema que teniamos en la mayoria de los casos de 2 capas. 
 
-\includegraphics[scale=0.4]{img/ej20050915sum}
-\includegraphics[scale=0.4]{img/ej20050915mean}
+La otra red que nos arrojo el grid\_search es la siguiente:
+
+\begin{enumerate}
+\item epsilon: 0.01
+\item tau: 1000
+\item etha: 0.01
+\item momentum: 0.6
+\item holdoutRate: 0.85
+\item modo: Incremental
+\item unidades por capa: 8 y 5
+\end{enumerate}
+
+Con esta arquitecutura generamos las siguientes imagenes:
+
+\includegraphics[scale=0.4]{img/asum}
+\includegraphics[scale=0.4]{img/bmean}
+
+Se puede ver en estos graficos que la suma de errores se mantiene constante en un intervalo, es decir, parece que tiene una asintota, en otras palabras, \textbf{se plancha}. Esto es un error tipico encontrado en las ejecuciones de 2 capas. Creemos que esto es debido a la funcion de activacion dado que, utilizamos una sidmoide y entonces esta tiene este comportamiento.
+
+Por otra parte, al igual que en el ejercicio anterior, probamos a mano cambiar los valores de los parametros pero de todas formas no encotnramos nada mejor. En general todos los resultados que obtuvimos fueron similar a este:
+
+\includegraphics[scale=0.4]{img/ccsum}
+\includegraphics[scale=0.4]{img/bbmean}
 
 estos graficos corresponden a los siguientes parametros:
 
 \begin{enumerate}
-\item epsilon: 0.1
+\item epsilon: 0.01
 \item tau: 200
-\item etha: 0.05
+\item etha: 0.1
 \item momentum: 0.9
 \item holdoutRate: 0.7
-\item modo: Incremental
-\item unidades por capa: 5
+\item modo: Batch
+\item unidades por capa: 15
 \end{enumerate}
-En estos graficos se puede ver una notable inestabilidad por parte de la red \emph{\color{red} BLA BLA LBA}
+En estos graficos se puede ver una notable inestabilidad por parte de la red (se ve en ambos graficos). Tambien podemos ver que, la suma de errores se mueve en un intervalo fijo, es decir, no esta desendiendo. 
 
-Como se podra ver en los graficos elegimos el primer modelo porque \emph{\color{red} BLA BLA BLA}
+Como se podra ver en los graficos elegimos el primer modelo porque es el que mas desciende y tambien tiene menor cantidad de capas, por lo tanto procesamiento mas rapido. Tambien vemos que la derivada de la funcion de promedio de errores nunca es cero, esto quiere decir que el modelo aprende.
 
 
-Para este modelo elegido, graficamos \emph{\color{red} BLA BLA BLA}
+Para este modelo elegido, hicimos unos graficos de dispercion. 
+En este grafico se puede ver en el eje \textbf{y} el valor predicho y en el eje \textbf{x} el valor objetivo. En general lo ideal es concluir en un grafico como el siguiente:
+
+\includegraphics[scale=0.4]{img/regresionperfecta}
+
+Con nuestra arquitectura obtuvimos los siguientes graficos:
 
 \includegraphics[scale=0.4]{img/ej2-calef}
 \includegraphics[scale=0.4]{img/ej2-refrig}
 
 
-\emph{\color{red} FALTA AGREGAR MAS COSAS?}
+En estos graficos notamos que son similares a lo ideal, los puntos obtenidos se acercan a la recta Y=X, lo que quiere decir que los valores aprendidos se acercan mucho al objetivo.
 \subsection{Conclusion}
 
 \emph{\color{red} FALTA }
