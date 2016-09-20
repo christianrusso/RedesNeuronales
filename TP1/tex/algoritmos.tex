@@ -5,6 +5,18 @@ Para ambos problemas a resolver se usaron las mismas funciones, siendo diferente
 
 La interfaz y los detalles de cada ejercicio se explicará en secciones posteriores. 
 
+Las funciones que se ofrecen son las siguientes:
+\begin{itemize}
+\item \textbf{activation} Calcula el output de al red dado un $X_{h}$
+\item \textbf{correction} Calcula los $\Delta$ W dado un target $Z_{h}$
+\item \textbf{adaptation} Aplica los $\Delta$ W 
+\item \textbf{batch} 
+\item \textbf{incremental}
+\item \textbf{holdout} Dado un porcentaje, reserva un set para validación. 
+\end{itemize}
+
+Se pensó en implementar la técnica de \textit{early stopping} pero se evitó para no aumentar la complejidad del código.
+
 \subsection{Algoritmos}
 En esta seccion describimos los pseudo-codigos de los algoritmos que utilizamos para resolver ambos ejercicios.
 %Pseudocodigo de Activation
@@ -98,30 +110,6 @@ En esta seccion describimos los pseudo-codigos de los algoritmos que utilizamos 
 \end{minipage}
 }
 \end{center}
-
-%Pseudocodigo de Validacion
-\begin{center}
-\noindent\fbox{
-\begin{minipage}{0.5\textwidth}
-\begin{algorithm}[H]
- validacion(e?,T)\;
-  $e = 1$\;
-  $t = 0$\;
-  \While{$0 > e$ y t $<$ T}{
-    e = trainning(X,Z)\;
-    t = t + 1\;
-  }
-  return e,t\;
- \caption{validacion}
-\end{algorithm}
-\end{minipage}
-}
-\end{center}
-
-
-
-
-
 
 %Pseudocodigo de Holdout
 \begin{center}
