@@ -10,7 +10,7 @@ import sys
 import cPickle
 import datetime
 
-def imprimirImagen(ejercicio, error_t_hist,error_v_hist, suma, img_name, prnt=False, save=True):
+def imprimirImagen(ejercicio, error_t_hist,error_v_hist, suma, img_name, prnt=True, save=True):
 	plt.xlabel('Epoch')
 	plt.title("Ejercicio "+str(ejercicio))
 	plt.plot(error_t_hist, label="Training")
@@ -23,10 +23,10 @@ def imprimirImagen(ejercicio, error_t_hist,error_v_hist, suma, img_name, prnt=Fa
 	plt.plot(error_v_hist, label="Validacion")
 	plt.grid()
 	plt.legend()
-	if prnt:
-		plt.show()
 	if save:
 		plt.savefig(img_name)
+	if prnt:
+		plt.show()
 	plt.close()
 
 def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.5, modo=0, early=0,unitsPorCapa=[15], wrapper=False):
@@ -62,8 +62,8 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 		print '>> suma de errores Training:	' + str(error_t_hist_sum_best[-1])
 		print '>> suma de errores Testing:	' + str(error_v_hist_sum_best[-1])	
 	img_name= "ej"+str(ejercicio)+"_"+str(etha)+"_"+str(m)+"_"+str(modo)+"_"+str(unitsPorCapa)	
-	imprimirImagen(ejercicio, error_t_hist_best,error_v_hist_best, suma=False, img_name=img_name)
-	imprimirImagen(ejercicio, error_v_hist_sum_best, error_t_hist_sum_best, suma=True, img_name=img_name)
+	imprimirImagen(ejercicio, error_t_hist_best,error_v_hist_best, suma=False,  prnt=False, img_name=img_name)
+	imprimirImagen(ejercicio, error_v_hist_sum_best, error_t_hist_sum_best, suma=True, prnt=False,img_name=img_name)
 	
 	if(save_file!=None):
 		print "Guardando Red"
@@ -76,7 +76,7 @@ def load(ej,Net,Dataset, prnt=True):
 	with open(Net, "rb") as input:
 		Red = cPickle.load(input) # protocol version is auto detected
 	Red.load_dataset(Dataset, ej)
-	lista_error,errorTotal,cantidad_errores = Red.evaluate()
+	lista_error,errorTotal,cantidad_errores = Red.evaluate(ej)
 	print '>> error total acumulado: ' + str(errorTotal)+' Numero de equivocaciones: '+str(cantidad_errores)	
 	plt.plot(lista_error)
 	plt.ylabel('Valor del error')
