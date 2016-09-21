@@ -37,6 +37,12 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 		print "Error aceptable " + str(epsilon)
 		print "Max Epocas " +str(tau)
 		print "Learning Rate " + str(etha)
+		print "Momentum " +str(m)
+		print "holdout rate " + str(holdoutRate)
+		if modo==1:
+			print "Modo incremental"
+		else:
+			print "Modo batch"
 	Red=perceptron_Multiple(unitsPorCapa,epsilon,tau,etha,m,holdoutRate)
 	Red.load_dataset(Dataset, ejercicio)
 	i = 1
@@ -141,21 +147,25 @@ elif len(args) < 5:
 
 cmdTrain = args[2] == "-t"
 cmdLoad = args[2] == "-l"
-errorAceptable=0.1
-maxEpoch=1000
-learningRate=0.01
-momentum=0.9
-holdoutRate=0.7
-modo=0
-early=0
-unitsPorCapa=[5]
 if(args[1] == "ej1"):
 	ejercicio=1
+	errorAceptable=0.1
+	maxEpoch=1000
+	learningRate=0.01
+	momentum=0.9
+	holdoutRate=0.7
+	modo=1
+	early=0
 	unitsPorCapa=[5,5]
 elif(args[1] == "ej2"):
 	ejercicio=2
 	errorAceptable=0.01
-	learningRate=0.05
+	maxEpoch=200
+	learningRate=0.005
+	momentum=0.9
+	holdoutRate=0.7
+	modo=1
+	early=0
 	unitsPorCapa=[5]
 else:
 	print message
@@ -184,10 +194,10 @@ if cmdTrain:
 		holdoutRate = float(args[9])
 	if len(args) > 10:
 		modo=int(args[10])
+#	if len(args) > 11:
+#		early=int(args[11])
 	if len(args) > 11:
-		early=int(args[11])
-	if len(args) > 12:
-		str1=str(args[12])
+		str1=str(args[11])
 		unitsPorCapa=map(int, str1[1:-1].split(','))
 	train(ejercicio,archivoDataset,archivoRed,errorAceptable,maxEpoch,learningRate,momentum,holdoutRate,modo, early, unitsPorCapa)
 
