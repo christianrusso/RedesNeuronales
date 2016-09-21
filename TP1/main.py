@@ -150,7 +150,7 @@ cmdLoad = args[2] == "-l"
 if(args[1] == "ej1"):
 	ejercicio=1
 	errorAceptable=0.1
-	maxEpoch=1000
+	maxEpoch=200
 	learningRate=0.01
 	momentum=0.9
 	holdoutRate=0.7
@@ -208,8 +208,8 @@ elif cmdLoad:
 		print message
 		sys.exit()
 		
-	archivoRed = args[3]
-	archivoDataset = args[4]
+	archivoRed = args[4]
+	archivoDataset = args[3]
 	
 	load(ejercicio,archivoRed, archivoDataset)
 else:
