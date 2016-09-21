@@ -1,31 +1,30 @@
 \section{Problemas}
-\subsection{Cancer de mamas}
-Los datos son resultado de un examen que se realizan para diagnosticar cancer de mamas. Para cada paciente contamos con 10 caracteristicas de las imagenes de las celulas, entre estas caracteristicas contamos con diagnostico, radio, perimetro, textura, area, suavidad, etc. 
+\subsection{Cáncer de mamas}
+Los datos son resultado de un exámen que se realizan para diagnosticar cáncer de mamas. Para cada paciente contamos con 10 características de las imágenes de las células. Entre estas características contamos con diagnóstico, radio, perímetro, textura, área, suavidad, etc. 
 
-Cada una de estas entradas corrresponde a los datos de distintos pacientes, es importante remarcar que se cuenta con el atributo del diagnostico final quen indica si un tumor es benigno o maligno (0 y 1 respectivamente).
+Cada una de estas entradas corrresponde a los datos de distintos pacientes. Es importante remarcar que se cuenta con el atributo del diagnóstico final que indica si un tumor es benigno o maligno (0 y 1 respectivamente).
 
-Sobre este primer dataset se buscara entrenar una red neuronal para poder predecir, dado un nuevo paciente con sus datos, si su estado sera el de tener cancer o no.
+Sobre este primer dataset, se buscará entrenar una red neuronal para poder predecir, dado un nuevo paciente con sus datos, si su estado será el de tener cáncer o no.
 
-Este tipo de problemas se denomina un \textbf{problema de clasificacion}
+Este tipo de problemas se denomina un \textbf{problema de clasificación}
 
-Para resolver este problema decidimos utilizar un perceptron multicapa con una funcion de activacion sigmoidea bipolar. No utilizamos un perceptron simple debido a que este no siempre es capaz de generalizar y cualquier funcion que el simple sea capaz de aprender, el multicapa tambien lo hara.
+Para resolver este problema, decidimos utilizar un perceptron multicapa con una función de activacion sigmoidea bipolar. No utilizamos un perceptron simple debido a que este no siempre es capaz de generalizar y cualquier función que el simple sea capaz de aprender, el multicapa tambien lo hará.
 
-Como primer medida, para mantener la estabilidad numerica del calculo, decidimos normalizar la entrada. Esto se debe a que al implementarse sobre aritmetica finita, los errores numericos tienden a propagarse mucho mas rapido cuando se aplica operaciones sobre numeros grandes que en los pequenos.
+Como primer medida, para mantener la estabilidad numérica del cálculo, decidimos normalizar la entrada. Esto se debe a que al implementarse sobre aritmética finita, los errores numéricos tienden a propagarse mucho mas rápido cuando se aplica operaciones sobre números grandes que en los pequeños.
 
-Por otro lado, al no conocer cual es el modelo optimo de redes neuronales para este problema, decidimos correr un algoritmo de busqueda para estimar cual es el numero apropiado de capas y neuronas. Tomando este resultado, intentamos mejorarlo analizando el comportamiento variando poco a poco las capas y analizando los graficos de error cometido y unidades equivocadas. Este proceso esta descripto con mas detalle en la \textbf{seccion de experimentacion} del ejercicio 1
+Por otro lado, al no conocer cúal es el modelo óptimo de redes neuronales para este problema, decidimos correr un algoritmo de búsqueda para estimar cúal es el número apropiado de capas y neuronas. Tomando este resultado, intentamos mejorarlo analizando el comportamiento variando poco a poco las capas y analizando los gráficos de error cometido y unidades equivocadas. Este proceso esta descripto con más detalle en la \textbf{sección de experimentación} del ejercicio 1
 
-\subsection{Eficiencia energetica}
+\subsection{Eficiencia energética}
 
-En el siguiente problema contamos con los datos sobre la carga energetica para calefaccionar y refrigerar edificios en funcion de ciertas caractersisticas de los mismos.
+En el siguiente problema contamos con los datos sobre la carga energética para calefaccionar y refrigerar edificios en función de ciertas características de los mismos.
 
-El analisis se realizo tomando en cuenta edificios de diversas caracteristifcas, que difieren con respecto a la superficie y distribucion de las areas de reflejo, la orientacioon, etc.
+El análisis se realizó tomando en cuenta edificios de diversas característifcas, que difieren con respecto a la superficie y distribución de las áreas de reflejo, la orientacioon, etc.
 
-Para cada edificio contamos con area de la superficie total, area de las paredes, area del techo, orientacion, area de reflejo total, etc.
+Para cada edificio contamos con área de la superficie total, área de las paredes, área del techo, orientación, área de reflejo total, etc.
 
-Es importante remarcar que tambien contamos, para cada edifico del dataset, la cantidad de energio necersaria para realizar una calefaccion y refrigeracion adecuada.
+Es importante remarcar que también contamos, para cada edifico del dataset, la cantidad de energia necersaria para realizar una calefacción y refrigeración adecuada.
 
-Sobre este segundo dataset se buscara entrenar una red neuronal para poder aproximar la funcion que determina la cantidad de energia necesaria para
-la calefaccion y refrigeracion de un edificio en funcion de los parametros de entrada. Es decir, es un problema de regresion.
+Sobre este segundo dataset se buscará entrenar una red neuronal para poder aproximar la función que determina la cantidad de energía necesaria para la calefacción y refrigeración de un edificio en función de los parámetros de entrada. Es decir, es un problema de regresión.
 
 Por esto mismo, tuvimos que normalizar el output target a valores en el rango [-1,1] para que podamos predecirlo con la función sigmoidea bipolar.
 

@@ -1,17 +1,17 @@
 \section{Conclusiones}
 A la hora de hacer experimentos vimos que nuestros resultados son mejores en arquitecturas con pocas capas en lugar de con muchas.
 
-En los dos ejercicios la arquitectura elegida fue la resultado del grid\_search, con esto nos damos cuenta que la tecnica del grid\_search fue muy util.
+En los dos ejercicios la arquitectura elegida fue la resultado del grid\_search, con esto nos damos cuenta que la técnica del grid\_search fue muy útil.
 
-Por otro lado, podemos concluir que la aleatoriedad es un factor muy importante en las redes neuronales, dado que una misma arquitectura puede dar un resultado muy distinto en distintas corridas, esto se debe a los pesos iniciales del W, por ejemplo en algunos casos si los parametros iniciales de W hacen que la derivada de la sigmoida de 0, el algoritmo no aprende y no se consiguen resultados utiles.
+Por otro lado, podemos concluir que la aleatoriedad es un factor muy importante en las redes neuronales, dado que una misma arquitectura puede dar un resultado muy distinto en distintas corridas, esto se debe a los pesos iniciales del W, por ejemplo en algunos casos si los parámetros iniciales de W hacen que la derivada de la sigmoida de 0, el algoritmo no aprende y no se consiguen resultados útiles.
 
-En muchos casos veiamos que al agregar mas capas la suma de errores oscila mas y, ademas de incrementar el tiempo, si el momentum es muy bajo empeoraba. Este comportamiento notaba que el momentum actua como un amortiguador, es decir, suaviza las oscilaciones. Sin embargo, un valor alto de momentum provoca que la solucion converja lentamente por la alta amortiguacion a los cambios.
+En muchos casos, veiamos que al agregar mas capas, la suma de errores oscila más y, además de incrementar el tiempo, si el momentum es muy bajo empeoraba. Este comportamiento notaba que el momentum actúa como un amortiguador, es decir, suaviza las oscilaciones. Sin embargo, un valor alto de momentum provoca que la solucion converja lentamente por la alta amortiguacion a los cambios.
 
 Otro factor importante es la eleccion del valor de epsilon. Ya que para algunas redes, sobre todo en el ejercicio 2, al tratar de ajustar mucho sobre el dataset, no solo se corre el riesgo de overfit sino que provoca que se desestabilice la convergencia a una solucion.
 
-Tambien podemos concluir que es muy fácil no darse cuenta que se está overfitteando en un nivel superior al de parámetros, por ejemplo, overfittear sobre el conjunto de validación o el mismo modelo en sí.
+También podemos concluir que es muy fácil no darse cuenta que se está overfitteando en un nivel superior al de parámetros, por ejemplo, overfittear sobre el conjunto de validación o el mismo modelo en sí.
 
-Es muy importante ver que la eleccion de una red (la cantidad de capas) influye mucho mas que los parametros de aprendizaje.
+Es muy importante ver que la elección de una red (la cantidad de capas) influye mucho más que los parámetros de aprendizaje.
 
 Un detalle que se puso en evidencia en el Ejercicio 2 fue el significado asignado a la salida del perceptron. Debido a un error en el primer intento de implementacion, no la normalizamos, provocando que la red fuera incapaz de aprender debido a que la salida entregaba valores entre -1 y 1 (dada por la funcion de activacion sigmoide) y hacer back-propagation del error, este siempre devuelva un error mayor epsilon. Por este motivo, el primer paso de modelado es muy importante.
 \\
