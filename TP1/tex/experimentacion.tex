@@ -1,5 +1,5 @@
 \section{Experimentación}
-\subsection{Búsqueda exhautiva}
+\subsection{Búsqueda exhaustiva}
 Para comenzar la experimentación y tener una idea aproximada sobre los mejores valores de los parámetros del modelo utilizamos la técnica de \textit{grid search} o búsqueda exhaustiva. Siempre corrimos con un \textit{holdout set} de validación del 50\% del dataset completo, para poder simular la performance de nuestra implementación con datos nuevos que no se usaron en el entrenamiento. 
 
 En el ejercicio uno, la búsqueda trata de minimar la suma de errores totales del set de validación, mientras que en el ejercicio dos se hace lo mismo pero al ser un problema de regresión, se define como error cuando el output de la red y el target es mayor a un \textit{epsilon} definido. 
