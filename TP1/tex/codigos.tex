@@ -1,9 +1,9 @@
 \section{Códigos}
 \subsection{main.py}
-\emph{\color{red} ACTUALIZAR }
 \begin{lstlisting}[caption=main.py]
 from new_perceptron import perceptron_Multiple,sigmoidea_bipolar,sigmoidea_logistica
 from numpy import *
+#import matplotlib.pyplot as plt
 from sklearn.grid_search import ParameterGrid
 from pylab import Line2D, plot, axis, show, pcolor, colorbar, bone, savefig
 from timeit import default_timer as timer 
@@ -13,7 +13,7 @@ import sys
 import cPickle
 import datetime
 
-def imprimirImagen(ejercicio, error_t_hist,error_v_hist, suma, img_name, prnt=False, save=True):
+def imprimirImagen(ejercicio, error_t_hist,error_v_hist, suma, img_name, prnt=True, save=True):
 	plt.xlabel('Epoch')
 	plt.title("Ejercicio "+str(ejercicio))
 	plt.plot(error_t_hist, label="Training")
@@ -26,14 +26,14 @@ def imprimirImagen(ejercicio, error_t_hist,error_v_hist, suma, img_name, prnt=Fa
 	plt.plot(error_v_hist, label="Validacion")
 	plt.grid()
 	plt.legend()
-	if prnt:
-		plt.show()
 	if save:
 		plt.savefig(img_name)
+	if prnt:
+		plt.show()
 	plt.close()
 
-def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.01,m=0.6,holdoutRate=0.5, modo=0, 
-	early=0,unitsPorCapa=[15], wrapper=False):
+def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, 
+	etha=0.01,m=0.6,holdoutRate=0.5, modo=0, early=0,unitsPorCapa=[15], wrapper=False):
 	if not wrapper:			
 		print "Ejercicio ",ejercicio	
 		print "File "+str(Dataset)
@@ -41,6 +41,12 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 		print "Error aceptable " + str(epsilon)
 		print "Max Epocas " +str(tau)
 		print "Learning Rate " + str(etha)
+		print "Momentum " +str(m)
+		print "holdout rate " + str(holdoutRate)
+		if modo==1:
+			print "Modo incremental"
+		else:
+			print "Modo batch"
 	Red=perceptron_Multiple(unitsPorCapa,epsilon,tau,etha,m,holdoutRate)
 	Red.load_dataset(Dataset, ejercicio)
 	i = 1
@@ -52,7 +58,8 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 		error_t_hist_sum_best = None
 		i = 3
 	for _ in xrange(i):
-		error_t_hist,error_v_hist, error_v_hist_sum, error_t_hist_sum, epoch = Red.train(modo, early)
+		error_t_hist,error_v_hist, error_v_hist_sum, error_t_hist_sum, 
+		epoch = Red.train(modo, early)
 		if best_error == -1 or (wrapper and error_v_hist_sum[-1] < best_error):
 			best_error = error_v_hist_sum[-1]
 			error_t_hist_best = error_t_hist
@@ -66,8 +73,8 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 		print '>> suma de errores Training:	' + str(error_t_hist_sum_best[-1])
 		print '>> suma de errores Testing:	' + str(error_v_hist_sum_best[-1])	
 	img_name= "ej"+str(ejercicio)+"_"+str(etha)+"_"+str(m)+"_"+str(modo)+"_"+str(unitsPorCapa)	
-	imprimirImagen(ejercicio, error_t_hist_best,error_v_hist_best, suma=False, img_name=img_name)
-	imprimirImagen(ejercicio, error_v_hist_sum_best, error_t_hist_sum_best, suma=True, img_name=img_name)
+	imprimirImagen(ejercicio, error_t_hist_best,error_v_hist_best, suma=False,  prnt=True, img_name=img_name)
+	imprimirImagen(ejercicio, error_v_hist_sum_best, error_t_hist_sum_best, suma=True, prnt=True,img_name=img_name)
 	
 	if(save_file!=None):
 		print "Guardando Red"
@@ -78,13 +85,15 @@ def train(ejercicio,Dataset=None, save_file=None, epsilon=0.1, tau=1000, etha=0.
 def load(ej,Net,Dataset, prnt=True):
 	print "Cargando Red tipo Ejercicio ",ej
 	with open(Net, "rb") as input:
-		Red = cPickle.load(input) # protocol version is auto detected
+		Red = cPickle.load(input)
 	Red.load_dataset(Dataset, ej)
-	lista_error,errorTotal,cantidad_errores = Red.evaluate()
-	print '>> error total acumulado: ' + str(errorTotal)+' Numero de equivocaciones: '+str(cantidad_errores)	
+	lista_error,errorTotal,cantidad_errores = Red.evaluate(ej)
 	plt.plot(lista_error)
-	plt.ylabel('Valor del error')
-	if prnt:
+	plt.title("Ejercicio 1")
+	plt.ylabel('Error')
+	plt.xlabel('Numero de instancia')
+	if prnt and ej==1:
+		print '>> error total acumulado: ' + str(errorTotal)+' Numero de equivocaciones: '+str(cantidad_errores)	
 		plt.show()
 	return errorTotal, cantidad_errores	
 
@@ -99,7 +108,7 @@ def grid_search(param_grid):
 	start = timer()
 	for params in grid:
 	    e = train(params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],
-	    	params['9'], params['10'],params['11'], True )
+	    	params['9'],params['10'],params['11'], True )
 	    print i, "	", e
 	    i += 1
 	    if i%50 == 0:
@@ -108,12 +117,18 @@ def grid_search(param_grid):
 	    if best_error == None or e < best_error:
 	    	best_error = e
 	    	best_params = [params['1'], params['2'], params['3'],params['4'],params['5'],params['6'],params['7'],params['8'],
-	    	params['9'], 	params['10'],params['11']]
+	    	params['9'],params['10'],params['11']]
 	print "MEJOR ERROR Y MODELO EJERCICIO "+str(param_grid["1"])
 	print "training, validacion:", best_error
 	print "parametros:", best_params
 	end = timer()
 	print int((end-start)/60), " min"
+	
+def pruebas():
+	print "Grid search de parametros para mejor modelo"	
+	param_grid = {'1': [2],"2":['./datasets/tp1_ej2_training.csv'],"3": [None], "4":[0.1], "5": [200], 
+	"6":[0.01,0.05], "7":[0.1, 0.7, 0.9], "8": [0.70], "9": [0,1], "10":[0], "11":[[5],[10],[15],[20],[25],[15,15],[5,5],[10,10]]}
+	grid_search(param_grid)
 	
 args = sys.argv
 message = "\nModo de uso:\n\
@@ -135,11 +150,26 @@ elif len(args) < 5:
 
 cmdTrain = args[2] == "-t"
 cmdLoad = args[2] == "-l"
-
 if(args[1] == "ej1"):
 	ejercicio=1
+	errorAceptable=0.1
+	maxEpoch=200
+	learningRate=0.01
+	momentum=0.9
+	holdoutRate=0.7
+	modo=1
+	early=0
+	unitsPorCapa=[5,5]
 elif(args[1] == "ej2"):
 	ejercicio=2
+	errorAceptable=0.01
+	maxEpoch=200
+	learningRate=0.005
+	momentum=0.9
+	holdoutRate=0.7
+	modo=1
+	early=0
+	unitsPorCapa=[5]
 else:
 	print message
 	sys.exit()
@@ -152,14 +182,7 @@ if cmdTrain:
 		sys.exit()
 	archivoDataset = args[3]
 	archivoRed=None
-	errorAceptable=0.1
-	maxEpoch=1000
-	learningRate=0.01
-	momentum=0.6
-	holdoutRate=0.5
-	modo=0
-	early=0
-	unitsPorCapa=[5]
+
 	if len(args) > 4:
 		archivoRed=args[4]
 	if len(args) > 5:
@@ -174,14 +197,13 @@ if cmdTrain:
 		holdoutRate = float(args[9])
 	if len(args) > 10:
 		modo=int(args[10])
+#	if len(args) > 11:
+#		early=int(args[11])
 	if len(args) > 11:
-		early=int(args[11])
-	if len(args) > 12:
-		#unitsPorCapa=int(args[11])
-		str1=str(args[12])
+		str1=str(args[11])
 		unitsPorCapa=map(int, str1[1:-1].split(','))
-	train(ejercicio,archivoDataset,archivoRed,errorAceptable,maxEpoch,learningRate,momentum,holdoutRate,modo, early,
-	 unitsPorCapa)
+	train(ejercicio,archivoDataset,archivoRed,errorAceptable,maxEpoch,learningRate,momentum,
+		holdoutRate,modo, early, unitsPorCapa)
 
 elif cmdLoad:
 	
@@ -190,20 +212,23 @@ elif cmdLoad:
 		print message
 		sys.exit()
 		
-	archivoRed = args[3]
-	archivoDataset = args[4]
+	archivoRed = args[4]
+	archivoDataset = args[3]
 	
 	load(ejercicio,archivoRed, archivoDataset)
 else:
 	print message
+
 \end{lstlisting}
 
-
+\newpage
 \subsection{new\_perceptron.py}
 
 \begin{lstlisting}[caption=new\_perceptron.py]
 from numpy import *
+from copy import deepcopy
 import math
+import pylab as plt
 def sigmoidea_bipolar(vector, derivative=False):
 	B = 1
 	if derivative:
@@ -228,20 +253,23 @@ class perceptron_Multiple:
 		for line in f:
 			if line.rstrip():
 				if ejercicio == 1:
+					self.ej = 1
 					r = line.rstrip().split(", ")
 					x_i = map(float, r[1:])
 					z_i = map(self.cod, r[0])
 				else:
+					self.ej = 0
 					r = line.rstrip().split(",	")
 					x_i = map(float, r[:-2])
 					z_i = map(float, r[-2:])
 				self.X.append(x_i)
 				self.Z.append(z_i)
-		self.normalizar(self.X)
+		self.X = self.normalizar(self.X) # Para pretty print
 		if ejercicio != 1:
-			self.normalizar(self.Z)
+			self.Z = self.normalizar2(self.Z)
 		self.X = array(self.X) # Para pretty print
 		self.Z = array(self.Z)
+		#return Xx_mean, x_sd, z_mean, z_sd
 
 	def __init__(self,UnitsXCapa=[15],e=0,t=0,nl=0,m=0.6,holdout=1,funcionActivacion=sigmoidea_bipolar):
 		self.funcActivacion = funcionActivacion	
@@ -266,6 +294,15 @@ class perceptron_Multiple:
 		varianza = std(array, axis=0)
 		for i in xrange(len(array)):
 			array[i] = (array[i] - media )/varianza	
+		return array
+
+	def normalizar2(self, a):
+		a = array(a)
+		x_min = a.min(axis= 0) 
+		x_max = a.max(axis=0)
+		for i in xrange(len(a)):
+			a[i] = -1+2*(a[i] - x_min )/(x_max-x_min)	
+		return a
 
 	def train(self,modo=0, early=0):
 		self.P = len(self.X)
@@ -275,13 +312,15 @@ class perceptron_Multiple:
 		self.S = array(self.S)
 		# TAMANOS W, dW, Y
 		# Basura en la pos 0, indizado desde 1
-		self.W = array([random.uniform(-sqrt(self.S[j]),sqrt(self.S[j]), (self.S[j-1]+1, self.S[j])) for j in range(self.L)])
+		self.W = array([random.uniform(-sqrt(self.S[j]),sqrt(self.S[j]), 
+			(self.S[j-1]+1, self.S[j])) for j in range(self.L)])
+		
 		# Basura en la pos 0, indizado desde 1
 		self.dW = array([zeros((self.S[j-1]+1, self.S[j])) for j in range(self.L)])
 		self.Y = [zeros((1, self.S[j]+1)) for j in range(self.L-1)]
 		self.Y.append([zeros((1,shape(self.Z)[1]))])
-		t,error_v_hist,error_t_hist, error_t_hist_sum, error_v_hist_sum = self.holdout(self.epsilon, self.tau, self.p, modo, early)
-		# print error_t_hist[-1],error_v_hist[-1] ,t 
+		t,error_v_hist,error_t_hist, error_t_hist_sum, error_v_hist_sum = self.holdout(self.epsilon, 
+			self.tau, self.p, modo, early)
 		return error_t_hist,error_v_hist, error_v_hist_sum, error_t_hist_sum, t
 
 	def holdout(self,epsilon, tau, p, modo, early):
@@ -307,8 +346,8 @@ class perceptron_Multiple:
 			error_t_hist_sum.append(e_t_sum)
 			t += 1
 			#early_count = (early_count+1) if t > 2 and error_v_hist[-1]>error_v_hist[-2] else 0
-			# if(t % 10==1):
-			# 	print "epoch", t, "   e_training", e_t, "	e_validation", e_v
+			if(t % 10==1):
+				print "epoch", t, "   e_training", e_t, "	e_validation", e_v
 			# if early and early_count>=30:
 			# 	print "Early Stopping - 30 epochs de crecimiento de error de validacion"
 			# 	break
@@ -357,25 +396,61 @@ class perceptron_Multiple:
 		e_count = 0
 		e_sum = 0
 		for (X_h, Z_h) in zip(X, Z):
-			E = self.activation(X_h)-Z_h
+			Y = self.activation(X_h)
+			E = Y-Z_h
 			e = (E**2).sum()
 			if e > self.epsilon:
 				e_count += 1
 			e_sum += e
 		return e_sum/(len(X) if len(X) != 0 else 1), e_count
 
-	def evaluate(self):	
+	def evaluate(self,ej,prnt=True):	
 		e_sum = 0
 		list_error=[]
 		numero_error=0
-		for (X_h, Z_h) in zip(self.X, self.Z):
-			E=self.activation(X_h)-Z_h
-			if((E**2).sum()>=1):
-				numero_error+=1
-			e_sum+=(E**2).sum()
-			list_error.append((E**2).sum())
+		t_p=0
+		f_p=0
+		f_n=0
+		if ej==1:
+			for (X_h, Z_h) in zip(self.X, self.Z):
+				E=self.activation(X_h)-Z_h
+				if((E**2).sum()>=1):
+					numero_error+=1
+					if(Z_h).sum()>=0:
+						f_n+=1
+					else:
+						f_p+=1
+				else:
+					if(Z_h).sum()>=0:
+						t_p+=1
+				e_sum+=(E**2).sum()
+				list_error.append((E**2).sum())
+			print "false positive "+str(f_p)
+			print "false negative "+str(f_n)
+			print "true positive "+str(t_p)
+			precision=(float(t_p)/float(t_p+f_p)) if t_p+f_p!=0 else 0 
+			recall=(float(t_p)/float(t_p+f_n)) if t_p+f_n!=0 else 0 
+			print "recall "+str(recall)
+			print "precision "+str(precision)
+			print "Mean armonic "+str((2*recall*precision)/(recall+precision))
+		else:
+			x=[]
+			y=[]
+			y_1=[]
+			x_1=[]
+			for (X_h, Z_h) in zip(self.X, self.Z):
+				E=self.activation(X_h)
+				y.append(E[0])
+				x.append(Z_h[0])
+				y_1.append(E[0][1])
+				x_1.append(Z_h[1])
+			plt.title("Ejercicio 2\nPredicciones Carga de Calefaccion")
+			plt.xlabel("Target")
+			plt.ylabel("Predicted")
+			plt.plot(x,y, 'bo')
+			plt.show()
+			plt.title("Ejercicio 2\nPredicciones Carga de Refrigeracion")
+			plt.plot(x_1,y_1, 'bo')
+			plt.show()
 		return list_error,e_sum/(len(self.X) if len(self.X) != 0 else 1),numero_error	
-
-
-
 \end{lstlisting}
