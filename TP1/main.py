@@ -208,8 +208,8 @@ elif cmdLoad:
 		print message
 		sys.exit()
 		
-	archivoRed = args[4]
-	archivoDataset = args[3]
+	archivoRed = args[3]
+	archivoDataset = args[4]
 	
 	load(ejercicio,archivoRed, archivoDataset)
 else:

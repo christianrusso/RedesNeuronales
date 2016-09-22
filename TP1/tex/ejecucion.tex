@@ -14,16 +14,29 @@ $ sudo apt-get install python-numpy python-sklearn python-matplotlib
 
 La manera de ejecutar el programa dado es la siguiente:
 
-Por default, los parámetros a partir de epsilon inclusive son opcionales, se entrena con parámetros seteados.
+Por default, los parámetros a partir de epsilon inclusive son opcionales, se entrena con parámetros seteados para las redes elegidas en la experimentacion. Por ejemplo:
 
-%python main.py ej1 -t './datasets/tp1_ej1_training.csv' 'red' 0.1 10 0.75  0.01 0.6 1 0 
+
+\begin{verbatim}
+$ python main.py < ejercicio > -t < archivo_entrada > < archivo_red_salida >  
+\end{verbatim}
+
+Los training devuelven output sobre métricas por consola y además dos imágenes como las vistas en la experimentación, mostrando el promedio y suma de errores.
+
+Si se quiere agregar más parámetros:
+
 \begin{verbatim}
 $ python main.py < ejercicio > -t < archivo_entrada > < archivo_red_salida >  < epsilon > 
                        < tau > < learning_rate > < momentum > < holdout_rate > < modo > <capas_ocultas> 
 \end{verbatim}
+
+Para cargar una red:
+
 \begin{verbatim}
 $ python main.py < ejercicio > -l < archivo_entrada > < archivo_red_salida > 
 \end{verbatim}
+
+Para el ejercicio 1 devuelve un histograma de errores, y en el ejercicio 2, un gráfico de regresión normalizado.
 
 Donde:
 
@@ -55,14 +68,21 @@ Si queremos ejecutar el ejercicio 1 entrenandolo con el dataset \textbf{tp1\_ej1
 \textbf{red} con un epsilon de \textbf{0.1}, tau de \textbf{1000}, holdout\_rate de \textbf{0.7} learning\_rate de \textbf{0.01}, momentum de \textbf{0.9} con el modo \textbf{Incremental} y 10 neuronas en la primer capa y 2 en la segunda seria:
 
 \begin{verbatim}
-$ python main.py ej1 -t 'tp1_ej1_training.csv' ’red’ 0.1 1000 0.01 0.9 0.7 1 [10,2]
+$ python main.py ej1 -t tp1_ej1_training.csv red 0.1 1000 0.01 0.9 0.7 1 [10,2]
 \end{verbatim}
-
 
 En caso de querer cargar una red ya guardada seria, por ejemplo:
 
 \begin{verbatim}
-$ python main.py ej1 -l 'red' 'tp1_ej1_training.csv'
+$ python main.py ej1 -l red tp1_ej1_training.csv
 \end{verbatim}
 
 Siendo \textbf{red} la red guardada y \textbf{tp1\_ej1\_training.csv} con el que va a probar.
+
+
+
+En caso de querer ejecutar los parametros por defecto:
+
+\begin{verbatim}
+$ python main.py ej1 -t tp1_ej1_training.csv red 
+\end{verbatim}
