@@ -30,7 +30,7 @@ def print_matrix(matrix):
 
 
 print("Cargando dataset...")
-dataset = BOWDataset(filename='tp2/tp2_training_dataset.csv')
+dataset = BOWDataset(filename='tp2_training_dataset.csv')
 # dataset = dataset.group_words_by_cat(1)
 
 print("Entrenando GHA...")

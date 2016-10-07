@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import sys
 
-dataset = BOWDataset(filename='tp2/tp2_training_dataset.csv')
+dataset = BOWDataset(filename='tp2_training_dataset.csv')
 tdataset = dataset.uncategorized_dataset()
 
 EPOCHS = 100
