@@ -1,0 +1,11 @@
+El planteo básicamente es:
+ - Dormimos, hay un esqueleto del informe pero no aporta nada, aparte no era particularmente de análisis, más bien listar cosas y ejemplos
+ - El tp2.py es "completamente funcional", aunque lo único que hace es generar el mapa y mostrar dónde caen las cosas (infinitas mejoras a hacerle, pero bueno, para la re-entrega)
+
+Nuestras consultas principales serían:
+	- Es MUY lento. Hay algo que estemos haciendo horriblemente poco eficiente? 
+	- El resultado es más o menos el esperado? Hay algunas categorías que se diferencian bastantes, otras que quedan medio dispersas.
+	- En resExp incluimos resultados obtenidos de experimentos, el nombre de archivo lista los parámetros. Se comporta como debería?
+	- Cómo evaluamos en qué categoría cae un vector a la hora de testear? Cada posición queda asociada únicamente a una única categoría de acuerdo a los resultados obtenidos del training? Ej. (1,3), (2,5) y (4,4) del mapa obtuvieron mayoritariamente categoría X entonces si cae ahí, digo que es categoría X?
+
+Lo que se ocurra.

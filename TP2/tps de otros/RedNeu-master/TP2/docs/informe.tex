@@ -1,0 +1,89 @@
+\documentclass[a4paper, 10pt, spanish]{article}
+
+\usepackage[paper=a4paper, left=1.5cm, right=1.5cm, bottom=1.5cm, top=3.5cm]{geometry}
+\usepackage[spanish, es-noshorthands]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[none]{hyphenat}
+
+% Simbolos matemáticos
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{multicol}
+\usepackage{pdfpages}
+
+% Descoración y gráficos
+\usepackage{caratula}
+\usepackage{graphicx} 
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{alltt}
+
+% Acomodo fancyhdr.
+\pagestyle{fancy}
+\thispagestyle{fancy}
+\addtolength{\headheight}{1pt}
+\lhead{Redes Neuronales}
+\rhead{$2^{\mathrm{do}}$ cuatrimestre de 2015}
+\cfoot{\thepage /\pageref*{LastPage}}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\floatname{algorithm}{Pseudocódigo}
+
+\sloppy
+
+\parskip=5pt % 10pt es el tama de fuente
+
+% Pongo en 0 la distancia extra entre itemes.
+\let\olditemize\itemize
+\def\itemize{\olditemize\itemsep=0pt}
+
+
+\newcommand\invisiblesection[1]{%
+  \refstepcounter{section}%
+  \addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}%
+  \sectionmark{#1}}
+
+\materia{Redes Neuronales}
+\grupo{Conformación del grupo}
+\tituloCaratula{Trabajo Práctico Nº2\\\vspace{0.75cm}Aprendizaje no supervisado}
+\integrante{Grenier, Michelle}{...}{...}
+\integrante{G\'omez Vidal, Leandro }{957/11}{lgvidal@gmail.com}
+
+
+\newcommand{\todo}[1]{
+\textbf{\color{red}{\underline{Nota:} #1}}
+}
+
+\usepackage[colorlinks=true, linkcolor=blue]{hyperref}
+
+\begin{document}
+
+\setcounter{tocdepth}{3}
+
+\begin{titlepage}
+
+\maketitle
+
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+
+\input{ej1}
+
+\newpage
+
+\input{ej2}
+
+\ref{LastPage}
+
+\input{source}
+
+\end{document}

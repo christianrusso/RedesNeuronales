@@ -1,0 +1,25 @@
+\section{Mapeo de características}
+
+\subsection{Introducción}
+
+El modelo de mapeo de características auto-organizado (SOM por sus siglas en inglés o Red de Kohonen por su creador, Teuvo Kohonen) parte de los mismos principios presentados en el ejercicio anterior. Se hace una correspondencia entre elementos de un espacio de cierta dimensión y otros en un espacio mucho más chico, a través de la identificación de las principales características o componentes que nos permiten distinguir elementos entre sí. Lo que agregan estos modelos es la conservación en alguna medida de la topología del espacio original, es decir que elementos que se parecen (donde "parecerse" implica cercanía entre sus vectores de características) mapean a elementos parecidos entre sí en el espacio de dimensión reducida.
+
+Tener un espacio reducido de datos que mantiene la misma continuidad que el original permite un procesamiento computacional intrínsecamente más veloz, permitiendo estudiar transformaciones en un espacio chico  en el cual es barato operar, antes de invertir en procesar el espacio original. Estos mapas además proporcionan una forma de visualizar datos que nos es muy útil e intuitiva, mapeando espacios de datos que escapan nuestra percepción tridimensional a gráficos de dos o tres dimensiones, los cuales nos son más fáciles de analizar. 
+
+\section{Implementación}
+
+Los algoritmos que desarrollamos son los vistos en las clases prácticas, utilizando operaciones matriciales en lugar de elemento a elemento donde encontramos posible para agilizar el procesamiento, de acuerdo a las recomendaciones de la práctica. No hicimos mayores modificaciones a los mismos, modificando únicamente la velocidad a la que decaen los parámetros adaptativos \textit{sigma} y el \textit{ratio de aprendizaje}, ya que encontramos que no llegaban a generar un impacto significativo antes de ser mínimos, quedando demasiados separados los elementos en el mapa resultante.
+
+\section{Ejemplos}
+
+Iris dataset. Algún ejemplo chico y fácil.
+
+Clasificación y validación.
+
+\section{Detalles del programa}
+
+Generalidades de uso, paquetes necesarios, nada raro.
+
+\section{Decisiones tomadas}
+
+Cambios a los parámetros, formas de medir error y clasificación, distancia promedio, etc.
