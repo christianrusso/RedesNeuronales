@@ -1,0 +1,2 @@
+- Armar un main para empezar a testear ej 1
+- Checkear cómo clasifica el ej 2
