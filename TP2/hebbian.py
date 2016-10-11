@@ -17,11 +17,9 @@ class red_hebbiana:
         y = np.dot(x, self.weights)
         return y[0]
 
-    def train(self, dataset, epochs, ecallback=None):
-
+    def train(self, dataset, epochs):
+        # TODO: En vez de epochs, agregar ortogonalidad como criterio de parada
         for e in range(1, epochs + 1):
-
-            if ecallback: ecallback(self, e)
             learning_rate = self.learning_rate or (0.5 / e)
 
             for x in dataset:

@@ -9,9 +9,6 @@ dataset = BOWDataset(filename='tp2_training_dataset.csv')
 tdataset = dataset.uncategorized_dataset()
 
 EPOCHS = 100
-def call(hnn, t, tdw):
-    print("\rTRAINING EPOCH: {} ({}%) tdw: {}".format(t, 100 * t / EPOCHS, tdw), end='')
-    sys.stdout.flush()
 
 hnn = GHANeuralNetwork(len(tdataset[0]), 3, 0.0001, 0.1)
 hnn.train(tdataset[:600], EPOCHS, callback=call)
