@@ -1,4 +1,4 @@
-import numpy
+import numpy as np
 
 class red_hebbiana:
 
@@ -35,6 +35,7 @@ class red_hebbiana:
                         dw[i][j] = learning_rate * y[j] * (x[i] - xe)
 
                 self.weights += dw
+            print "epoca: "+str(e)
 
 
 
