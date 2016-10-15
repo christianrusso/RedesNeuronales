@@ -1,0 +1,34 @@
+\section{Detalles implementativos}
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\subsection{Algoritmos}
+En esta sección describimos los pseudo-códigos de los algoritmos que utilizamos para resolver ambos ejercicios.
+%Pseudocodigo de Activation
+
+%Pseudocodigo de Holdout
+\begin{center}
+\noindent\fbox{
+\begin{minipage}{0.5\textwidth}
+\begin{algorithm}[H]
+ holdout($\epsilon$,T)\;
+  $e_t = 1$\;
+  $t = 0$\;
+  $e_v = 1$\;
+  $v = percentage$ \;
+  \While{$e_t > \epsilon $ y t $<$ T}{
+    $e_t$ = trainning($Y_{[:v]}, Z_{[:v]}$)\;
+    $e_v$ = testing($X_{[:v]}, Z_{[:v]}$)\;
+    t = t+1
+  }
+  return $e_v,t$\;
+ \caption{Holdout}
+\end{algorithm}
+\end{minipage}
+}
+
+\end{center}
