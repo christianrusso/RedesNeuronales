@@ -38,6 +38,13 @@ class red_hebbiana:
             print "epoca: "+str(e)
 
 
+    def test(self, dataset):
+        # TODO: En vez de epochs, agregar ortogonalidad como criterio de parada
+        y=[]
+        for x in dataset:
+            y.append([x[0]] + self.activate(x[1:]).tolist())
+        return y
+
 
 ###########################
 # EN TEORIA LO DE ABAJO ES LO QUE NOS DIERON TODAVIA
