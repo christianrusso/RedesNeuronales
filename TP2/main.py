@@ -33,9 +33,9 @@ def train_Ej1(Dataset,save_file,out_space,lrate,max_epochs):
 	print "Entrenando " + str(max_epochs) + ' epocas y ' +' lrate: ' + str(lrate) +'\nreduciendo a '+str(out_space)+' dimensiones'
 	dataset=(np.genfromtxt(Dataset,dtype=int, delimiter=',',usecols=range(0,857))).tolist()
 
-	tdataset = [ data[1:] for data in dataset ] #quito la informacion sobre el tipo de dato
+	tdataset = [ np.array(data[1:]).reshape((1, 856)) for data in dataset ] #quito la informacion sobre el tipo de dato
 
-	hnn=red_hebbiana(len(tdataset[0]), out_space,lrate, 0.1)
+	hnn=red_hebbiana(856, out_space,lrate)
 	hnn.train(tdataset[:600], max_epochs)
 
 	fig = plt.figure()
@@ -48,7 +48,7 @@ def train_Ej1(Dataset,save_file,out_space,lrate,max_epochs):
 	testing = hnn.test(dataset)
 
 	for data in testing[600:]:
-	    ax.scatter([data[1]], [data[2]], [data[3]], marker=markers[data[0] - 1], c=colors[data[0] - 1])
+	    ax.scatter([data[0]], [data[1]], [data[2]], marker=markers[data[0] - 1], c=colors[data[0] - 1])
 	    pass
 	plt.show()
 	print();
