@@ -17,7 +17,6 @@ def  test_y_graficar(red,resultados):
 	colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'b', 'g', 'r', 'c', 'm', 'y', 'k']
 	
 	for data in resultados:
-		#ax.scatter([data[1]], [data[2]], [data[3]], marker=markers[data[0] - 1], c=colors[data[0] - 1])
 		res=red.activate(np.array(data[1:]).reshape((1, 856)))
 		ax.scatter([res[0][0]],[res[0][1]],[res[0][2]], marker=markers[data[0] - 1], c=colors[data[0] - 1])
 		pass
@@ -73,7 +72,6 @@ epochs=int(1000)
 lrate=float(0.0001)
 metodo=True
 out_space=int(3)
-#nomDataset='tp2_training_dataset.csv'
 if operacion == "-train":
 	# Entrenar
 	if(len(args)>7):
