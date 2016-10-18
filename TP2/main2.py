@@ -90,9 +90,9 @@ N = 856
 #default value
 lrate=float(0.001)
 sigmaInicial=float(0.1)
-epochs=20
+epochs=1000
 M1=300
-M2=[4,3]
+M2=[3,3]
 
 if(len(args)<4):
 	print usage1
@@ -115,7 +115,8 @@ if operacion == "-train":
 	if(len(args)>6):
 		M1 = int(args[6])
 	if(len(args)>7):
-		M2 = int(args[7])
+		M2 = list(map(int, args[7].split(',')))
+	print M2
 	if(len(args)>8):
 		epochs = int(args[8])
 	train_Ej2(nomDataset,nomRed,sigmaInicial,lrate,M1,M2,epochs)
