@@ -18,7 +18,8 @@ class red_hebbiana:
 
     def train(self, dataset, epochs):
         # TODO: En vez de epochs, agregar ortogonalidad como criterio de parada
-        for e in range(1, epochs + 1):
+        e = 0
+        while not self.isOrtogonal() and e<epochs:
             learning_rate = self.learning_rate or (0.5 / e)
 
             for x in dataset:
@@ -45,55 +46,11 @@ class red_hebbiana:
                 self.weights += dw
             if(e%30==0): 
                 print "epoca: "+str(e)
+            e += 1
 
+    def isOrtogonal(self):
+        prod = np.dot(self.weights.T, self.weights)
+        print prod
+        return np.allclose(prod, np.identity(self.noutputs), atol=0.01)
 
-
-
-###########################
-# EN TEORIA LO DE ABAJO ES LO QUE NOS DIERON TODAVIA
-# ES PARA OPTIMIZAR, ASI QUE NO DEBERIA SER NECESARIO
-
-# class GHANeuralNetwork():
-
-#     def __init__(self, ninputs, noutputs, sigma0, alfa):
-
-#         self.sigma0 = sigma0
-#         self.alfa = alfa
-
-#         self.ninputs = ninputs
-#         self.noutputs = noutputs
-#         self.weights = np.random.uniform(-0.5, 0.5, (noutputs, ninputs))
-
-#     def ninputs(self):
-#         return self.ninputs
-
-#     def noutputs(self):
-#         return self.noutputs
-
-#     def weights(self):
-#         return self.weights
-
-#     def activate(self, input):
-
-#         x = np.array([input]).T
-#         y = np.dot(self.weights, x)
-#         return y.T[0]
-
-#     def train(self, dataset, epochs, callback=None):
-
-#         for t in range(1, epochs + 1):
-
-#             sigma = self.sigma0 * (t ** -self.alfa)
-#             tdw = 0
-
-#             for x in dataset:
-
-#                 x = np.array([x]).T
-#                 y = np.dot(self.weights, x)
-
-#                 dw = sigma * ( np.dot(y, x.T) - np.dot(np.tril(np.dot(y, y.T)), self.weights) )
-#                 self.weights += dw
-#                 tdw += dw ** 2
-
-#             if callback: callback(self, t, tdw.sum() / len(dataset))
 

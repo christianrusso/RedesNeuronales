@@ -9,7 +9,7 @@ import os
 import cPickle
 
 #Ejercicio 1
-def  test_y_graficar(red,resultados):
+def test_y_graficar(red,resultados):
 	fig = plt.figure()
 	ax = fig.add_subplot(111, projection='3d')
 
@@ -74,7 +74,7 @@ metodo=True
 out_space=int(3)
 if operacion == "-train":
 	# Entrenar
-	if(len(args)>7):
+	if(len(args)>8):
 		print usage1
 		print usage3
 		sys.exit()	
