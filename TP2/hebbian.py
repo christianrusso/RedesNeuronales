@@ -7,7 +7,6 @@ class red_hebbiana:
         self.learning_rate = learning_rate
         self.use_oja = use_oja
         self.optimized = optimized
-
         self.ninputs = ninputs
         self.noutputs = noutputs
         self.weights = np.random.uniform(-0.5, 0.5, (ninputs, noutputs))
@@ -29,7 +28,7 @@ class red_hebbiana:
                         x_mono = np.dot(y, self.weights.T)
                         dw = learning_rate * np.dot((x - x_mono).T, y)
                     else:
-                        U = np.triu(np.ones(self.noutputs))
+                        U = np.triu(np.ones((self.noutputs,self.noutputs)))
                         x_mono = np.dot(self.weights, np.multiply(y.T, U))
                         dw = learning_rate * np.multiply((x.T - x_mono),y)
                 else:
@@ -44,15 +43,10 @@ class red_hebbiana:
                             dw[i][j] = learning_rate * (x[i] - x_mono)* y[j] 
 
                 self.weights += dw
-            print "epoca: "+str(e)
+            if(e%30==0): 
+                print "epoca: "+str(e)
 
 
-    def test(self, dataset):
-        # TODO: En vez de epochs, agregar ortogonalidad como criterio de parada
-        y=[]
-        for x in dataset:
-            y.append(self.activate(np.array(x[1:]).reshape((1, 856))))
-        return y
 
 
 ###########################
