@@ -17,13 +17,10 @@ class som():
 
         self.weights = np.random.uniform(-0.5, 0.5, (self.ninputs, self.noutputs))
 
-    def activate(self, input):
-
-        y = np.linalg.norm(self.weights - np.array([input]).transpose(), None, 0)
-        r = np.zeros_like(y)
-        r[y.argmin()] = 1
-
-        return r.reshape(self.output_size);
+    def activate(self, x):
+        y_mono = np.linalg.norm(x.T-self.weights, None, False)
+        y = (y_mono == y_mono.min())*1
+        return np.reshape(y,(1,self.noutputs))
 
     def gaussian(self, c, sigma):
 
@@ -32,12 +29,13 @@ class som():
         ay = np.exp(-np.power(self.neigy - c[1], 2)/ d)
         return np.outer(ax, ay)
 
-    def correction(self, input, learning_rate, sigma):
+    def correction(self, x, learning_rate, sigma):
 
-        y = self.activate(input)
+        y = self.activate(x)
+        # print y.max()
         p = np.unravel_index(y.argmax(), y.shape)
         d = self.gaussian(p, sigma)
-        dw = learning_rate * (np.array([input]).transpose() - self.weights) * d.flatten()
+        dw = learning_rate * d.flatten() * (x.T - self.weights)
         self.weights += dw
 
         return dw
@@ -50,7 +48,7 @@ class som():
 
             tdw = np.zeros((self.ninputs, self.noutputs))
             for x in dataset:
-                tdw += self.correction(x, eta, sigma) ** 2
+                tdw += self.correction(np.array(x).reshape((1,856)), eta, sigma) ** 2
             print "epoca: "+str(t)
 
             
