@@ -8,27 +8,104 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 \subsection{Algoritmos}
 En esta sección describimos los pseudo-códigos de los algoritmos que utilizamos para resolver ambos ejercicios.
-%Pseudocodigo de Activation
 
-%Pseudocodigo de Holdout
 \begin{center}
 \noindent\fbox{
 \begin{minipage}{0.5\textwidth}
 \begin{algorithm}[H]
- holdout($\epsilon$,T)\;
-  $e_t = 1$\;
-  $t = 0$\;
-  $e_v = 1$\;
-  $v = percentage$ \;
-  \While{$e_t > \epsilon $ y t $<$ T}{
-    $e_t$ = trainning($Y_{[:v]}, Z_{[:v]}$)\;
-    $e_v$ = testing($X_{[:v]}, Z_{[:v]}$)\;
-    t = t+1
+ def train(): \\
+  \While{not Fin}{
+     	\For{$x \in D$}{
+    		$y = X * W $\;
+	 	\For{$j \in \{1..n\}$}{
+			\For{$j \in \{1..n\}$}{
+				$\widetilde{X}_{i}$ = $\emptyset$
+				\For{$j \in \{1..n\}$}{
+					$\widetilde{X}_{i}$ += $Y_k - W_{ik}$
+				}
+				$\Delta W_{ij} = \eta (X_i - \widetilde{X}_{i}) Y_j$
+			}
+		}
+		$W += \Delta W_{ij} $
+  	}
   }
-  return $e_v,t$\;
- \caption{Holdout}
+ \caption{Train}
 \end{algorithm}
 \end{minipage}
 }
-
 \end{center}
+
+
+
+\begin{center}
+\noindent\fbox{
+\begin{minipage}{0.5\textwidth}
+\begin{algorithm}[H]
+def activation(X):\\
+$\widetilde{Y} = ||X^t - W||_2$\\
+$Y = (\widetilde{Y} == min(\widetilde{Y}))$\\
+$return Y$\\
+
+ \caption{Activation}
+\end{algorithm}
+\end{minipage}
+}
+\end{center}
+
+
+\begin{center}
+\noindent\fbox{
+\begin{minipage}{0.5\textwidth}
+\begin{algorithm}[H]
+def correction(X):\\
+$j^* = nonzero(Y)$\\
+$D = <\Lambda (j,j^*) | 0 \leq j \leq m >$\\
+$\Delta W = \eta D(X_t - W)$\\
+$W += \Delta W $\\
+ \caption{Correction}
+\end{algorithm}
+\end{minipage}
+}
+\end{center}
+
+
+\begin{center}
+\noindent\fbox{
+\begin{minipage}{0.5\textwidth}
+\begin{algorithm}[H]
+ def trainOjaMatricial(): \\
+  \While{not Fin}{
+     	\For{$x \in D$}{
+    		$y = X * W $\;
+	 	$\widetilde{X} = Y * W^T$\\
+
+		$\Delta W= \eta (X - \widetilde{X}) Y$
+  	}
+  }
+\caption{Train Oja Matricial}
+\end{algorithm}
+\end{minipage}
+}
+\end{center}
+
+
+\begin{center}
+\noindent\fbox{
+\begin{minipage}{0.5\textwidth}
+\begin{algorithm}[H]
+ def trainSangerMatricial(): \\
+  \While{not Fin}{
+     	\For{$x \in D$}{
+    		$U = triup(ones(M,M)) $\;
+	 	$\widetilde{X} = W * (Y^t * U)$\\
+		$\Delta W= \eta (X - \widetilde{X}) Y$
+  	}
+  }
+\caption{Train Sanger Matricial}
+\end{algorithm}
+\end{minipage}
+}
+\end{center}
+
+
+

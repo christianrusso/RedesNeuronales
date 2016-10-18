@@ -9,9 +9,64 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 \subsection{Modo de ejecución}
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+
+
+\subsubsection{Ejercicio 1}
+
+
+La manera de ejecutar el programa dado es la siguiente:
+
+En caso de querer entrenar la red sera:
+
+\begin{verbatim}
+$ python main.py < archivo_entrada > < archivo_red_salida > -train < lrate > 
+                                                   < max_epochs > < method >    
+\end{verbatim}
+
+Donde:
+
+\begin{enumerate}
+\item archivo\_entrada: archivo de dataset.
+\item archivo\_red\_salida: archivo donde se guardara la red.
+\item lrate: Coeficiente de aprendizaje.
+\item max\_epochs: Maxima cantidad de epocas permitidas.
+\item method: 
+\begin{enumerate}
+\item -s: Sanger
+\item -o: Oja
+\end{enumerate}
+\end{enumerate}
+
+Por ejemplo: 
+
+Si queremos ejecutar el ejercicio 1 entrenandolo con el dataset \textbf{tp2\_training\_dataset.csv}, guardando la red en el archivo 
+\textbf{red} con un learning\_rate de \textbf{0.01}, con un espacio de salida de \textbf{3}, con una cantidad maxima de epocas de \textbf{10000} y con el modo \textbf{Sanger} seria:
+
+\begin{verbatim}
+$ python main.py tp2_training.dataset.csv  red -train 0.01 10000 -s
+\end{verbatim}
+
+En caso de querer cargar una red ya guardada seria:
+
+\begin{verbatim}
+$ python main.py nomDataset normRedIn -load
+\end{verbatim}
+
+Donde:
+
+\begin{enumerate}
+\item archivo\_entrada: archivo de dataset.
+\item normRedIn: nombre de la red a cargar.
+\end{enumerate}
+
+Por ejemplo, si queremos cargar la red llamada \textbf{red} con el dataset \textbf{tp2\_training\_dataset.csv} seria:
+
+\begin{verbatim}
+$  python main.py tp2_training_dataset.csv red -load
+\end{verbatim}
+
+\subsubsection{Ejercicio 2}
+
+
+
