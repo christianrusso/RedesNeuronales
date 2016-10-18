@@ -3,19 +3,21 @@ import numpy as np
 
 class som():
 
-    def __init__(self, ninputs, output_size, learning_rate, sigma):
-
+    #def __init__(self, ninputs, output_size, learning_rate, sigma):
+    def __init__(self, x,y, learning_rate, sigma):
         self.learning_rate = learning_rate
         self.sigma = sigma
 
-        self.ninputs = ninputs
-        self.output_size = output_size
-        self.noutputs = output_size[0] * output_size[1]
+        #self.ninputs = ninputs
+        #self.noutputs = output_size[0] * output_size[1]
 
-        self.neigx = np.arange(output_size[0])
-        self.neigy = np.arange(output_size[1])
-
-        self.weights = np.random.uniform(-0.5, 0.5, (self.ninputs, self.noutputs))
+        #self.neigx = np.arange(output_size[0])
+        #self.neigy = np.arange(output_size[1])
+        self.X=x
+        self.Y=y
+        self.noutputs = x *y
+        self.neigx = np.arange(x)
+        self.neigy = np.arange(y)  
 
     def activate(self, x):
         y_mono = np.linalg.norm(x.T-self.weights, None, False)
@@ -41,7 +43,8 @@ class som():
         return dw
 
     def train(self, dataset, epochs, callback=None):
-
+        self.ninputs = len(dataset[0])
+        self.weights = np.random.uniform(-0.5, 0.5, (self.ninputs, self.noutputs))
         for t in range(1, epochs + 1):
             eta = t ** (- self.learning_rate)
             sigma = t ** (- self.sigma)
@@ -49,6 +52,7 @@ class som():
             tdw = np.zeros((self.ninputs, self.noutputs))
             for x in dataset:
                 tdw += self.correction(np.array(x).reshape((1,856)), eta, sigma) ** 2
-            print "epoca: "+str(t)
+            if(t%10==0):
+                print "epoca: "+str(t)
 
             

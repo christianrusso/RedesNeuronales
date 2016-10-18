@@ -12,24 +12,20 @@ import cPickle
 def train_Ej2(Dataset,save_file,sigma0,lrateInicial,M1,M2,max_epochs):
 	print "Entrenando con " + str(epochs) + ' epochs - ' + ' sigma: ' + str(sigmaInicial) + ' lrate: ' + str(lrateInicial) 
 	data = np.genfromtxt(Dataset, delimiter=',',usecols=range(1,857))
-	#s = som(M1, M2, N, sigmaInicial, lrateInicial, False)
-	#s = som(M1, M2, lrateInicial,sigma0)
-	s = som(len(data[0]), M2, lrateInicial,sigma0)
+	s = som(M1, M2, lrateInicial,sigma0)
 	s.train(data, epochs)
-	#np.save(nomRed, s.W)
 	if(save_file!=None):
 		print "Guardando Red"
 		with open(save_file, "wb") as output:
 			cPickle.dump(s, output, cPickle.HIGHEST_PROTOCOL)
 
 
-def load_Ej2(Dataset,Net):#,M1,M2):
-	data = np.genfromtxt(Dataset, delimiter=',',usecols=range(1,857))
-	#s = som(M1, M2, N)
-	#s.W = np.load(Net)
+def load_Ej2(file,Net):
+	dataset = np.genfromtxt(file, delimiter=',',usecols=range(1,857))
+	target = np.genfromtxt(file,delimiter=',',usecols=(0),dtype=str)
 	print "Cargando Red"
 	with open(Net, "rb") as input:
-		s = cPickle.load(input)
+		red = cPickle.load(input)
 
 	if not os.path.exists("imgs"):
 		os.makedirs("imgs")
@@ -37,7 +33,7 @@ def load_Ej2(Dataset,Net):#,M1,M2):
 	print "Procesando... por favor espere"
 	markers =  ['o','s','D','o','s','D','o','s','D']
 	colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'm', 'b']
-	target = np.genfromtxt(Dataset,delimiter=',',usecols=(0),dtype=str)
+	
 	t = np.zeros(len(target),dtype=int)
 	t[target == '1'] = 0
 	t[target == '2'] = 1
@@ -53,13 +49,14 @@ def load_Ej2(Dataset,Net):#,M1,M2):
 	for i in range(9):
 		maps.append([])
 
-	for cnt, xx in enumerate(data):
-		w = s.activate(xx)
+	for cnt, xx in enumerate(dataset):
+		w = red.activate(xx.reshape((1,856)))
 		maps[t[cnt]].append(w)
-		plot(w[0]+.5,w[1]+.5,markers[t[cnt]],markerfacecolor='None',
-		
-	markeredgecolor=colors[t[cnt]],markersize=12,markeredgewidth=2)
-	axis([0,s.ninputs,0,s.output_size[0]])
+		plot(w[0][0]+.5,w[0][1]+.5,markers[t[cnt]],markerfacecolor='None',	
+		markeredgecolor=colors[t[cnt]],markersize=12,markeredgewidth=2)
+
+	
+	axis([0,red.ninputs,0,red.X])
 	savefig('imgs/total.png')
 	plt.close()
 
@@ -71,28 +68,35 @@ def load_Ej2(Dataset,Net):#,M1,M2):
 
 		bone()
 		for tupla in mapa:
-			plot(tupla[0]+.5,tupla[1]+.5,marker,markerfacecolor='None',
-		markeredgecolor=color,markersize=10,markeredgewidth=2)
-		axis([0,s.ninputs,0,s.output_size[0]])
+			plot(tupla[0][0]+.5,tupla[0][1]+.5,marker,markerfacecolor='None',markeredgecolor=color,markersize=10,markeredgewidth=2)
+		axis([0,red.ninputs,0,red.X])
 		savefig('imgs/parcialCat' + str(mapaIndex) + '.png')
 		plt.close()
 	print "Listo! Los resultados se encuentran en la carpeta 'imgs'."
 
+	dataset = np.genfromtxt(file, delimiter=',',usecols=range(0,857))
+	target = np.genfromtxt(file,delimiter=',',usecols=(0),dtype=int)
+	for data in dataset:
+		res = red.activate(data[1:].reshape((1,856)))
+		print res
+		maps[t[cnt]].append(w)
+		plot(w[0][0]+.5,w[0][1]+.5,markers[t[cnt]],markerfacecolor='None',
+			markeredgecolor=colors[t[cnt]],markersize=12,markeredgewidth=2)
+	plt.show()
 
 args = sys.argv
 usage1 = "\nPara entrenar desde un dataset y guardar la red:\n\
-python main.py nomDataset nomRedOut -train sigmaInicial lrateInicial M1 [X,Y] epochs\n"
+python main.py nomDataset nomRedOut -train sigmaInicial lrateInicial dimX dimY epochs\n"
 usage2= "\nPara cargar una red entrenada y testearla contra un dataset:\n\
 python main.py nomDataset normRedIn -load\n"
 usage3="Asume el dataset sigue la forma 'categoria, valor1, ... , valor856'"
 
-N = 856
 #default value
-lrate=float(0.001)
-sigmaInicial=float(0.1)
-epochs=1000
-M1=300
-M2=[3,3]
+lrate=float(0.5)
+sigmaInicial=float(0.3)
+epochs=20
+X=10
+Y=10
 
 if(len(args)<4):
 	print usage1
@@ -113,13 +117,12 @@ if operacion == "-train":
 	if(len(args)>5):
 		lrate = float(args[5])
 	if(len(args)>6):
-		M1 = int(args[6])
+		X = int(args[6])
 	if(len(args)>7):
-		M2 = list(map(int, args[7].split(',')))
-	print M2
+		Y = int(args[7])
 	if(len(args)>8):
 		epochs = int(args[8])
-	train_Ej2(nomDataset,nomRed,sigmaInicial,lrate,M1,M2,epochs)
+	train_Ej2(nomDataset,nomRed,sigmaInicial,lrate,X,Y,epochs)
 
 elif operacion == "-load":
 	# Cargar y testear.
