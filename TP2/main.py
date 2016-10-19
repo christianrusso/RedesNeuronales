@@ -72,7 +72,7 @@ def pruebas(dataset,save_file,max_epochs=5000):
 	best_params_oja = []
 	best_params_sanger = -1
 	for m in [0, 1]:
-		for lrate in np.linspace(0.001, 0.1, 1):
+		for lrate in np.linspace(0.001, 0.1, 20):
 			convergio = train_Ej1(dataset, save_file, 3, lrate, max_epochs,m)
 			if convergio and not m:
 				best_params_sanger = lrate
