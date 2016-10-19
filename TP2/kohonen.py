@@ -10,27 +10,41 @@ class som():
         self.M1=M1
         self.M2=M2
         self.noutputs = M1 *M2
-        self.neigx = np.arange(M1)
-        self.neigy = np.arange(M2)  
+        self.filas = np.arange(M1)
+        self.columnas = np.arange(M2)  
+        
 
     def activate(self, x):
         y_mono = np.linalg.norm(x.T-self.weights, None, False)
+
         y = (y_mono == y_mono.min())*1
+        # print y_mono
+
         return np.reshape(y,(1,self.noutputs))
 
-    def gaussian(self, c, sigma):
+    def gauss(self, p_j, sigma):
 
-        d = 2 * np.pi * sigma * sigma
-        ax = np.exp(-np.power(self.neigx - c[0], 2) / d)
-        ay = np.exp(-np.power(self.neigy - c[1], 2)/ d)
-        return np.outer(ax, ay)
+        d = 2 * sigma * sigma
+        filas = np.exp(-np.power(self.filas-p_j[0],2)/d)
+        columnas = np.exp(-np.power(self.columnas-p_j[1],2)/d)
+        
+        d_matriz = np.outer(filas, columnas)
+        return d_matriz.reshape(1, self.noutputs)
+        
 
-    def correction(self, x,learning_rate, sigma):
-        y=self.activate(x)
+    def pIndexAlMapa(self, index):
+        return (index / self.M2, index % self.M2)
+        
+    def pIndexDesdeMapa(self, x, y):
+        return x*self.M2 + y%self.M2
+    
+    def correction(self, x,learning_rate, sigma,y):
+        jasterisk = np.argmin(y)
         # print y.max()
-        p = np.unravel_index(y.argmax(), y.shape)
-        d = self.gaussian(p, sigma)
-        dw = learning_rate * d.flatten() * (x.T - self.weights)
+
+        p_j = self.pIndexAlMapa(jasterisk)
+        d = self.gauss(p_j, sigma)
+        dw = learning_rate * np.multiply(d, (x.T - self.weights))
         self.weights += dw
         return dw
 
@@ -38,12 +52,13 @@ class som():
         self.ninputs = len(dataset[0])
         self.weights = np.random.uniform(-0.5, 0.5, (self.ninputs, self.noutputs))
         for t in range(1, epochs + 1):
-            eta = t ** (- self.learning_rate)
-            sigma = t ** (- self.sigma)
+            eta = t ** (- 1/2)
+            sigma = (self.M2/2)* (t ** (-1/3))
 
             #tdw = np.zeros((self.ninputs, self.noutputs))
             for x in dataset:
                 #tdw += self.correction(np.array(x).reshape((1,856)), eta, sigma) ** 2
-                self.correction(np.array(x).reshape((1,856)), eta, sigma) ** 2
-            if(t%10==0):
-                print "epoca: "+str(t)
+                y = self.activate(np.array(x).reshape((1,856)))
+                self.correction(np.array(x).reshape((1,856)), eta, sigma, y) ** 2
+            # if(t%10==0):
+            print "epoca: "+str(t)
