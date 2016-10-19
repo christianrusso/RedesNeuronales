@@ -56,7 +56,7 @@ def load_Ej2(file,Net):
 		markeredgecolor=colors[t[cnt]],markersize=12,markeredgewidth=2)
 
 	
-	axis([0,red.ninputs,0,red.X])
+	axis([0,red.ninputs,0,red.M1])
 	savefig('imgs/ej2/total.png')
 	plt.close()
 
@@ -69,7 +69,7 @@ def load_Ej2(file,Net):
 		bone()
 		for tupla in mapa:
 			plot(tupla[0][0]+.5,tupla[0][1]+.5,marker,markerfacecolor='None',markeredgecolor=color,markersize=10,markeredgewidth=2)
-		axis([0,red.ninputs,0,red.X])
+		axis([0,red.ninputs,0,red.M1])
 		savefig('imgs/ej2/parcialCat' + str(mapaIndex) + '.png')
 		plt.close()
 	print "Listo! Los resultados se encuentran en la carpeta 'imgs'."
@@ -78,10 +78,9 @@ def load_Ej2(file,Net):
 	target = np.genfromtxt(file,delimiter=',',usecols=(0),dtype=int)
 	for data in dataset:
 		res = red.activate(data[1:].reshape((1,856)))
-		print res
-		maps[t[cnt]].append(w)
-		plot(w[0][0]+.5,w[0][1]+.5,markers[t[cnt]],markerfacecolor='None',
-			markeredgecolor=colors[t[cnt]],markersize=12,markeredgewidth=2)
+		#print str(data[0])+" "+str(res)
+		plot(w[0][0]+.5,w[0][1]+.5,markers[int(data[0])-1],markerfacecolor='None',
+			markeredgecolor=colors[int(data[0])-1],markersize=12,markeredgewidth=2)
 	plt.show()
 
 args = sys.argv
@@ -93,8 +92,8 @@ usage3="Asume el dataset sigue la forma 'categoria, valor1, ... , valor856'"
 
 #default value
 lrate=float(0.5)
-sigmaInicial=float(0.3)
-epochs=20
+sigmaInicial=float(0.00001)
+epochs=30
 X=10
 Y=10
 
