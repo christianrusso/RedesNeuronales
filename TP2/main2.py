@@ -27,8 +27,8 @@ def load_Ej2(file,Net):
 	with open(Net, "rb") as input:
 		red = cPickle.load(input)
 
-	if not os.path.exists("imgs"):
-		os.makedirs("imgs")
+	if not os.path.exists("imgs/ej2"):
+		os.makedirs("imgs/ej2")
 	
 	print "Procesando... por favor espere"
 	markers =  ['o','s','D','o','s','D','o','s','D']
@@ -57,7 +57,7 @@ def load_Ej2(file,Net):
 
 	
 	axis([0,red.ninputs,0,red.X])
-	savefig('imgs/total.png')
+	savefig('imgs/ej2/total.png')
 	plt.close()
 
 	for mapaIndex in range(len(maps)):
@@ -70,7 +70,7 @@ def load_Ej2(file,Net):
 		for tupla in mapa:
 			plot(tupla[0][0]+.5,tupla[0][1]+.5,marker,markerfacecolor='None',markeredgecolor=color,markersize=10,markeredgewidth=2)
 		axis([0,red.ninputs,0,red.X])
-		savefig('imgs/parcialCat' + str(mapaIndex) + '.png')
+		savefig('imgs/ej2/parcialCat' + str(mapaIndex) + '.png')
 		plt.close()
 	print "Listo! Los resultados se encuentran en la carpeta 'imgs'."
 

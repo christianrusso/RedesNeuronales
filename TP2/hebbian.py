@@ -1,4 +1,6 @@
 import numpy as np
+import time
+import sys
 
 class red_hebbiana:
 
@@ -47,10 +49,11 @@ class red_hebbiana:
             if(e%30==0): 
                 print "epoca: "+str(e)
             e += 1
+        return self.isOrtogonal()
 
     def isOrtogonal(self):
         prod = np.dot(self.weights.T, self.weights)
-        print prod
+        # print prod
         return np.allclose(prod, np.identity(self.noutputs), atol=0.01)
 
 

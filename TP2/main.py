@@ -6,21 +6,37 @@ from pylab import Line2D, plot, axis, show, pcolor, colorbar, bone, savefig
 import pylab as plt
 import sys
 import os
+import time
 import cPickle
 
 #Ejercicio 1
-def test_y_graficar(red,resultados):
+def test_y_graficar(red,resultados, metodo=0, load=False):
 	fig = plt.figure()
 	ax = fig.add_subplot(111, projection='3d')
 
-	markers = [u'o', u'v', u'^', u'<', u'>', u'8', u's', u'p', u'*', u'h', u'H', u'D', u'd']
 	colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'b', 'g', 'r', 'c', 'm', 'y', 'k']
 	
-	for data in resultados:
+	for i in xrange(len(resultados)):
+		data = resultados[i]
 		res=red.activate(np.array(data[1:]).reshape((1, 856)))
-		ax.scatter([res[0][0]],[res[0][1]],[res[0][2]], marker=markers[data[0] - 1], c=colors[data[0] - 1])
-		pass
-	plt.show()
+		if not load:
+			if i >= 600:
+				ax.scatter([res[0][0]],[res[0][1]],[res[0][2]], marker="o", c=colors[data[0] - 1], s=20*4)
+			else:
+				ax.scatter([res[0][0]],[res[0][1]],[res[0][2]], marker="v", c=colors[data[0] - 1], s=20*4)
+		else:
+			ax.scatter([res[0][0]],[res[0][1]],[res[0][2]], marker="o", c=colors[data[0] - 1], s=20*4)
+			
+	timestr = time.strftime("%Y%m%d-%H%M%S")
+	dirpath = "imgs/ej1/"+str(metodo)+"/"+timestr
+	if not os.path.exists(dirpath):
+		os.makedirs(dirpath)
+	
+	for ii in xrange(0,360, 40):
+		ax.azim = ii 		
+		savefig(dirpath+"/slice%d.png" %ii)
+
+	# plt.show()
 
 
 def load_Ej1(Dataset,Net):
@@ -28,7 +44,7 @@ def load_Ej1(Dataset,Net):
 	with open(Net, "rb") as input:
 		red = cPickle.load(input)
 	dataset=(np.genfromtxt(Dataset,dtype=int, delimiter=',',usecols=range(0,857))).tolist()
-	test_y_graficar(red,dataset)
+	test_y_graficar(red,dataset, load=True)
 
 
 def train_Ej1(Dataset,save_file,out_space,lrate,max_epochs,metodo):
@@ -42,13 +58,31 @@ def train_Ej1(Dataset,save_file,out_space,lrate,max_epochs,metodo):
 	traindataset = [ np.array(data[1:]).reshape((1, 856)) for data in dataset ] #quito la informacion sobre el tipo de dato
 
 	hnn=red_hebbiana(856, out_space,lrate,metodo)
-	hnn.train(traindataset[:600], max_epochs)
+	convergio = hnn.train(traindataset[:600], max_epochs)
 
-	test_y_graficar(hnn,dataset[600:])
+	if convergio:
+		test_y_graficar(hnn,dataset, metodo)
 	if(save_file!=None):
 		print "Guardando Red"
 		with open(save_file, "wb") as output:
 			cPickle.dump(hnn, output, cPickle.HIGHEST_PROTOCOL)
+	return convergio
+
+def pruebas(dataset,save_file,max_epochs=5000):
+	best_params_oja = []
+	best_params_sanger = -1
+	for m in [0, 1]:
+		for lrate in np.linspace(0.001, 0.1, 1):
+			convergio = train_Ej1(dataset, save_file, 3, lrate, max_epochs,m)
+			if convergio and not m:
+				best_params_sanger = lrate
+				break
+			if convergio and m:
+				best_params_oja.append(lrate)
+	return best_params_sanger, best_params_oja
+
+
+
 
 
 args = sys.argv
@@ -70,7 +104,7 @@ operacion= str(args[3])
 #default value
 epochs=int(1000)
 lrate=float(0.0001)
-metodo=True
+metodo=1
 out_space=int(3)
 if operacion == "-train":
 	# Entrenar
@@ -84,9 +118,9 @@ if operacion == "-train":
 		epochs = int(args[5])
 	if(len(args)>6):
 		if(str(args[6])=="-o"):
-			metodo=True
+			metodo=1
 		elif(str(args[6])=="-s"):
-			metodo=False
+			metodo=0
 		else:
 			print usage1
 			print usage3
@@ -103,80 +137,11 @@ elif operacion == "-load":
 		print usage3
 		sys.exit()
 	load_Ej1(nomDataset,nomRed)
+elif operacion == "-pruebas":
+	print pruebas(nomDataset, nomRed)
 else:
 	print usage1
 	print usage2
 	print usage3
 
-""" Testeos.
-N = 856
-M1 = 20
-M2 = 20
 
-for epochs in [5, 20, 100]:
-	
-	for sigma in [0.5, 1.0, 5.0, 10.0]:
-		for lrate in [0.5, 1.0, 2.0]:
-		
-			plt.close()
-
-
-			nadaDeRandomW = False
-			s = som(M1, M2, N, sigma, lrate, nadaDeRandomW)
-
-			data = np.genfromtxt('tp2.csv', delimiter=',',usecols=range(1,857))
-
-			print "Entrenando con " + str(epochs) + ' epochs - ' + ' sigma ' + str(sigma) + ' lrate ' + str(lrate) 
-
-			if True:
-				s.trainRandom(data, epochs)
-				np.save('pesos', s.W)
-			else:
-				s.W = np.load('pesos.npy')
-			print "Listo"
-
-
-			prefijo = 'imgs/' + str(epochs) + 'sig' + str(sigma) + 'lr' + str(lrate)
-
-			markers =  ['o','s','D','o','s','D','o','s','D']
-			colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'm', 'b']
-			target = np.genfromtxt('tp2.csv',delimiter=',',usecols=(0),dtype=str)
-			t = np.zeros(len(target),dtype=int)
-			t[target == '1'] = 0
-			t[target == '2'] = 1
-			t[target == '3'] = 2
-			t[target == '4'] = 3
-			t[target == '5'] = 4
-			t[target == '6'] = 5
-			t[target == '7'] = 6
-			t[target == '8'] = 7
-			t[target == '9'] = 8
-
-			maps = []
-			for i in range(9):
-				maps.append([])
-
-			for cnt, xx in enumerate(data):
-				w = s.mapear(xx)
-				maps[t[cnt]].append(w)
-				plot(w[0]+.5,w[1]+.5,markers[t[cnt]],markerfacecolor='None',
-				
-			markeredgecolor=colors[t[cnt]],markersize=12,markeredgewidth=2)
-			axis([0,M1,0,M2])
-			savefig(prefijo + 'total.png')
-			plt.close()
-
-			for mapaIndex in range(len(maps)):
-				
-				mapa = maps[mapaIndex]
-				color = colors[mapaIndex]
-				marker = markers[mapaIndex]
-
-				bone()
-				for tupla in mapa:
-					plot(tupla[0]+.5,tupla[1]+.5,marker,markerfacecolor='None',
-				markeredgecolor=color,markersize=10,markeredgewidth=2)
-				axis([0,M1,0,M2])
-				savefig(prefijo + 'parcial' + str(mapaIndex) + '.png')
-				plt.close()
-"""
