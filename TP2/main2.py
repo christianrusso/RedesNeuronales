@@ -77,9 +77,10 @@ def load_Ej2(file,Net):
 	dataset = np.genfromtxt(file, delimiter=',',usecols=range(0,857))
 	target = np.genfromtxt(file,delimiter=',',usecols=(0),dtype=int)
 	for data in dataset:
-		res = red.activate(data[1:].reshape((1,856)))
+		#res = red.activate(data[1:].reshape((1,856)))
 		#print str(data[0])+" "+str(res)
-		plot(w[0][0]+.5,w[0][1]+.5,markers[int(data[0])-1],markerfacecolor='None',
+		res2=red.test(data[1:].reshape((1,856)))
+		plot(res2[0]+.5,res2[1]+.5,markers[int(data[0])-1],markerfacecolor='None',
 			markeredgecolor=colors[int(data[0])-1],markersize=12,markeredgewidth=2)
 	plt.show()
 

@@ -62,3 +62,9 @@ class som():
                 self.correction(np.array(x).reshape((1,856)), eta, sigma, y) ** 2
             # if(t%10==0):
             print "epoca: "+str(t)
+
+    def test(self,x):
+        res=self.activate(x)
+        posicion=res.nonzero()
+        posicion=posicion[1][0]
+        return self.pIndexAlMapa(posicion)
