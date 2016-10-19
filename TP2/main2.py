@@ -50,9 +50,9 @@ def load_Ej2(file,Net):
 		maps.append([])
 
 	for cnt, xx in enumerate(dataset):
-		w = red.activate(xx.reshape((1,856)))
+		w = red.test(xx.reshape((1,856)))
 		maps[t[cnt]].append(w)
-		plot(w[0][0]+.5,w[0][1]+.5,markers[t[cnt]],markerfacecolor='None',	
+		plot(w[0]+.5,w[1]+.5,markers[t[cnt]],markerfacecolor='None',	
 		markeredgecolor=colors[t[cnt]],markersize=12,markeredgewidth=2)
 
 	
@@ -68,7 +68,7 @@ def load_Ej2(file,Net):
 
 		bone()
 		for tupla in mapa:
-			plot(tupla[0][0]+.5,tupla[0][1]+.5,marker,markerfacecolor='None',markeredgecolor=color,markersize=10,markeredgewidth=2)
+			plot(tupla[0]+.5,tupla[1]+.5,marker,markerfacecolor='None',markeredgecolor=color,markersize=10,markeredgewidth=2)
 		axis([0,red.ninputs,0,red.M1])
 		savefig('imgs/ej2/parcialCat' + str(mapaIndex) + '.png')
 		plt.close()
@@ -77,8 +77,6 @@ def load_Ej2(file,Net):
 	dataset = np.genfromtxt(file, delimiter=',',usecols=range(0,857))
 	target = np.genfromtxt(file,delimiter=',',usecols=(0),dtype=int)
 	for data in dataset:
-		#res = red.activate(data[1:].reshape((1,856)))
-		#print str(data[0])+" "+str(res)
 		res2=red.test(data[1:].reshape((1,856)))
 		plot(res2[0]+.5,res2[1]+.5,markers[int(data[0])-1],markerfacecolor='None',
 			markeredgecolor=colors[int(data[0])-1],markersize=12,markeredgewidth=2)
