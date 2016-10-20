@@ -15,7 +15,7 @@ class som():
         
 
     def activate(self, x):
-        y_mono = np.linalg.norm(x.T-self.weights, None, False)
+        y_mono = np.linalg.norm(x.T-self.weights, None, axis=0)
 
         y = (y_mono == y_mono.min())*1
         # print y_mono
@@ -29,7 +29,7 @@ class som():
         columnas = np.exp(-np.power(self.columnas-p_j[1],2)/d)
         
         d_matriz = np.outer(filas, columnas)
-        return d_matriz.reshape(1, self.noutputs)
+        return d_matriz.reshape(1, self.noutputs) ##### CONSULTAR
         
 
     def pIndexAlMapa(self, index):
@@ -39,12 +39,12 @@ class som():
         return x*self.M2 + y%self.M2
     
     def correction(self, x,learning_rate, sigma,y):
-        jasterisk = np.argmin(y)
+        jasterisk = np.argmax(y)
         # print y.max()
 
         p_j = self.pIndexAlMapa(jasterisk)
         d = self.gauss(p_j, sigma)
-        dw = learning_rate * np.multiply(d, (x.T - self.weights))
+        dw = learning_rate * np.multiply(d, (x.T - self.weights)) ##### CONSULTAR
         self.weights += dw
         return dw
 
@@ -64,7 +64,6 @@ class som():
             print "epoca: "+str(t)
 
     def test(self,x):
-        res=self.activate(x)
-        posicion=res.nonzero()
-        posicion=posicion[1][0]
+        y=self.activate(x)
+        posicion=np.argmax(y)
         return self.pIndexAlMapa(posicion)
