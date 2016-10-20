@@ -1,9 +1,10 @@
-- Armar un main para empezar a testear ej 1
-- Checkear cómo clasifica el ej 2
+Notas sobre experis:
 
-
-
-Experis:
+Ej1 experis:
 - sanger, variar learning rate hasta ecnotrar una q converge 0.01, 0.1 Hay una única solución
 - oja, distintas soluciones, variar learning rate hasta q converge 0.01, 0.1. Hay varias solucoines posibles
 - a ojo analizar graficos 
+
+Ej 2 experis:
+- variar grilla y ver qué pasa
+- fijar grilla y variar sigma
