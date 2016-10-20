@@ -29,58 +29,37 @@ def load_Ej2(file,Net):
 
 	if not os.path.exists("imgs/ej2"):
 		os.makedirs("imgs/ej2")
-	
+
 	print "Procesando... por favor espere"
-	markers =  ['o','s','D','o','s','D','o','s','D']
-	colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'm', 'b']
 	
-	t = np.zeros(len(target),dtype=int)
-	t[target == '1'] = 0
-	t[target == '2'] = 1
-	t[target == '3'] = 2
-	t[target == '4'] = 3
-	t[target == '5'] = 4
-	t[target == '6'] = 5
-	t[target == '7'] = 6
-	t[target == '8'] = 7
-	t[target == '9'] = 8
-
-	maps = []
-	for i in range(9):
-		maps.append([])
-
-	for cnt, xx in enumerate(dataset):
-		w = red.test(xx.reshape((1,856)))
-		maps[t[cnt]].append(w)
-		plot(w[0]+.5,w[1]+.5,markers[t[cnt]],markerfacecolor='None',	
-		markeredgecolor=colors[t[cnt]],markersize=12,markeredgewidth=2)
-
-	
-	axis([0,red.ninputs,0,red.M1])
-	savefig('imgs/ej2/total.png')
-	plt.close()
-
-	for mapaIndex in range(len(maps)):
-		
-		mapa = maps[mapaIndex]
-		color = colors[mapaIndex]
-		marker = markers[mapaIndex]
-
-		bone()
-		for tupla in mapa:
-			plot(tupla[0]+.5,tupla[1]+.5,marker,markerfacecolor='None',markeredgecolor=color,markersize=10,markeredgewidth=2)
-		axis([0,red.ninputs,0,red.M1])
-		savefig('imgs/ej2/parcialCat' + str(mapaIndex) + '.png')
-		plt.close()
-	print "Listo! Los resultados se encuentran en la carpeta 'imgs'."
-
 	dataset = np.genfromtxt(file, delimiter=',',usecols=range(0,857))
 	target = np.genfromtxt(file,delimiter=',',usecols=(0),dtype=int)
+
+	color = [[dict() for _ in xrange(red.M2)] for _ in xrange(red.M1)]
+
 	for data in dataset:
-		res2=red.test(data[1:].reshape((1,856)))
-		plot(res2[0]+.5,res2[1]+.5,markers[int(data[0])-1],markerfacecolor='None',
-			markeredgecolor=colors[int(data[0])-1],markersize=12,markeredgewidth=2)
+		pos=red.test(data[1:].reshape((1,856)))
+		# print pos
+		d = color[pos[0]][pos[1]]
+		if (int(data[0])) in d:
+			d[int(data[0])] += 1
+		else:
+			d[int(data[0])] = 1
+	# print color[3]
+	for i in xrange(red.M1):
+		for j in xrange(red.M2):
+			d = color[i][j]
+			# print i, j, d
+			if d == {}:
+				color[i][j] = 0
+			else:
+				most_repeated = max(d.iterkeys(), key=(lambda key: d[key]))
+				color[i][j] = most_repeated
+
+	plt.pcolor(color)
+	plt.colorbar()
 	plt.show()
+	print "Listo! Los resultados se encuentran en la carpeta 'imgs'."
 
 args = sys.argv
 usage1 = "\nPara entrenar desde un dataset y guardar la red:\n\
@@ -91,10 +70,10 @@ usage3="Asume el dataset sigue la forma 'categoria, valor1, ... , valor856'"
 
 #default value
 lrate=float(0.5)
-sigmaInicial=float(0.00001)
-epochs=30
-X=10
-Y=10
+sigmaInicial=float(0.3)
+epochs=100
+X=20
+Y=20
 
 if(len(args)<4):
 	print usage1
@@ -143,66 +122,4 @@ for epochs in [5, 20, 100]:
 	
 	for sigma in [0.5, 1.0, 5.0, 10.0]:
 		for lrate in [0.5, 1.0, 2.0]:
-		
-			plt.close()
-
-
-			nadaDeRandomW = False
-			s = som(M1, M2, N, sigma, lrate, nadaDeRandomW)
-
-			data = np.genfromtxt('tp2.csv', delimiter=',',usecols=range(1,857))
-
-			print "Entrenando con " + str(epochs) + ' epochs - ' + ' sigma ' + str(sigma) + ' lrate ' + str(lrate) 
-
-			if True:
-				s.trainRandom(data, epochs)
-				np.save('pesos', s.W)
-			else:
-				s.W = np.load('pesos.npy')
-			print "Listo"
-
-
-			prefijo = 'imgs/' + str(epochs) + 'sig' + str(sigma) + 'lr' + str(lrate)
-
-			markers =  ['o','s','D','o','s','D','o','s','D']
-			colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'm', 'b']
-			target = np.genfromtxt('tp2.csv',delimiter=',',usecols=(0),dtype=str)
-			t = np.zeros(len(target),dtype=int)
-			t[target == '1'] = 0
-			t[target == '2'] = 1
-			t[target == '3'] = 2
-			t[target == '4'] = 3
-			t[target == '5'] = 4
-			t[target == '6'] = 5
-			t[target == '7'] = 6
-			t[target == '8'] = 7
-			t[target == '9'] = 8
-
-			maps = []
-			for i in range(9):
-				maps.append([])
-
-			for cnt, xx in enumerate(data):
-				w = s.mapear(xx)
-				maps[t[cnt]].append(w)
-				plot(w[0]+.5,w[1]+.5,markers[t[cnt]],markerfacecolor='None',
-				
-			markeredgecolor=colors[t[cnt]],markersize=12,markeredgewidth=2)
-			axis([0,M1,0,M2])
-			savefig(prefijo + 'total.png')
-			plt.close()
-
-			for mapaIndex in range(len(maps)):
-				
-				mapa = maps[mapaIndex]
-				color = colors[mapaIndex]
-				marker = markers[mapaIndex]
-
-				bone()
-				for tupla in mapa:
-					plot(tupla[0]+.5,tupla[1]+.5,marker,markerfacecolor='None',
-				markeredgecolor=color,markersize=10,markeredgewidth=2)
-				axis([0,M1,0,M2])
-				savefig(prefijo + 'parcial' + str(mapaIndex) + '.png')
-				plt.close()
 """
