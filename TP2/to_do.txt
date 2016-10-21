@@ -5,6 +5,8 @@ Ej1 experis:
 - oja, distintas soluciones, variar learning rate hasta q converge 0.01, 0.1. Hay varias solucoines posibles
 - a ojo analizar graficos 
 
+-> lineas de colores, asumeindo q las categorías fueran ortogonales, no alcanzan la cantidad de dimensiones a las q proyectamos, forzando las líneas. Doble conflicto, la asunción y la cant de dims
+
 Ej 2 experis:
 - variar grilla y ver qué pasa
 - fijar grilla y variar sigma

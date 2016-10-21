@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from kohonen import som
 import numpy as np
+import matplotlib.cm as mmc
 from pylab import Line2D, plot, axis, show, pcolor, colorbar, bone, savefig
 import pylab as plt
 import sys
@@ -15,48 +16,45 @@ def train_Ej2(Dataset,save_file,sigma0,lrateInicial,M1,M2,max_epochs):
 	s = som(M1, M2, lrateInicial,sigma0)
 	s.train(data, epochs)
 	if(save_file!=None):
-		print "Guardando Red"
+		print "Guardando red"
 		with open(save_file, "wb") as output:
 			cPickle.dump(s, output, cPickle.HIGHEST_PROTOCOL)
 
 
 def load_Ej2(file,Net):
-	dataset = np.genfromtxt(file, delimiter=',',usecols=range(1,857))
-	target = np.genfromtxt(file,delimiter=',',usecols=(0),dtype=str)
-	print "Cargando Red"
+	print "Cargando red"
 	with open(Net, "rb") as input:
 		red = cPickle.load(input)
 
 	if not os.path.exists("imgs/ej2"):
 		os.makedirs("imgs/ej2")
 
-	print "Procesando... por favor espere"
+	print "Generando mapa de caracteristicas"
 	
 	dataset = np.genfromtxt(file, delimiter=',',usecols=range(0,857))
-	target = np.genfromtxt(file,delimiter=',',usecols=(0),dtype=int)
-
 	color = [[dict() for _ in xrange(red.M2)] for _ in xrange(red.M1)]
 
 	for data in dataset:
 		pos=red.test(data[1:].reshape((1,856)))
-		# print pos
+
 		d = color[pos[0]][pos[1]]
-		if (int(data[0])) in d:
-			d[int(data[0])] += 1
+		if (int(data[0])-1) in d:
+			d[int(data[0])-1] += 1
 		else:
-			d[int(data[0])] = 1
-	# print color[3]
+			d[int(data[0])-1] = 1
+	
+
 	for i in xrange(red.M1):
 		for j in xrange(red.M2):
 			d = color[i][j]
-			# print i, j, d
 			if d == {}:
-				color[i][j] = 0
+				color[i][j] = 9
 			else:
 				most_repeated = max(d.iterkeys(), key=(lambda key: d[key]))
 				color[i][j] = most_repeated
 
-	plt.pcolor(color)
+	cmap = mmc.get_cmap(name="nipy_spectral", lut=10)
+	plt.pcolor(color, cmap=cmap)
 	plt.colorbar()
 	plt.show()
 	print "Listo! Los resultados se encuentran en la carpeta 'imgs'."
