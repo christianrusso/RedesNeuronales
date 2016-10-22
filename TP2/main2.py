@@ -1,13 +1,59 @@
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 from kohonen import som
 import numpy as np
 import matplotlib.cm as mmc
-from pylab import Line2D, plot, axis, show, pcolor, colorbar, bone, savefig
-import pylab as plt
 import sys
 import os
 import cPickle
+
+def prueba():
+	file="tp2_training_dataset.csv"
+	train_data = np.genfromtxt(file, delimiter=',',usecols=range(1,857))
+	train_data=train_data[:600]
+	test_data  = np.genfromtxt(file, delimiter=',',usecols=range(0,857))
+	test_data=test_data[600:]
+	if not os.path.exists("imgs/ej2"):
+		os.makedirs("imgs/ej2")
+	sigma=0.001
+	max_epoca=100
+	for M in [3,5]:
+		for lrate in np.linspace(0.001, 0.1, 20):
+			red = som(M, M, lrate,sigma)
+			red.train(train_data, max_epoca)
+			img_name="imgs/ej2/train M "+str(M)+" lrate "+str(lrate)+" sigma"+str(sigma)+".jpg"
+			graficador(red,train_data,img_name)
+			img_name="imgs/ej2/test M "+str(M)+" lrate "+str(lrate)+" sigma"+str(sigma)+".jpg"
+			graficador(red,test_data,img_name)
+
+def graficador(red,dataset,save_img=None):
+	color = [[dict() for _ in xrange(red.M2)] for _ in xrange(red.M1)]
+	color =np.asarray(color)
+	for data in dataset:
+		pos=red.test(data[1:].reshape((1,856)))
+
+		d = color[pos[0]][pos[1]]
+		if (int(data[0])-1) in d:
+			d[int(data[0])-1] += 1
+		else:
+			d[int(data[0])-1] = 1
+
+	for i in xrange(red.M1):
+		for j in xrange(red.M2):
+			d = color[i][j]
+			if d == {}:
+				color[i][j] = 9
+			else:
+				most_repeated = max(d.iterkeys(), key=(lambda key: d[key]))
+				color[i][j] = most_repeated
+
+	cmap = mmc.get_cmap(name="nipy_spectral", lut=10)
+	#plt.pcolor(x, y, z, cmap=cmap, vmin=0, vmax=10)
+	plt.pcolor(color, cmap=cmap)
+	plt.colorbar()
+	if(save_img==None):
+		plt.show()
+	else:
+		plt.savefig(save_img)
 
 #Ejercicio 2
 def train_Ej2(Dataset,save_file,sigma0,lrateInicial,M1,M2,max_epochs):
@@ -25,39 +71,10 @@ def load_Ej2(file,Net):
 	print "Cargando red"
 	with open(Net, "rb") as input:
 		red = cPickle.load(input)
-
-	if not os.path.exists("imgs/ej2"):
-		os.makedirs("imgs/ej2")
-
 	print "Generando mapa de caracteristicas"
-	
 	dataset = np.genfromtxt(file, delimiter=',',usecols=range(0,857))
-	color = [[dict() for _ in xrange(red.M2)] for _ in xrange(red.M1)]
+	graficador(red,dataset)
 
-	for data in dataset:
-		pos=red.test(data[1:].reshape((1,856)))
-
-		d = color[pos[0]][pos[1]]
-		if (int(data[0])-1) in d:
-			d[int(data[0])-1] += 1
-		else:
-			d[int(data[0])-1] = 1
-	
-
-	for i in xrange(red.M1):
-		for j in xrange(red.M2):
-			d = color[i][j]
-			if d == {}:
-				color[i][j] = 9
-			else:
-				most_repeated = max(d.iterkeys(), key=(lambda key: d[key]))
-				color[i][j] = most_repeated
-
-	cmap = mmc.get_cmap(name="nipy_spectral", lut=10)
-	plt.pcolor(color, cmap=cmap)
-	plt.colorbar()
-	plt.show()
-	print "Listo! Los resultados se encuentran en la carpeta 'imgs'."
 
 args = sys.argv
 usage1 = "\nPara entrenar desde un dataset y guardar la red:\n\
@@ -73,7 +90,10 @@ epochs=100
 X=20
 Y=20
 
-if(len(args)<4):
+if(len(args)==2 and args[1]=="-prueba"):
+	prueba()
+	sys.exit()
+elif(len(args)<4):
 	print usage1
 	print usage2
 	print usage3
