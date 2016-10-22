@@ -11,7 +11,6 @@ def prueba():
 	train_data = np.genfromtxt(file, delimiter=',',usecols=range(1,857))
 	train_data=train_data[:600]
 	test_data  = np.genfromtxt(file, delimiter=',',usecols=range(0,857))
-	test_data=test_data[600:]
 	if not os.path.exists("imgs/ej2"):
 		os.makedirs("imgs/ej2")
 	sigma=0.001
@@ -21,15 +20,14 @@ def prueba():
 				red = som(M, M, lrate,sigma)
 				red.train(train_data,epoca)
 				img_name="imgs/ej2/train M "+str(M)+" lrate "+str(lrate)+" sigma"+str(sigma)+" epocas "+str(epoca)+".jpg"
-				graficador(red,train_data,img_name)
+				graficador(red,test_data[:600],img_name)
 				img_name="imgs/ej2/test M "+str(M)+" lrate "+str(lrate)+" sigma"+str(sigma)+" epocas "+str(epoca)+".jpg"
-				graficador(red,test_data,img_name)
+				graficador(red,test_data[600:],img_name)
 
 def graficador(red,dataset,save_img=None):
 	color = [[dict() for _ in xrange(red.M2)] for _ in xrange(red.M1)]
 	for data in dataset:
 		pos=red.test(data[1:].reshape((1,856)))
-
 		d = color[pos[0]][pos[1]]
 		if (int(data[0])-1) in d:
 			d[int(data[0])-1] += 1
@@ -61,6 +59,7 @@ def graficador(red,dataset,save_img=None):
 		plt.show()
 	else:
 		plt.savefig(save_img)
+	plt.close() 
 
 #Ejercicio 2
 def train_Ej2(Dataset,save_file,sigma0,lrateInicial,M1,M2,max_epochs):
