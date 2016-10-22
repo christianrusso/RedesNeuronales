@@ -137,9 +137,32 @@ En general, notamos que los graficos poseen unas lineas de colores bien definida
 
 \subsection{Ejercicio 2}
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Para el ejercicio 2 implementamos un algoritmo para probar lsa diferentes combinaciones de epocas, las cuales influyen en el sigma y distintos tamaños de salida. Para cada uno de estas variamos el Learning Rate y guardamos los graficos resultantes.
+
+Una vez conseguidos todos los graficos hicimos un analisis observando cual tiene una mejor agrupacion, al igual que en el ejercicio 1, pero esta vez en el plano.
+
+
+\begin{lstlisting}[caption=pruebas]
+	
+def prueba():
+	file="tp2_training_dataset.csv"
+	train_data = np.genfromtxt(file, delimiter=',',usecols=range(1,857))
+	train_data=train_data[:600]
+	test_data  = np.genfromtxt(file, delimiter=',',usecols=range(0,857))
+	if not os.path.exists("imgs/ej2"):
+		os.makedirs("imgs/ej2")
+	sigma=0.001
+	for epoca in [500,1000,1500]:
+		for M in [3,5,9,20,30,40]:
+			for lrate in np.linspace(0.001, 0.1, 20):
+				red = som(M, M, lrate,sigma)
+				red.train(train_data,epoca)
+				img_name="imgs/ej2/train M "+str(M)+" lrate "+str(lrate)+" sigma"+str(sigma)+" 
+				                                                    epocas "+str(epoca)+".jpg"
+				graficador(red,test_data[:600],img_name)
+				img_name="imgs/ej2/test M "+str(M)+" lrate "+str(lrate)+" sigma"+str(sigma)+" 
+				                                                   epocas "+str(epoca)+".jpg"
+				graficador(red,test_data[600:],img_name)
+
+\end{lstlisting}
+
