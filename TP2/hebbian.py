@@ -54,6 +54,6 @@ class red_hebbiana:
     def isOrtogonal(self):
         prod = np.dot(self.weights.T, self.weights)
         # print prod
-        return np.allclose(prod, np.identity(self.noutputs), atol=0.011)
+        return np.allclose(prod, np.identity(self.noutputs), atol=0.025)
 
 
