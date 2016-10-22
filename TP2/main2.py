@@ -27,7 +27,6 @@ def prueba():
 
 def graficador(red,dataset,save_img=None):
 	color = [[dict() for _ in xrange(red.M2)] for _ in xrange(red.M1)]
-	color =np.asarray(color)
 	for data in dataset:
 		pos=red.test(data[1:].reshape((1,856)))
 
@@ -47,9 +46,19 @@ def graficador(red,dataset,save_img=None):
 				color[i][j] = most_repeated
 
 	cmap = mmc.get_cmap(name="nipy_spectral", lut=10)
-	#plt.pcolor(x, y, z, cmap=cmap, vmin=0, vmax=10)
-	plt.pcolor(color, cmap=cmap)
+	#plt.pcolor(color, cmap=cmap)
+	#plt.colorbar()
+	color=np.asarray(color)
+	# generate 2 2d grids for the x & y bounds
+	y, x = np.mgrid[slice(0, red.M2),slice(0, red.M1)]
+
+	plt.subplot(2, 2, 1)
+	plt.pcolor(x, y, color, cmap=cmap)
+	plt.title('Resultado')
+	# set the limits of the plot to the limits of the data
+	plt.axis([x.min(), x.max(), y.min(), y.max()])
 	plt.colorbar()
+
 	if(save_img==None):
 		plt.show()
 	else:
