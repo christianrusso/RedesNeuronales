@@ -6,7 +6,7 @@ class som():
     #def __init__(self, ninputs, output_size, learning_rate, sigma):
     def __init__(self, M1,M2, learning_rate, sigma):
         self.learning_rate = learning_rate
-        self.sigma = sigma
+        self.sigma_zero = sigma
         self.M1=M1
         self.M2=M2
         self.noutputs = M1 *M2
@@ -54,11 +54,14 @@ class som():
 
         for t in xrange(1, epochs+1):
             eta = t ** (- 1/2)
-            sigma = (self.M2/2)* (t ** (-1/3))
+            sigma_t = (self.M2/2)* (t ** (-1/3))
+            # sigma_t = self.sigma_zero *((1+t*sigma_t)**(-alfa))               # Mas rapido
+            # sigma_t = self.sigma_zero *np.exp(-t/sigma_t)
+            # sigma_t = self.sigma_zero /(1+t*sigma_zero*sigma_t)               # Mas lento
 
             for x in dataset:
                 y = self.activate(np.array(x).reshape((1,856)))
-                self.correction(np.array(x).reshape((1,856)), eta, sigma, y)
+                self.correction(np.array(x).reshape((1,856)), eta, sigma_t, y)
 
             # if(t%10==0):
             print "epoca: "+str(t)
