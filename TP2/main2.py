@@ -17,9 +17,10 @@ def prueba():
 	for epoca in [500,1000,1500]:
 		for M in [3,5,9,20,30,40]:
 			for lrate in np.linspace(0.001, 0.1, 20):
+				img_name="imgs/ej2/train M "+str(M)+" lrate "+str(lrate)+" sigma"+str(sigma)+" epocas "+str(epoca)+".jpg"
+				print img_name
 				red = som(M, M, lrate,sigma)
 				red.train(train_data,epoca)
-				img_name="imgs/ej2/train M "+str(M)+" lrate "+str(lrate)+" sigma"+str(sigma)+" epocas "+str(epoca)+".jpg"
 				graficador(red,test_data[:600],img_name)
 				img_name="imgs/ej2/test M "+str(M)+" lrate "+str(lrate)+" sigma"+str(sigma)+" epocas "+str(epoca)+".jpg"
 				graficador(red,test_data[600:],img_name)
