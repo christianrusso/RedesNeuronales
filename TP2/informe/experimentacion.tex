@@ -152,7 +152,7 @@ def prueba():
 	if not os.path.exists("imgs/ej2"):
 		os.makedirs("imgs/ej2")
 	sigma=0.001
-	for epoca in [500,1000,1500]:
+	for epoca in [5,10,25,100,500,1000,1500]:
 		for M in [3,5,9,20,30,40]:
 			for lrate in np.linspace(0.001, 0.1, 20):
 				red = som(M, M, lrate,sigma)
@@ -207,6 +207,7 @@ y estas epocas
 \begin{tabular}{|l|}
 \hline
 Epocas\\ \hline
+100 \\ \hline
 500 \\ \hline
 1000 \\ \hline
 1500 \\ \hline
@@ -245,25 +246,25 @@ Ahora compararemos los resultados de el entrenamiento(izquierda) vs test (derech
 
 \includegraphics[width=0.5\textwidth]{img/ej2_train_M_20_lrate_001_epocas_500}
 \includegraphics[width=0.5\textwidth]{img/ej2_test_M_20_lrate_001_epocas_500}
-{\center \footnotesize Entrenamiento vs Testing Red 20x20 Learning Rate 0.001 Epocas 500\par}
+{\center \footnotesize Entrenamiento vs Testing Red 20x20 Learning Rate 0.001 Epocas 100\par}
 \includegraphics[width=0.5\textwidth]{img/ej2_train_M_20_lrate_001_epocas_1000}
 \includegraphics[width=0.5\textwidth]{img/ej2_test_M_20_lrate_001_epocas_1000}
-{\center \footnotesize Entrenamiento vs Testing Red 20x20 Learning Rate 0.001 Epocas 1000\par}
+{\center \footnotesize Entrenamiento vs Testing Red 20x20 Learning Rate 0.001 Epocas 500\par}
 \includegraphics[width=0.5\textwidth]{img/ej2_train_M_20_lrate_001_epocas_1500}
 \includegraphics[width=0.5\textwidth]{img/ej2_test_M_20_lrate_001_epocas_1500}
-{\center \footnotesize Entrenamiento vs Testing Red 20x20 Learning Rate 0.001 Epocas 1500\par}
+{\center \footnotesize Entrenamiento vs Testing Red 20x20 Learning Rate 0.001 Epocas 1000\par}
 
-Curiosamente, no existe una mejora en la solucion para epocas mayores a 500 para cualquier learning rate entre 0.1 y 0.001.
+Curiosamente, no existe una mejora en la solucion para epocas mayores a 100 para cualquier learning rate entre 0.1 y 0.001.
 
 \includegraphics[width=0.5\textwidth]{img/ej2_train_M_30_lrate_001_epocas_500}
 \includegraphics[width=0.5\textwidth]{img/ej2_test_M_30_lrate_001_epocas_500}
-{\footnotesize Entrenamiento vs Testing Red 30x30 Learning Rate 0.001 Epocas 500\par}
+{\footnotesize Entrenamiento vs Testing Red 30x30 Learning Rate 0.001 Epocas 100\par}
 \includegraphics[width=0.5\textwidth]{img/ej2_train_M_30_lrate_001_epocas_1000}
 \includegraphics[width=0.5\textwidth]{img/ej2_test_M_30_lrate_001_epocas_1000}
-{\footnotesize Entrenamiento vs Testing Red 30x30 Learning Rate 0.001 Epocas 1000\par}
+{\footnotesize Entrenamiento vs Testing Red 30x30 Learning Rate 0.001 Epocas 500\par}
 \includegraphics[width=0.5\textwidth]{img/ej2_train_M_30_lrate_001_epocas_1500}
 \includegraphics[width=0.5\textwidth]{img/ej2_test_M_30_lrate_001_epocas_1500}
-{\footnotesize Entrenamiento vs Testing Red 30x30 Learning Rate 0.001 Epocas 1500\par}
+{\footnotesize Entrenamiento vs Testing Red 30x30 Learning Rate 0.001 Epocas 1000\par}
 
 Si bien no hay una mejora en calidad de soluci\'on, es necesario aclarar que aunque terminen en la misma cantidad de epocas, el tiempo de computo de la solucion de la red de 30x30 es mucho mayor que la de 20x20. Por este motivo, la corrida de la red de 40x40 no se pudo realizar para mediciones mayores a 500 epocas.
 
@@ -271,5 +272,5 @@ Si bien no hay una mejora en calidad de soluci\'on, es necesario aclarar que aun
 
 Luego de analizar los graficos y resultados del ejercicio 2, podemos concluir que las dimensiones de la red no solo influyen en la calidad de la solucion sino tambien en el tiempo de calculo de la misma. 
 
-En base a todo lo anterior, decidimos que la mejor solucion es una red de 30x30 con un learning rate de 0.01 y 500 epocas de entrenamiento. Esta red provee una buena clasificacion y balancea el costo en tiempo.
+En base a todo lo anterior, decidimos que la mejor solucion es una red de 30x30 con un learning rate de 0.01 y 100 epocas de entrenamiento. Esta red provee una buena clasificacion y balancea el costo en tiempo.
 

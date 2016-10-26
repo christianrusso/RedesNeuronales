@@ -14,7 +14,7 @@ def prueba():
 	if not os.path.exists("imgs/ej2"):
 		os.makedirs("imgs/ej2")
 	sigma=0.001
-	for epoca in [50,100,250]:
+	for epoca in [5,10,25,100,500,1000,1500]:
 		for M in [3,5,9,20,30,40]:
 			for lrate in np.linspace(0.001, 0.1, 5):
 				img_name="imgs/ej2/train_M_"+str(M)+"_lrate_"+str(lrate)+"_sigma_"+str(sigma)+"_epocas_"+str(epoca)+".png"
