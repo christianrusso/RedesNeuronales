@@ -137,7 +137,7 @@ En general, notamos que los gr\'aficos poseen unas lineas de colores bien defini
 
 \subsection{Ejercicio 2}
 
-Para el ejercicio 2, implementamos un algoritmo para probar distintas dimensiones (cuadradas) de espacio de salida e ir variando los \textbf{Learning Rate} y \textbf{Epocas}, la cual afecta directamente al sigma, para ver como influyen, en manera general, en la agrupacion. Para ello, cada una de las corridas se guardan los graficos resultantes y se analiza su comportamiento.
+Para el ejercicio 2, implementamos un algoritmo para probar distintas dimensiones (cuadradas) de espacio de salida e ir variando los \textbf{Sigma} y \textbf{Epocas}, para ver como influyen, en manera general, en la agrupacion. Para ello, cada una de las corridas se guardan los graficos resultantes y se analiza su comportamiento.
 
 Una vez conseguidos todos los graficos hicimos un analisis observando cual tiene una mejor agrupacion, al igual que en el ejercicio 1, pero esta vez en el plano.
 
@@ -151,22 +151,20 @@ def prueba():
 	test_data  = np.genfromtxt(file, delimiter=',',usecols=range(0,857))
 	if not os.path.exists("imgs/ej2"):
 		os.makedirs("imgs/ej2")
-	sigma=0.001
 	for epoca in [5,10,25,100,500,1000,1500]:
 		for M in [3,5,9,20,30,40]:
-			for lrate in np.linspace(0.001, 0.1, 20):
-				red = som(M, M, lrate,sigma)
+			for sigma in np.linspace(0.001, 1, 20):
+				img_name="imgs/ej2/train_M_"+str(M)+"_sigma_"+str(sigma)+"_epocas_"+str(epoca)+".png"
+				print img_name
+				red = som(M, M,sigma)
 				red.train(train_data,epoca)
-				img_name="imgs/ej2/train M "+str(M)+" lrate "+str(lrate)+" sigma"+str(sigma)+" 
-				                                                    epocas "+str(epoca)+".jpg"
 				graficador(red,test_data[:600],img_name)
-				img_name="imgs/ej2/test M "+str(M)+" lrate "+str(lrate)+" sigma"+str(sigma)+" 
-				                                                   epocas "+str(epoca)+".jpg"
+				img_name="imgs/ej2/test_M_"+str(M)+"_sigma_"+str(sigma)+"_epocas_"+str(epoca)+".png"
 				graficador(red,test_data[600:],img_name)
 
 \end{lstlisting}
 
-Como se explic\'o anteriormente se corri\'o nuestro algoritmo de pruebas para encontrar las mejores soluciones. El algoritmo de pruebas corrio con estos \textbf{learning rate}:
+Como se explic\'o anteriormente se corri\'o nuestro algoritmo de pruebas para encontrar las mejores soluciones. El algoritmo de pruebas corrio con estos \textbf{M1} y \textbf{M2}:
 
 \begin{tabular}{|l|l|}
 \hline
@@ -179,30 +177,6 @@ M1 & M2 \\ \hline
 40 & 40 \\ \hline
 \end{tabular}
 
-
-\begin{tabular}{|l|}
-\hline
-Learning Rate \\ \hline
-0.001              \\ \hline
-0.00621052631579 \\ \hline
-0.0114210526316 \\ \hline
-0.0218421052632 \\ \hline
-0.0270526315789 \\ \hline
-0.0322631578947	 \\ \hline
-0.0374736842105	 \\ \hline
-0.0426842105263	 \\ \hline
-0.0531052631579	 \\ \hline
-0.0583157894737	 \\ \hline
-0.0635263157895	 \\ \hline
-0.0687368421053	 \\ \hline
-0.0739473684211	 \\ \hline
-0.0791578947368	 \\ \hline
-0.0843684210526	 \\ \hline
-0.0895789473684	 \\ \hline
-0.0947894736842	 \\ \hline
-0.1 \\ \hline
-
-\end{tabular}
 y estas epocas
 \begin{tabular}{|l|}
 \hline

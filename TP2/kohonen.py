@@ -4,11 +4,12 @@ import numpy as np
 class som():
 
     #def __init__(self, ninputs, output_size, learning_rate, sigma):
-    def __init__(self, M1,M2, learning_rate, sigma):
-        self.learning_rate = learning_rate
+    def __init__(self, M1,M2, sigma):
         self.sigma_zero = sigma
         self.M1=M1
         self.M2=M2
+        self.alfa=1
+        self.sigma_r=0.5
         self.noutputs = M1 *M2
         self.filas = np.arange(M1)
         self.columnas = np.arange(M2)  
@@ -48,16 +49,20 @@ class som():
         
         self.weights += dw
 
-    def train(self, dataset, epochs, callback=None):
+    def train(self, dataset, epochs, mode=0):
         self.ninputs = len(dataset[0])
         self.weights = np.random.uniform(-0.5, 0.5, (self.ninputs, self.noutputs))
 
         for t in xrange(1, epochs+1):
             eta = t ** (- 1/2)
-            sigma_t = (self.M2/2)* (t ** (-1/3))
-            # sigma_t = self.sigma_zero *((1+t*sigma_t)**(-alfa))               # Mas rapido
-            # sigma_t = self.sigma_zero *np.exp(-t/sigma_t)
-            # sigma_t = self.sigma_zero /(1+t*sigma_zero*sigma_t)               # Mas lento
+            if mode==0:
+                sigma_t = (self.M2/2)* (t ** (-1/3))
+            elif mode ==1:
+                sigma_t = self.sigma_zero *((1+t*self.sigma_r)**(-self.alfa))     # Mas rapido
+            elif mode ==2:
+                sigma_t = self.sigma_zero *np.exp(-t/self.sigma_r)
+            else:
+                sigma_t = self.sigma_zero /(1+t*sigma_zero*self.sigma_r)      # Mas lento
 
             for x in dataset:
                 y = self.activate(np.array(x).reshape((1,856)))

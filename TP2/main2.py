@@ -13,16 +13,15 @@ def prueba():
 	test_data  = np.genfromtxt(file, delimiter=',',usecols=range(0,857))
 	if not os.path.exists("imgs/ej2"):
 		os.makedirs("imgs/ej2")
-	sigma=0.001
 	for epoca in [5,10,25,100,500,1000,1500]:
 		for M in [3,5,9,20,30,40]:
-			for lrate in np.linspace(0.001, 0.1, 5):
-				img_name="imgs/ej2/train_M_"+str(M)+"_lrate_"+str(lrate)+"_sigma_"+str(sigma)+"_epocas_"+str(epoca)+".png"
+			for sigma in np.linspace(0.001, 5, 5):
+				img_name="imgs/ej2/train_M_"+str(M)+"_sigma_"+str(sigma)+"_epocas_"+str(epoca)+".png"
 				print img_name
-				red = som(M, M, lrate,sigma)
-				red.train(train_data,epoca)
+				red = som(M, M,sigma)
+				red.train(train_data,epoca,1)
 				graficador(red,test_data[:600],img_name)
-				img_name="imgs/ej2/test_M_"+str(M)+"_lrate_"+str(lrate)+"_sigma_"+str(sigma)+"_epocas_"+str(epoca)+".png"
+				img_name="imgs/ej2/test_M_"+str(M)+"_sigma_"+str(sigma)+"_epocas_"+str(epoca)+".png"
 				graficador(red,test_data[600:],img_name)
 
 def graficador(red,dataset,save_img=None):
@@ -63,10 +62,10 @@ def graficador(red,dataset,save_img=None):
 	plt.close() 
 
 #Ejercicio 2
-def train_Ej2(Dataset,save_file,sigma0,lrateInicial,M1,M2,max_epochs):
-	print "Entrenando con " + str(epochs) + ' epochs - ' + ' sigma: ' + str(sigmaInicial) + ' lrate: ' + str(lrateInicial) 
+def train_Ej2(Dataset,save_file,sigma0,M1,M2,max_epochs):
+	print "Entrenando con " + str(epochs) + ' epochs - ' + ' sigma: ' + str(sigmaInicial) 
 	data = np.genfromtxt(Dataset, delimiter=',',usecols=range(1,857))
-	s = som(M1, M2, lrateInicial,sigma0)
+	s = som(M1, M2,sigma0)
 	s.train(data, epochs)
 	if(save_file!=None):
 		print "Guardando red"
@@ -85,17 +84,16 @@ def load_Ej2(file,Net):
 
 args = sys.argv
 usage1 = "\nPara entrenar desde un dataset y guardar la red:\n\
-python main.py nomDataset nomRedOut -train sigmaInicial lrateInicial dimX dimY epochs\n"
+python main.py nomDataset nomRedOut -train sigmaInicial M1 M2 epochs\n"
 usage2= "\nPara cargar una red entrenada y testearla contra un dataset:\n\
 python main.py nomDataset normRedIn -load\n"
 usage3="Asume el dataset sigue la forma 'categoria, valor1, ... , valor856'"
 
 #default value
-lrate=float(0.5)
 sigmaInicial=float(0.3)
 epochs=100
-X=20
-Y=20
+X=30
+Y=30
 
 if(len(args)==2 and args[1]=="-prueba"):
 	prueba()
@@ -117,14 +115,12 @@ if operacion == "-train":
 	if(len(args)>4):
 		sigmaInicial = float(args[4])
 	if(len(args)>5):
-		lrate = float(args[5])
+		X = int(args[5])
 	if(len(args)>6):
-		X = int(args[6])
+		Y = int(args[6])
 	if(len(args)>7):
-		Y = int(args[7])
-	if(len(args)>8):
-		epochs = int(args[8])
-	train_Ej2(nomDataset,nomRed,sigmaInicial,lrate,X,Y,epochs)
+		epochs = int(args[7])
+	train_Ej2(nomDataset,nomRed,sigmaInicial,X,Y,epochs)
 
 elif operacion == "-load":
 	# Cargar y testear.
