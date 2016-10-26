@@ -86,10 +86,10 @@ Donde:
 \item M2: Dimension de M2.
 \item modo: Tipo de funcion Sigma
 \begin{enumerate}
-\item 0: (M2/2)* (t ** (-1/3))
-\item 1: $\sigma_0$ *((1+t*$\sigma_r$)**(-$\alpha$))
-\item 2: $\sigma_0$ *np.exp(-t/$\sigma_r$)
-\item 3: $\sigma_0$ /(1+t*$\sigma_0$*$\sigma_r$) 
+\item 0: $\frac{M2}{2}* t^\frac{-1}{3}$
+\item 1: $\sigma_0$ *$((1+t*\sigma_r)^{-\alpha})$
+\item 2: $\sigma_0$ *$e^\frac{-t}{\sigma_r}$
+\item 3: $\frac{\sigma_0}{(1+t*\sigma_0*\sigma_r)}$ 
 \end{enumerate}
 \end{enumerate}
 

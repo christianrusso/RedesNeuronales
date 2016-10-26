@@ -199,13 +199,13 @@ Como se puede observar a simple vista, la clasificacion obtenida por el test no 
 \includegraphics[width=0.5\textwidth]{img/ej2_test_M_9_lrate_001_epocas_500}
 {\footnotesize Entrenamiento vs Testing Red 9x9 Learning Rate 0.001 Epocas 500\par}
 
-A diferencia del anterior, se empiezan a notar grupos bien definidos, a excepcion del rojo. Este grupo debe compartir caracteristicas de los otros ocho y por este motivos se deben estar mezclando. 
+A diferencia del anterior, se empiezan a notar grupos bien definidos, a excepci\'on del rojo. Este grupo debe compartir caracter\'isticas de los otros ocho y por este motivos se deben estar mezclando. 
 
 \includegraphics[width=0.5\textwidth]{img/ej2_train_M_20_lrate_001_epocas_500}
 \includegraphics[width=0.5\textwidth]{img/ej2_test_M_20_lrate_001_epocas_500}
 {\center \footnotesize Entrenamiento vs Testing Red 20x20 Learning Rate 0.001 Epocas 500\par}
 
-Como se esperaba, al incrementar el espacio de salida y reducir la compresion, los colores se separan m\'as y se agrupan mejor. Se nota una mejora sobre el rojo pero los grupos de color aun presentan puntos de color diferentes.
+Como se esperaba, al incrementar el espacio de salida y reducir la compresi\'on, los colores se separan m\'as y se agrupan mejor. Se nota una mejora sobre el rojo pero los grupos de color a\'un presentan puntos de color diferentes.
 
 \includegraphics[width=0.5\textwidth]{img/ej2_train_M_30_lrate_001_epocas_500}
 \includegraphics[width=0.5\textwidth]{img/ej2_test_M_30_lrate_001_epocas_500}
@@ -213,9 +213,9 @@ Como se esperaba, al incrementar el espacio de salida y reducir la compresion, l
 
 En este espacio, donde cada punto tiene su equivalente con el espacio de entrada, se aprecia la misma tendencia de grupos que en el caso anterior de 20x20. Pero a su vez, se notan una gran cantidad de neuronas sin activar, sobre todo en la fronteras de los grupos verde oscuro, violeta, azul y negro. El grupo naranja queda definido en la zona central inferior y bastante aislado del resto. Adem\'as, notamos que el color rojo establece un cord\'on alrededor del color verde claro y el turquesa, por lo que esta clasificaci\'on es una categoria que implicar\'ia varias disciplinas. Suponemos que esta es la raz\'on por la cual redes de menor tama\~no no pudieron agrupar bien el color rojo.
 
-Un patron notable en todas las pruebas es que los grupos nunca aparecen en la misma posici\'on, incluso con los mismos par\'ametros. Esto puede deberse a la aleatoriedad para inicializarlos
+Un patr\'on notable en todas las pruebas es que los grupos nunca aparecen en la misma posici\'on, incluso con los mismos par\'ametros. Esto puede deberse a la aleatoriedad para inicializarlos
 
-Ahora compararemos los resultados de el entrenamiento(izquierda) vs test (derecha) en base al sigma inicial. Si bien se experimento con todas las dimensiones, dado que los mejores resultados para el caso anterior se obtuvieron con dimension 20x20 y 30x30 solo se mostrar\'an los resultados obtenidos por estas instancias.
+Ahora compararemos los resultados de el entrenamiento(izquierda) vs test (derecha) en base al sigma inicial. Si bien se experiment\'o con todas las dimensiones, dado que los mejores resultados para el caso anterior se obtuvieron con dimension 20x20 y 30x30 solo se mostrar\'an los resultados obtenidos por estas instancias.
 
 
 \includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/train_M_20_sigma_0_001_epocas_5}
@@ -238,7 +238,7 @@ Ahora compararemos los resultados de el entrenamiento(izquierda) vs test (derech
 \includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/test_M_20_sigma_5_0_epocas_5}
 {\center \footnotesize Entrenamiento vs Testing Red 20x20 Sigma 5 Epocas 10\par}
 
-Este comportamiento de agrandamiento de zonas de activacion comienza a notarse a partir de redes de tamaño 9. Vemos que el sigma influye en la velocidad de \"desparramiento\" y mejora la separacion cuanto mas grande es.
+Este comportamiento de agrandamiento de zonas de activaci\'on comienza a notarse a partir de redes de tama\~no 9. Vemos que el sigma influye en la velocidad de \"desparramiento\" y mejora la separaci\'on cuanto m\'as grande es.
 
 \includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/train_M_30_sigma_0_001_epocas_5}
 \includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/test_M_30_sigma_0_001_epocas_5}
@@ -260,7 +260,7 @@ Este comportamiento de agrandamiento de zonas de activacion comienza a notarse a
 \includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/test_M_30_sigma_5_0_epocas_5}
 {\center \footnotesize Entrenamiento vs Testing Red 30x30 Sigma 5 Epocas 5\par}
 
-Ahora compararemos los resultados de el entrenamiento(izquierda) vs test (derecha) en base al tiempo de entrenamiento.
+Ahora compararemos los resultados de el entrenamiento(izquierda) vs test (derecha) en base al tiempo de entrenamiento. Por el mismo motivo que en experimento anterior, a pesar de haber corrido las otras instancias, solo se muestran los resultados de las redes de 20x20 y 30x30.
 
 \includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/train_M_20_sigma_3_75025_epocas_5}
 \includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/test_M_20_sigma_3_75025_epocas_5}
@@ -274,7 +274,7 @@ Ahora compararemos los resultados de el entrenamiento(izquierda) vs test (derech
 \includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/test_M_20_sigma_3_75025_epocas_25}
 {\center \footnotesize Entrenamiento vs Testing Red 20x20 Sigma 3.75025 Epocas 25\par}
 
-Ahora vemos
+Se nota una ligera mejora a medida que se incrementa la cantidad de \'epocas. Sin embargo, dado que el sigma inicial fue pequeño, el aprendizaje se vuelve lento a medida que se incrementa las \'epocas y ya no produce cambios significativos en valores de \'epocas muy altos. Si bien esto es esperado, creemos que un mayor sigma inicial habr\'ia resuelto los puntos espor\'adicos de distinto color en los grupos bien definidos de categor\'ias
 
 \includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/train_M_30_sigma_3_75025_epocas_5}
 \includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/test_M_30_sigma_3_75025_epocas_5}
@@ -288,15 +288,14 @@ Ahora vemos
 \includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/test_M_30_sigma_3_75025_epocas_25}
 {\center \footnotesize Entrenamiento vs Testing Red 30x30 Sigma 3.75025 Epocas 25\par}
 
+Si bien no hay una gran mejora en calidad de soluci\'on, es necesario aclarar que aunque terminen en la misma cantidad de epocas, el tiempo de c\'omputo de la soluci\'on de la red de 30x30 es mucho mayor que la de 20x20. Por este motivo, la corrida de la red de 40x40 no se pudo realizar para mediciones mayores a 500 \'epocas.
 
-Si bien no hay una mejora en calidad de soluci\'on, es necesario aclarar que aunque terminen en la misma cantidad de epocas, el tiempo de computo de la solucion de la red de 30x30 es mucho mayor que la de 20x20. Por este motivo, la corrida de la red de 40x40 no se pudo realizar para mediciones mayores a 500 epocas.
+\subsubsection{Conclusi\'on}
 
-\subsubsection{Conclusion}
+Luego de analizar los gr\'aficos y resultados del ejercicio 2, podemos concluir que las dimensiones de la red no solo influyen en la calidad de la soluci\'on sino tambi\'en en el tiempo de c\'alculo de la misma. Del mismo modo, para un tama\~no dado de salida, primero debe elegirse el sigma y luego la cantidad de \'epocas. Ya que el sigma afecta a la velocidad de agrupamiento y debe ser mayor cuanto mayor dimensi\'on posea la red. Adem\'as, un n\'umero excesivamente grande de \'epocas no garantiza una mejor soluci\'on, dado que el sigma disminuye con el paso del tiempo y no aporta a la soluci\'on al pasar un $t_i$ donde i depende del tama\~no de la red y del sigma utilizado.
 
-Luego de analizar los graficos y resultados del ejercicio 2, podemos concluir que las dimensiones de la red no solo influyen en la calidad de la solucion sino tambien en el tiempo de calculo de la misma. 
+Esper\'abamos que el learning rate alterara significativamente el mapeo. Sin embargo, al utilizar la funci\'on $\sigma$ = $\frac{M2}{2}*t^\frac{-1}{3}$ y $\eta$=$t^{-1/2}$  creemos que acort\o demasiado el campo de vecinos que modifica la unidad ganadora, por lo cual, el cambio producido fue poco, sin importar la cantidad de \'epocas.
+En cambio, para $\sigma_0$ *$((1+t*\sigma_r)^{-\alpha})$ y $\eta$=$t^{-1/2}$, se le permite ajustarse mejor a la agrupaci\'on inicial y, al variar la cantidad de \'epocas, se aprecia un cambio que mejora la agrupaci\'on.
 
-En base a todo lo anterior, decidimos que la mejor solucion es una red de 30x30 con un learning rate de 0.01 y 100 epocas de entrenamiento. Esta red provee una buena clasificacion y balancea el costo en tiempo.
-
-Esperabamos que el learning rate alterara significativamente el mapeo. Sin embargo, al utilizar la funcion sigma
-eta = t ** (- 1/2) y sigma = (M2/2)* (t ** (-1/3)), creemos que acorto mucho el campo de vecinos que modifica la unidad ganadora, por lo cual, el cambio producido fue poco.
+En base a todo lo anterior, decidimos que la mejor soluci\'on es una red de 30x30 con un sigma inicial 5, 100 \'epocas de entrenamiento y usando las funciones $\sigma_0$ *$((1+t*\sigma_r)^{-\alpha})$ y $\eta$=$t^{-1/2}$. Esta red provee una buena clasificaci\on y balancea el costo en tiempo.
 

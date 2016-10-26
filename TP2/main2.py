@@ -90,7 +90,7 @@ python main.py nomDataset normRedIn -load\n"
 usage3="Asume el dataset sigue la forma 'categoria, valor1, ... , valor856'"
 
 #default value
-sigmaInicial=float(3.75)
+sigmaInicial=float(5)
 epochs=100
 X=30
 Y=30
