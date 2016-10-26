@@ -215,30 +215,79 @@ En este espacio, donde cada punto tiene su equivalente con el espacio de entrada
 
 Un patron notable en todas las pruebas es que los grupos nunca aparecen en la misma posici\'on, incluso con los mismos par\'ametros. Esto puede deberse a la aleatoriedad para inicializarlos
 
-Ahora compararemos los resultados de el entrenamiento(izquierda) vs test (derecha) en base al tiempo de entrenamiento. Si bien se experimento con todas las dimensiones, dado que los mejores resultados para el caso anterior se obtuvieron con dimension 20x20 y 30x30 solo se mostrar\'an los resultados obtenidos por estas instancias.
+Ahora compararemos los resultados de el entrenamiento(izquierda) vs test (derecha) en base al sigma inicial. Si bien se experimento con todas las dimensiones, dado que los mejores resultados para el caso anterior se obtuvieron con dimension 20x20 y 30x30 solo se mostrar\'an los resultados obtenidos por estas instancias.
 
 
-\includegraphics[width=0.5\textwidth]{img/ej2_train_M_20_lrate_001_epocas_500}
-\includegraphics[width=0.5\textwidth]{img/ej2_test_M_20_lrate_001_epocas_500}
-{\center \footnotesize Entrenamiento vs Testing Red 20x20 Learning Rate 0.001 Epocas 100\par}
-\includegraphics[width=0.5\textwidth]{img/ej2_train_M_20_lrate_001_epocas_1000}
-\includegraphics[width=0.5\textwidth]{img/ej2_test_M_20_lrate_001_epocas_1000}
-{\center \footnotesize Entrenamiento vs Testing Red 20x20 Learning Rate 0.001 Epocas 500\par}
-\includegraphics[width=0.5\textwidth]{img/ej2_train_M_20_lrate_001_epocas_1500}
-\includegraphics[width=0.5\textwidth]{img/ej2_test_M_20_lrate_001_epocas_1500}
-{\center \footnotesize Entrenamiento vs Testing Red 20x20 Learning Rate 0.001 Epocas 1000\par}
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/train_M_20_sigma_0_001_epocas_5}
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/test_M_20_sigma_0_001_epocas_5}
+{\center \footnotesize Entrenamiento vs Testing Red 20x20 Sigma 0.001 Epocas 10\par}
 
-Curiosamente, no existe una mejora en la solucion para epocas mayores a 100 para cualquier learning rate entre 0.1 y 0.001.
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/train_M_20_sigma_1_25075_epocas_5}
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/test_M_20_sigma_1_25075_epocas_5}
+{\center \footnotesize Entrenamiento vs Testing Red 20x20 Sigma 1.25075 Epocas 10\par}
 
-\includegraphics[width=0.5\textwidth]{img/ej2_train_M_30_lrate_001_epocas_500}
-\includegraphics[width=0.5\textwidth]{img/ej2_test_M_30_lrate_001_epocas_500}
-{\footnotesize Entrenamiento vs Testing Red 30x30 Learning Rate 0.001 Epocas 100\par}
-\includegraphics[width=0.5\textwidth]{img/ej2_train_M_30_lrate_001_epocas_1000}
-\includegraphics[width=0.5\textwidth]{img/ej2_test_M_30_lrate_001_epocas_1000}
-{\footnotesize Entrenamiento vs Testing Red 30x30 Learning Rate 0.001 Epocas 500\par}
-\includegraphics[width=0.5\textwidth]{img/ej2_train_M_30_lrate_001_epocas_1500}
-\includegraphics[width=0.5\textwidth]{img/ej2_test_M_30_lrate_001_epocas_1500}
-{\footnotesize Entrenamiento vs Testing Red 30x30 Learning Rate 0.001 Epocas 1000\par}
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/train_M_20_sigma_2_5005_epocas_5}
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/test_M_20_sigma_2_5005_epocas_5}
+{\center \footnotesize Entrenamiento vs Testing Red 20x20 Sigma 2.5005 Epocas 10\par}
+
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/train_M_20_sigma_3_75025_epocas_5}
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/test_M_20_sigma_3_75025_epocas_5}
+{\center \footnotesize Entrenamiento vs Testing Red 20x20 Sigma 3.75025 Epocas 10\par}
+
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/train_M_20_sigma_5_0_epocas_5}
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/test_M_20_sigma_5_0_epocas_5}
+{\center \footnotesize Entrenamiento vs Testing Red 20x20 Sigma 5 Epocas 10\par}
+
+Este comportamiento de agrandamiento de zonas de activacion comienza a notarse a partir de redes de tamaño 9. Vemos que el sigma influye en la velocidad de \"desparramiento\" y mejora la separacion cuanto mas grande es.
+
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/train_M_30_sigma_0_001_epocas_5}
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/test_M_30_sigma_0_001_epocas_5}
+{\center \footnotesize Entrenamiento vs Testing Red 30x30 Sigma 0.001 Epocas 5\par}
+
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/train_M_30_sigma_1_25075_epocas_5}
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/test_M_30_sigma_1_25075_epocas_5}
+{\center \footnotesize Entrenamiento vs Testing Red 30x30 Sigma 1.25075 Epocas 5\par}
+
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/train_M_30_sigma_2_5005_epocas_5}
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/test_M_30_sigma_2_5005_epocas_5}
+{\center \footnotesize Entrenamiento vs Testing Red 30x30 Sigma 2.5005 Epocas 5\par}
+
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/train_M_30_sigma_3_75025_epocas_5}
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/test_M_30_sigma_3_75025_epocas_5}
+{\center \footnotesize Entrenamiento vs Testing Red 30x30 Sigma 3.75025 Epocas 5\par}
+
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/train_M_30_sigma_5_0_epocas_5}
+\includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/test_M_30_sigma_5_0_epocas_5}
+{\center \footnotesize Entrenamiento vs Testing Red 30x30 Sigma 5 Epocas 5\par}
+
+Ahora compararemos los resultados de el entrenamiento(izquierda) vs test (derecha) en base al tiempo de entrenamiento.
+
+\includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/train_M_20_sigma_3_75025_epocas_5}
+\includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/test_M_20_sigma_3_75025_epocas_5}
+{\center \footnotesize Entrenamiento vs Testing Red 20x20 Sigma 3.75025 Epocas 5\par}
+
+\includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/train_M_20_sigma_3_75025_epocas_10}
+\includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/test_M_20_sigma_3_75025_epocas_10}
+{\center \footnotesize Entrenamiento vs Testing Red 20x20 Sigma 3.75025 Epocas 10\par}
+
+\includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/train_M_20_sigma_3_75025_epocas_25}
+\includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/test_M_20_sigma_3_75025_epocas_25}
+{\center \footnotesize Entrenamiento vs Testing Red 20x20 Sigma 3.75025 Epocas 25\par}
+
+Ahora vemos
+
+\includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/train_M_30_sigma_3_75025_epocas_5}
+\includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/test_M_30_sigma_3_75025_epocas_5}
+{\center \footnotesize Entrenamiento vs Testing Red 30x30 Sigma 3.75025 Epocas 5\par}
+
+\includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/train_M_30_sigma_3_75025_epocas_10}
+\includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/test_M_30_sigma_3_75025_epocas_10}
+{\center \footnotesize Entrenamiento vs Testing Red 30x30 Sigma 3.75025 Epocas 10\par}
+
+\includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/train_M_30_sigma_3_75025_epocas_25}
+\includegraphics[width=0.5\textwidth]{img/Ej2_Epocas/test_M_30_sigma_3_75025_epocas_25}
+{\center \footnotesize Entrenamiento vs Testing Red 30x30 Sigma 3.75025 Epocas 25\par}
+
 
 Si bien no hay una mejora en calidad de soluci\'on, es necesario aclarar que aunque terminen en la misma cantidad de epocas, el tiempo de computo de la solucion de la red de 30x30 es mucho mayor que la de 20x20. Por este motivo, la corrida de la red de 40x40 no se pudo realizar para mediciones mayores a 500 epocas.
 

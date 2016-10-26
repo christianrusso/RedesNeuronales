@@ -72,7 +72,7 @@ En caso de querer entrenar la red sera:
 
 \begin{verbatim}
 $ python main.py < archivo_entrada> <archivo_red_salida> -train < sigmaInicial > 
-                                   < lrateInicial > < dimX > < dimY > < epochs >
+                                   < M1 > < M2 > < epochs > < modo >
 \end{verbatim}
 
 Donde:
@@ -82,17 +82,23 @@ Donde:
 \item archivo\_red\_salida: archivo donde se guardara la red.
 \item sigmaInicial: Signma inicial
 \item epochs: Maxima cantidad de epocas permitidas.
-\item lrateInicial: Learning Rate inicial
-\item dimX: Dimension de M1.
-\item dimY: Dimension de M2.
+\item M1: Dimension de M1.
+\item M2: Dimension de M2.
+\item modo: Tipo de funcion Sigma
+\begin{enumerate}
+\item 0: (M2/2)* (t ** (-1/3))
+\item 1: $\sigma_0$ *((1+t*$\sigma_r$)**(-$\alpha$))
+\item 2: $\sigma_0$ *np.exp(-t/$\sigma_r$)
+\item 3: $\sigma_0$ /(1+t*$\sigma_0$*$\sigma_r$) 
+\end{enumerate}
 \end{enumerate}
 
 Por ejemplo: 
 
-Si queremos ejecutar el ejercicio 2 entrenandolo con el dataset \textbf{tp2\_training\_dataset.csv}, guardando la red en el archivo \textbf{red} con un signma inicial de 1, un learning\_rate de \textbf{0.001}, con una cantidad de epocas de \textbf{1500}, con dimensiones X=Y=9 seria:
+Si queremos ejecutar el ejercicio 2 entrenandolo con el dataset \textbf{tp2\_training\_dataset.csv}, guardando la red en el archivo \textbf{red} con un signma inicial de 1, con una cantidad de epocas de \textbf{1500}, con dimensiones X=Y=9 seria y usando la funcion sigma \textbf{(M2/2)* (t ** (-1/3))}:
 
 \begin{verbatim}
-$ python main.py tp2_training_dataset.csv red -train 1 0.001 9 9 1500
+$ python main.py tp2_training_dataset.csv red -train 1 9 9 1500 0
 \end{verbatim}
 
 En caso de querer cargar una red ya guardada seria:

@@ -84,13 +84,13 @@ def load_Ej2(file,Net):
 
 args = sys.argv
 usage1 = "\nPara entrenar desde un dataset y guardar la red:\n\
-python main.py nomDataset nomRedOut -train sigmaInicial M1 M2 epochs\n"
+python main.py nomDataset nomRedOut -train sigmaInicial M1 M2 epochs mode\n"
 usage2= "\nPara cargar una red entrenada y testearla contra un dataset:\n\
 python main.py nomDataset normRedIn -load\n"
 usage3="Asume el dataset sigue la forma 'categoria, valor1, ... , valor856'"
 
 #default value
-sigmaInicial=float(0.3)
+sigmaInicial=float(3.75)
 epochs=100
 X=30
 Y=30
@@ -106,6 +106,7 @@ elif(len(args)<4):
 nomDataset = args[1]
 nomRed = args[2]
 operacion= str(args[3])
+mode=1
 if operacion == "-train":
 	# Entrenar
 	if(len(args)>9):
@@ -120,7 +121,9 @@ if operacion == "-train":
 		Y = int(args[6])
 	if(len(args)>7):
 		epochs = int(args[7])
-	train_Ej2(nomDataset,nomRed,sigmaInicial,X,Y,epochs)
+	if(len(args)>8):
+		mode = int(args[8])
+	train_Ej2(nomDataset,nomRed,sigmaInicial,X,Y,epochs,mode)
 
 elif operacion == "-load":
 	# Cargar y testear.
