@@ -297,5 +297,6 @@ Luego de analizar los gr\'aficos y resultados del ejercicio 2, podemos concluir 
 Esper\'abamos que el learning rate alterara significativamente el mapeo. Sin embargo, al utilizar la funci\'on $\sigma$ = $\frac{M2}{2}*t^\frac{-1}{3}$ y $\eta$=$t^{-1/2}$  creemos que acort\o demasiado el campo de vecinos que modifica la unidad ganadora, por lo cual, el cambio producido fue poco, sin importar la cantidad de \'epocas.
 En cambio, para $\sigma_0$ *$((1+t*\sigma_r)^{-\alpha})$ y $\eta$=$t^{-1/2}$, se le permite ajustarse mejor a la agrupaci\'on inicial y, al variar la cantidad de \'epocas, se aprecia un cambio que mejora la agrupaci\'on.
 
-En base a todo lo anterior, decidimos que la mejor soluci\'on es una red de 30x30 con un sigma inicial 5, 100 \'epocas de entrenamiento y usando las funciones $\sigma_0$ *$((1+t*\sigma_r)^{-\alpha})$ y $\eta$=$t^{-1/2}$. Esta red provee una buena clasificaci\on y balancea el costo en tiempo.
+En base a todo lo anterior, decidimos que la mejor soluci\'on es una red de 30x30 con un sigma inicial 5, 100 \'epocas de entrenamiento y usando las funciones $\sigma_0$ *$((1+t*\sigma_r)^{-\alpha})$ 
+y $\eta$=$t^{-1/2}$. Esta red provee una buena clasificaci\'on y balancea el costo en tiempo.
 
