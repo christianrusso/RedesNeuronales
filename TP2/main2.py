@@ -14,16 +14,17 @@ def prueba():
 	if not os.path.exists("imgs/ej2"):
 		os.makedirs("imgs/ej2")
 	sigma=0.001
-	for epoca in [500,1000,1500]:
-		for M in [3,5,9,20,30,40]:
-			for lrate in np.linspace(0.001, 0.1, 20):
-				img_name="imgs/ej2/train M "+str(M)+" lrate "+str(lrate)+" sigma"+str(sigma)+" epocas "+str(epoca)+".jpg"
-				print img_name
-				red = som(M, M, lrate,sigma)
-				red.train(train_data,epoca)
-				graficador(red,test_data[:600],img_name)
-				img_name="imgs/ej2/test M "+str(M)+" lrate "+str(lrate)+" sigma"+str(sigma)+" epocas "+str(epoca)+".jpg"
-				graficador(red,test_data[600:],img_name)
+	for epoca in [50,100,250]:
+		for M in [20,30]:
+			#for lrate in np.linspace(0.001, 0.1, 5):
+			lrate=0.001
+			img_name="imgs/ej2/train_M_"+str(M)+"_lrate_"+str(lrate)+"_sigma_"+str(sigma)+"_epocas_"+str(epoca)+".png"
+			print img_name
+			red = som(M, M, lrate,sigma)
+			red.train(train_data,epoca)
+			graficador(red,test_data[:600],img_name)
+			img_name="imgs/ej2/test_M_"+str(M)+"_lrate_"+str(lrate)+"_sigma_"+str(sigma)+"_epocas_"+str(epoca)+".png"
+			graficador(red,test_data[600:],img_name)
 
 def graficador(red,dataset,save_img=None):
 	color = [[dict() for _ in xrange(red.M2)] for _ in xrange(red.M1)]

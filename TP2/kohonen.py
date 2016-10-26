@@ -63,7 +63,7 @@ class som():
                 y = self.activate(np.array(x).reshape((1,856)))
                 self.correction(np.array(x).reshape((1,856)), eta, sigma_t, y)
 
-            # if(t%10==0):
+            #if(t%10==0):
             print "epoca: "+str(t)
 
     def test(self,x):
