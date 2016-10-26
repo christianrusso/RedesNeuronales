@@ -274,3 +274,6 @@ Luego de analizar los graficos y resultados del ejercicio 2, podemos concluir qu
 
 En base a todo lo anterior, decidimos que la mejor solucion es una red de 30x30 con un learning rate de 0.01 y 100 epocas de entrenamiento. Esta red provee una buena clasificacion y balancea el costo en tiempo.
 
+Esperabamos que el learning rate alterara significativamente el mapeo. Sin embargo, al utilizar la funcion sigma
+eta = t ** (- 1/2) y sigma = (M2/2)* (t ** (-1/3)), creemos que acorto mucho el campo de vecinos que modifica la unidad ganadora, por lo cual, el cambio producido fue poco.
+
