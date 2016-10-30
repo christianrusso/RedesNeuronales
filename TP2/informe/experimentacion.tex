@@ -127,19 +127,19 @@ Del mismo modo que el color azul. Lo mas notable de este grafico es que el color
 
 Otro factor importante es que el color verde y el amarillo no se mezclan tanto como en graficos anteriores.
 
-\subsubsection{Conclusion}
+\subsubsection{Conclusi\'on}
 
-Luego de analizar los graficos y resultados del ejercicio 1, podemos concluir que al contrario de lo que esperabamos, en lugar de agruparse en distintas esferas bien definidas, los resultados dieron mas heterogeneos.
+Luego de analizar los gr\'aficos y resultados del ejercicio 1, podemos concluir que al contrario de lo que esper\'abamos, en lugar de agruparse en distintas esferas bien definidas, los resultados dieron mas heterog\'eneos.
 
-Concluimos que la mejor solucion es la ultima proporcionada por Oja (epsilon: 0.05 y learning rate: 0.001), debido a las justificaciones explicadas previamente. En general, se observa que las categorias estan mejor agrupadas.
+Concluimos que la mejor soluci\'on es la \'ultima proporcionada por Oja (epsilon: 0.05 y learning rate: 0.001), debido a las justificaciones explicadas previamente. En general, se observa que las categor\'ias estan mejor agrupadas.
 
-En general, notamos que los gr\'aficos poseen unas lineas de colores bien definidas, esto es, asumiendo que las categorias son ortoganles, porque cada categor\'ia trata de ajustarce a una dimension, y al haber 9 categorias no alcanzan lsa dimenseiones, por lo tanto vemos estos solapamientos.
+En general, notamos que los gr\'aficos poseen unas lineas de colores bien definidas, esto es, asumiendo que las categor\'ias son ortogonales, porque cada categor\'ia trata de ajustarse a una dimensi\'on, y al haber 9 categor\'ias no alcanzan las dimensiones, por lo tanto vemos estos solapamientos.
 
 \subsection{Ejercicio 2}
 
-Para el ejercicio 2, implementamos un algoritmo para probar distintas dimensiones (cuadradas) de espacio de salida e ir variando los \textbf{Sigma} y \textbf{Epocas}, para ver como influyen, en manera general, en la agrupacion. Para ello, cada una de las corridas se guardan los graficos resultantes y se analiza su comportamiento.
+Para el ejercicio 2, implementamos un algoritmo para probar distintas dimensiones (cuadradas) de espacio de salida e ir variando los \textbf{Sigma} y \textbf{\'Epocas}, para ver como influyen, en manera general, en la agrupaci\'on. Para ello, cada una de las corridas se guardan los gr\'aficos resultantes del entrenamiento y de prueba.
 
-Una vez conseguidos todos los graficos hicimos un analisis observando cual tiene una mejor agrupacion, al igual que en el ejercicio 1, pero esta vez en el plano.
+Una vez conseguidos todos los gr\'aficos hicimos un an\'alisis observando cu\'al tiene una mejor agrupaci\'on, al igual que en el ejercicio 1, pero esta vez en el plano.
 
 
 \begin{lstlisting}[caption=pruebas]
@@ -164,7 +164,7 @@ def prueba():
 
 \end{lstlisting}
 
-Como se explic\'o anteriormente se corri\'o nuestro algoritmo de pruebas para encontrar las mejores soluciones. El algoritmo de pruebas corrio con estos \textbf{M1} y \textbf{M2}:
+Como se explic\'o anteriormente se corri\'o nuestro algoritmo de pruebas para encontrar las mejores soluciones. El algoritmo de pruebas corri\'o con estos \textbf{M1} y \textbf{M2}:
 
 \begin{tabular}{|l|l|}
 \hline
@@ -178,6 +178,7 @@ M1 & M2 \\ \hline
 \end{tabular}
 
 y estas epocas
+
 \begin{tabular}{|l|}
 \hline
 Epocas\\ \hline
@@ -187,13 +188,13 @@ Epocas\\ \hline
 1500 \\ \hline
 \end{tabular}
 
-Los resultados de el entrenamiento(izquieda) vs test (derecha) comparando diferentes dimensiones y una epoca de 500. Dado que fueron resultados similares, se exponen los m\'as representativos.
+Los resultados de el entrenamiento(izquierda) vs test (derecha) comparando diferentes dimensiones y una \'epoca de 500. Dado que fueron resultados similares, se exponen los m\'as representativos.
 
 \includegraphics[width=0.5\textwidth]{img/ej2_train_M_5_lrate_001_epocas_500}
 \includegraphics[width=0.5\textwidth]{img/ej2_test_M_5_lrate_001_epocas_500}
 {\footnotesize Entrenamiento vs Testing Red 5x5 Learning Rate 0.001 Epocas 500\par}
 
-Como se puede observar a simple vista, la clasificacion obtenida por el test no es consistente con la obtenida en el entrenamiento. Esto puede deberse a que la reduccion de 900 dimensiones a solo 5x5 comprime demasiado la informacion y no es suficiente para agruparlas. Este mismo efecto se observo en las redes de 3x3.
+Como se puede observar a simple vista, la clasificaci\'on obtenida por el test no es consistente con la obtenida en el entrenamiento. Esto puede deberse a que la reducci\'on de 900 dimensiones a solo 5x5 comprime demasiado la informaci\'on y no es suficiente para agruparlas. Este mismo efecto se observ\'o en las redes de 3x3.
 
 \includegraphics[width=0.5\textwidth]{img/ej2_train_M_9_lrate_001_epocas_500}
 \includegraphics[width=0.5\textwidth]{img/ej2_test_M_9_lrate_001_epocas_500}
@@ -212,6 +213,12 @@ Como se esperaba, al incrementar el espacio de salida y reducir la compresi\'on,
 {\footnotesize Entrenamiento vs Testing Red 30x30 Learning Rate 0.001 Epocas 500\par}
 
 En este espacio, donde cada punto tiene su equivalente con el espacio de entrada, se aprecia la misma tendencia de grupos que en el caso anterior de 20x20. Pero a su vez, se notan una gran cantidad de neuronas sin activar, sobre todo en la fronteras de los grupos verde oscuro, violeta, azul y negro. El grupo naranja queda definido en la zona central inferior y bastante aislado del resto. Adem\'as, notamos que el color rojo establece un cord\'on alrededor del color verde claro y el turquesa, por lo que esta clasificaci\'on es una categoria que implicar\'ia varias disciplinas. Suponemos que esta es la raz\'on por la cual redes de menor tama\~no no pudieron agrupar bien el color rojo.
+
+\includegraphics[width=0.5\textwidth]{img/ej2_train_M_40_sigma_5_0_epocas_25}
+\includegraphics[width=0.5\textwidth]{img/ej2_test_M_40_sigma_5_0_epocas_25}
+{\footnotesize Entrenamiento vs Testing Red 40x40 Learning Rate 0.001 Epocas 500\par}	
+
+En el espacio de 40x40 se notan aun m\'as las neuronas sin activar, en la que el grupo rojo a\'un conserva el comportamiento aislado. Esta red no provee mejor informacion que la red anterior.
 
 Un patr\'on notable en todas las pruebas es que los grupos nunca aparecen en la misma posici\'on, incluso con los mismos par\'ametros. Esto puede deberse a la aleatoriedad para inicializarlos
 
@@ -259,6 +266,8 @@ Este comportamiento de agrandamiento de zonas de activaci\'on comienza a notarse
 \includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/train_M_30_sigma_5_0_epocas_5}
 \includegraphics[width=0.5\textwidth]{img/EJ2_Sigma/test_M_30_sigma_5_0_epocas_5}
 {\center \footnotesize Entrenamiento vs Testing Red 30x30 Sigma 5 Epocas 5\par}
+
+En la red de 30x30, al igual que en la red de  40x40 se not\'o que, a medida que el sigma inicial se agranda, mejora la velocidad de conformaci\'on de grupos. 
 
 Ahora compararemos los resultados de el entrenamiento(izquierda) vs test (derecha) en base al tiempo de entrenamiento. Por el mismo motivo que en experimento anterior, a pesar de haber corrido las otras instancias, solo se muestran los resultados de las redes de 20x20 y 30x30.
 
