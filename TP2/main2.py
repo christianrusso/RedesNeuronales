@@ -62,15 +62,17 @@ def graficador(red,dataset,save_img=None):
 	plt.close() 
 
 #Ejercicio 2
-def train_Ej2(Dataset,save_file,sigma0,M1,M2,max_epochs):
+def train_Ej2(Dataset,save_file,sigma0,M1,M2,max_epochs,mode):
 	print "Entrenando con " + str(epochs) + ' epochs - ' + ' sigma: ' + str(sigmaInicial) 
 	data = np.genfromtxt(Dataset, delimiter=',',usecols=range(1,857))
 	s = som(M1, M2,sigma0)
-	s.train(data, epochs)
+	s.train(data, epochs,mode)
 	if(save_file!=None):
 		print "Guardando red"
 		with open(save_file, "wb") as output:
 			cPickle.dump(s, output, cPickle.HIGHEST_PROTOCOL)
+	test_data = np.genfromtxt(Dataset, delimiter=',',usecols=range(1,857))
+	graficador(s,test_data)
 
 
 def load_Ej2(file,Net):
