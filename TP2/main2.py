@@ -71,7 +71,7 @@ def train_Ej2(Dataset,save_file,sigma0,M1,M2,max_epochs,mode):
 		print "Guardando red"
 		with open(save_file, "wb") as output:
 			cPickle.dump(s, output, cPickle.HIGHEST_PROTOCOL)
-	test_data = np.genfromtxt(Dataset, delimiter=',',usecols=range(1,857))
+	test_data = np.genfromtxt(Dataset, delimiter=',',usecols=range(0,857))
 	graficador(s,test_data)
 
 
